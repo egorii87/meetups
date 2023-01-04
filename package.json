@@ -9,11 +9,15 @@
     "@types/jest": "^27.5.2",
     "@types/node": "^16.18.7",
     "@types/react": "^18.0.26",
+    "@types/react-datepicker": "^4.8.0",
     "@types/react-dom": "^18.0.9",
+    "classnames": "^2.3.2",
+    "normalize.css": "^8.0.1",
     "react": "^18.2.0",
+    "react-datepicker": "^4.8.0",
     "react-dom": "^18.2.0",
+    "react-router-dom": "^6.5.0",
     "react-scripts": "5.0.1",
-    "sass": "^1.56.2",
     "typescript": "^4.9.4",
     "web-vitals": "^2.1.4"
   },
@@ -26,15 +30,21 @@
     "@storybook/manager-webpack5": "^6.5.14",
     "@storybook/node-logger": "^6.5.14",
     "@storybook/preset-create-react-app": "^4.1.2",
+    "@storybook/preset-scss": "^1.0.3",
     "@storybook/react": "^6.5.14",
     "@storybook/testing-library": "0.0.13",
     "babel-plugin-named-exports-order": "0.0.2",
+    "css-loader": "^6.7.3",
     "cypress": "^12.0.2",
     "husky": "^8.0.2",
     "jest-junit": "^15.0.0",
     "lint-staged": "^13.1.0",
     "prettier": "2.8.1",
     "prop-types": "^15.8.1",
+    "sass": "^1.57.1",
+    "sass-loader": "^13.2.0",
+    "storybook-addon-react-router-v6": "^0.2.1",
+    "style-loader": "^3.3.1",
     "webpack": "^5.75.0"
   },
   "scripts": {
@@ -50,7 +60,8 @@
     "test:ci": "react-scripts test --coverage --watchAll=false --collectCoverage --coverageDirectory=\"./coverage\" --ci --reporters=default --reporters=jest-junit ",
     "test:e2e": "cypress open",
     "storybook": "start-storybook -p 6006 -s public",
-    "build-storybook": "build-storybook -s public"
+    "build-storybook": "build-storybook -s public",
+    "prepare": "husky install"
   },
   "lint-staged": {
     "**/*": "prettier --write --ignore-unknown",

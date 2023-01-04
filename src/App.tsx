@@ -1,25 +1,23 @@
 import React from 'react';
-import logo from './logo.svg';
+import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
+
+import { Header } from 'components';
+
 import styles from './App.module.scss';
 
 function App() {
   return (
-    <div className={styles.app}>
-      <header className={styles.header}>
-        <img src={logo} className={styles.logo} alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className={styles.link}
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <BrowserRouter>
+      <Header />
+      <div className={styles.container}>
+        <Routes>
+          <Route path="/" element={<Navigate replace to="/meetups" />} />
+          <Route path="/meetups" element={<div>Meetups</div>} />
+          <Route path="/news" element={<div>News</div>} />
+          <Route path="*" element={<div>404</div>} />
+        </Routes>
+      </div>
+    </BrowserRouter>
   );
 }
 
