@@ -1,0 +1,28 @@
+@import '~style/colors';
+@import '~style/typography';
+
+.header {
+  @extend .font-family-primary;
+  @extend .font-color-dark;
+
+  text-align: center;
+}
+
+.paragraph {
+  @extend .font-family-primary;
+  @extend .font-weight-regular;
+  @extend .font-size-xs;
+  @extend .font-color-gray-01;
+
+  margin-top: 16px;
+  text-align: center;
+  line-height: 22px;
+}
+
+.inputForm {
+  margin-top: 14px;
+  border-radius: 5px;
+  background-color: $white-color;
+  box-shadow: 4px 6px 12px rgba(0, 0, 0, 0.1);
+  min-height: 347px;
+}
