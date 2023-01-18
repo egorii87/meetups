@@ -8,8 +8,8 @@ import {
   MeetupCard,
   MeetupCardVariant,
 } from 'components';
-import { getMeetups } from 'api';
-import { Meetup, MeetupStatus } from 'model';
+import { Meetup } from 'model';
+import { store } from 'stores';
 
 import styles from './MeetupTabContent.module.scss';
 
@@ -26,28 +26,18 @@ export const MeetupTabContent = ({ variant }: MeetupTabContentProps) => {
 
   useEffect(() => {
     (async () => {
-      const meetups = await getMeetups();
-
       switch (variant) {
         case MeetupCardVariant.Topic:
-          setMeetups(
-            meetups.filter((meetup) => meetup.status === MeetupStatus.DRAFT),
-          );
+          setMeetups(store.getTopics);
           break;
         case MeetupCardVariant.OnModeration:
-          setMeetups(
-            meetups.filter((meetup) => meetup.status === MeetupStatus.REQUEST),
-          );
+          setMeetups(store.getOnModeration);
           break;
         case MeetupCardVariant.Upcoming:
+          setMeetups(store.getUpcoming);
+          break;
         case MeetupCardVariant.Finished:
-          setMeetups(
-            meetups.filter(
-              (meetup) =>
-                meetup.status === MeetupStatus.CONFIRMED &&
-                meetup.isOver === (variant === MeetupCardVariant.Finished),
-            ),
-          );
+          setMeetups(store.getFinished);
           break;
       }
     })();
