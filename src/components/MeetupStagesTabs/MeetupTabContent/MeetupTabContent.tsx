@@ -17,6 +17,50 @@ interface MeetupTabContentProps {
   variant: MeetupCardVariant;
 }
 
+export const getCounterEnding = (num: number, variant: MeetupCardVariant) => {
+  const lastNumber = num % 10;
+  const lastTwoNumbers = num % 100;
+
+  switch (variant) {
+    case MeetupCardVariant.Topic:
+      if (
+        [5, 6, 7, 8, 9, 0].includes(lastNumber) ||
+        [11, 12, 13, 14].includes(lastTwoNumbers)
+      )
+        return 'тем предложено';
+      if ([2, 3, 4].includes(lastNumber)) return 'темы предложено';
+      if (lastNumber === 1) return 'тема предложена';
+      break;
+    case MeetupCardVariant.OnModeration:
+      if (
+        [5, 6, 7, 8, 9, 0].includes(lastNumber) ||
+        [11, 12, 13, 14].includes(lastTwoNumbers)
+      )
+        return 'митапов на модерации';
+      if ([2, 3, 4].includes(lastNumber)) return 'митапа на модерации';
+      if (lastNumber === 1) return 'митап на модерации';
+      break;
+    case MeetupCardVariant.Upcoming:
+      if (
+        [5, 6, 7, 8, 9, 0].includes(lastNumber) ||
+        [11, 12, 13, 14].includes(lastTwoNumbers)
+      )
+        return 'митапов опубликовано';
+      if ([2, 3, 4].includes(lastNumber)) return 'митапа опубликовано';
+      if (lastNumber === 1) return 'митап опубликован';
+      break;
+    case MeetupCardVariant.Finished:
+      if (
+        [5, 6, 7, 8, 9, 0].includes(lastNumber) ||
+        [11, 12, 13, 14].includes(lastTwoNumbers)
+      )
+        return 'митапов прошло';
+      if ([2, 3, 4].includes(lastNumber)) return 'митапа прошло';
+      if (lastNumber === 1) return 'митап прошёл';
+      break;
+  }
+};
+
 export const MeetupTabContent = ({ variant }: MeetupTabContentProps) => {
   const [meetups, setMeetups] = useState<Meetup[]>([]);
 
@@ -42,50 +86,6 @@ export const MeetupTabContent = ({ variant }: MeetupTabContentProps) => {
       }
     })();
   }, [variant]);
-
-  const getCounterEnding = (num: number, variant: MeetupCardVariant) => {
-    const lastNumber = num % 10;
-    const lastTwoNumbers = num % 100;
-
-    switch (variant) {
-      case MeetupCardVariant.Topic:
-        if (
-          [5, 6, 7, 8, 9, 0].includes(lastNumber) ||
-          [11, 12, 13, 14].includes(lastTwoNumbers)
-        )
-          return 'тем предложено';
-        if ([2, 3, 4].includes(lastNumber)) return 'темы предложено';
-        if (lastNumber === 1) return 'тема предложена';
-        break;
-      case MeetupCardVariant.OnModeration:
-        if (
-          [5, 6, 7, 8, 9, 0].includes(lastNumber) ||
-          [11, 12, 13, 14].includes(lastTwoNumbers)
-        )
-          return 'митапов на модерации';
-        if ([2, 3, 4].includes(lastNumber)) return 'митапа на модерации';
-        if (lastNumber === 1) return 'митап на модерации';
-        break;
-      case MeetupCardVariant.Upcoming:
-        if (
-          [5, 6, 7, 8, 9, 0].includes(lastNumber) ||
-          [11, 12, 13, 14].includes(lastTwoNumbers)
-        )
-          return 'митапов опубликовано';
-        if ([2, 3, 4].includes(lastNumber)) return 'митапа опубликовано';
-        if (lastNumber === 1) return 'митап опубликован';
-        break;
-      case MeetupCardVariant.Finished:
-        if (
-          [5, 6, 7, 8, 9, 0].includes(lastNumber) ||
-          [11, 12, 13, 14].includes(lastTwoNumbers)
-        )
-          return 'митапов прошло';
-        if ([2, 3, 4].includes(lastNumber)) return 'митапа прошло';
-        if (lastNumber === 1) return 'митап прошёл';
-        break;
-    }
-  };
 
   return (
     <section className={styles.topicsTab}>
