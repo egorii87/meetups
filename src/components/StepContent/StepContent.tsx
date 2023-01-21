@@ -1,5 +1,5 @@
 import { PropsWithChildren, useContext } from 'react';
-
+import { useNavigate } from 'react-router-dom';
 import {
   StepperContext,
   StepperContextType,
@@ -30,6 +30,8 @@ export const StepContent = ({
     handlePreviousStep,
   } = useContext(StepperContext) as StepperContextType;
 
+  const navigate = useNavigate();
+
   return (
     <div className={styles.step}>
       <div className={styles.stepBody}>{children}</div>
@@ -44,7 +46,10 @@ export const StepContent = ({
 
         {isLast ? (
           <Button
-            onClick={handleFinish}
+            onClick={() => {
+              handleFinish();
+              navigate('/meetups/moderation');
+            }}
             variant={ButtonVariant.Primary}
             disabled={!stepsDescriptor[step].confirmed}
           >
