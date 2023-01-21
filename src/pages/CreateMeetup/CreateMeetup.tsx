@@ -9,31 +9,25 @@ import {
   ImagePreviewMode,
   StepInfo,
 } from 'components';
+import { NewMeetup, ShortUser } from 'model';
+import { createOneMeetup } from 'api';
 import * as yup from 'yup';
 import { Formik, Form } from 'formik';
 import React, { useState } from 'react';
 
 import styles from './CreateMeetup.module.scss';
 
-interface FormValues {
-  [name: string]: String;
-}
-
-interface DateValues {
-  [name: string]: Date | String | File | null;
-}
-
 type RequiredFieldsValues = {
   subject: string;
-  author: string;
+  author?: ShortUser;
   excerpt: string;
 };
 
 type AdditionalFieldsValues = {
-  start: Date | null;
-  finish: Date | null;
-  place: string;
-  image?: File | null;
+  start?: Date;
+  finish?: Date;
+  place?: string;
+  image?: File;
 };
 
 export const CreateMeetup = () => {
@@ -56,8 +50,19 @@ export const CreateMeetup = () => {
       </div>
     );
   };
-
-  const [meetUp, setMeetUp] = useState({});
+  const dateModified = new Date();
+  const authorMeetup: ShortUser = {
+    id: 'uuu-aaa',
+    name: 'employee',
+    surname: 'Gerlach',
+  };
+  const [meetUp, setMeetUp] = useState<NewMeetup>({
+    modified: dateModified.toJSON(),
+    author: authorMeetup,
+    subject: '',
+    place: '',
+    speakers: [authorMeetup],
+  });
 
   const requiredFields = ({ setConfirmed, index }: StepElementProps) => {
     return (
@@ -67,7 +72,7 @@ export const CreateMeetup = () => {
           <Formik<RequiredFieldsValues>
             initialValues={{
               subject: '',
-              author: '',
+              author: authorMeetup, // I want to display the author's name and surname by default, but I don't know how to do it
               excerpt: '',
             }}
             validationSchema={yup.object().shape({
@@ -75,7 +80,7 @@ export const CreateMeetup = () => {
               author: yup.string().required(`Это поле обязательно`),
               excerpt: yup.string().required(`Это поле обязательно`),
             })}
-            onSubmit={(values: FormValues, { setSubmitting }) => {
+            onSubmit={(values: RequiredFieldsValues, { setSubmitting }) => {
               console.log(values);
               setConfirmed(index, true);
             }}
@@ -120,15 +125,15 @@ export const CreateMeetup = () => {
   };
 
   const additionalFields = ({ setConfirmed, index }: StepElementProps) => (
-    <div className="">
+    <div>
       {descriptionText()}
       <div className={styles.inputForm}>
         <Formik<AdditionalFieldsValues>
           initialValues={{
-            start: null,
-            finish: null,
-            place: '',
-            image: null,
+            start: undefined,
+            finish: undefined,
+            place: undefined,
+            image: undefined,
           }}
           validationSchema={yup.object().shape({
             start: yup.date().typeError('Укажите дату и время начала митапа'),
@@ -140,7 +145,7 @@ export const CreateMeetup = () => {
                 'Пожалуйста, загрузите изображение формата .jpg, .jpeg или .png',
               ),
           })}
-          onSubmit={(values: DateValues, { setSubmitting }) => {
+          onSubmit={(values: AdditionalFieldsValues, { setSubmitting }) => {
             console.log(values);
             setSubmitting(false); // onSubmit is sync, so need to call this
           }}
@@ -148,7 +153,10 @@ export const CreateMeetup = () => {
             if (!!values.start && !!values.finish && !!values.place) {
               setMeetUp((meetUp) => ({
                 ...meetUp,
-                ...values,
+                start: values.start?.toJSON(),
+                finish: values.finish?.toJSON(),
+                place: values.place,
+                image: values.image,
               }));
             }
             setConfirmed(
@@ -201,7 +209,9 @@ export const CreateMeetup = () => {
     },
   ];
 
-  let onFinishCheck = () => console.log(meetUp);
+  let onFinishCheck = async () => {
+    await createOneMeetup(meetUp);
+  };
 
   return (
     <div className={styles.wrapper}>
