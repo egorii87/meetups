@@ -3,3 +3,4 @@ export * from './ViewMeetupPage/ViewMeetupPage';
 export * from './NewsPage/NewsPage';
 export * from './NotFoundPage/NotFoundPage';
 export * from './CreateMeetup/CreateMeetup';
+export * from './EditMeetupPage/EditMeetupPage';
