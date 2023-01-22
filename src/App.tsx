@@ -7,6 +7,7 @@ import {
   NewsPage,
   ViewMeetupPage,
   CreateMeetup,
+  EditMeetupPage,
 } from 'pages';
 
 import styles from './App.module.scss';
@@ -38,7 +39,7 @@ function App() {
             </Route>
             <Route path=":id">
               <Route index element={<ViewMeetupPage />} />
-              <Route path="edit" element={<div>Edit meetup</div>} />
+              <Route path="edit" element={<EditMeetupPage />} />
             </Route>
           </Route>
           <Route path="news">
