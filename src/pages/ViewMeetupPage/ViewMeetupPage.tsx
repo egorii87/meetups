@@ -8,11 +8,13 @@ import {
   TypographyComponent,
   UserPreview,
   UserPreviewVariant,
+  remove,
 } from 'components';
 import { MeetupStatus, ShortUser } from 'model';
 import { parseDateString } from 'helpers';
 import { useMeetupQuery } from 'hooks';
 import { NotFoundPage } from 'pages';
+import { deleteMeetup } from 'api';
 
 import styles from './ViewMeetupPage.module.scss';
 import defaultImage from 'assets/images/default-image.jpg';
@@ -27,6 +29,7 @@ export const ViewMeetupPage = () => {
   const { id } = useParams();
   const { meetup, isLoading } = useMeetupQuery(id!);
   const votedUsers = meetup?.votedUsers ?? [];
+  const refresh = () => window.location.reload();
 
   if (isLoading || meetup === undefined) {
     return <div>Загрузка...</div>;
@@ -195,18 +198,48 @@ export const ViewMeetupPage = () => {
         </Button>
         {meetup.status === MeetupStatus.DRAFT && (
           <div className={styles.actionsWrapper}>
-            <Button variant={ButtonVariant.Secondary}>Удалить</Button>
+            <Button
+              variant={ButtonVariant.Secondary}
+              onClick={(e) => {
+                e.preventDefault();
+                !!id && remove(id);
+                navigate('/meetups/topics');
+                refresh();
+              }}
+            >
+              Удалить
+            </Button>
             <Button variant={ButtonVariant.Primary}>Одобрить тему</Button>
           </div>
         )}
         {meetup.status === MeetupStatus.REQUEST && (
           <div className={styles.actionsWrapper}>
-            <Button variant={ButtonVariant.Secondary}>Удалить</Button>
+            <Button
+              variant={ButtonVariant.Secondary}
+              onClick={(e) => {
+                e.preventDefault();
+                !!id && deleteMeetup(id);
+                navigate('/meetups/moderation');
+                refresh();
+              }}
+            >
+              Удалить
+            </Button>
             <Button variant={ButtonVariant.Primary}>Опубликовать</Button>
           </div>
         )}
         {meetup.status === MeetupStatus.CONFIRMED && (
-          <Button variant={ButtonVariant.Secondary}>Удалить</Button>
+          <Button
+            variant={ButtonVariant.Secondary}
+            onClick={(e) => {
+              e.preventDefault();
+              !!id && deleteMeetup(id);
+              navigate('/meetups/upcoming');
+              refresh();
+            }}
+          >
+            Удалить
+          </Button>
         )}
       </div>
     );

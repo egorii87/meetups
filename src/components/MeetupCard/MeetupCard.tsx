@@ -1,5 +1,6 @@
 import classNames from 'classnames';
 import { useNavigate } from 'react-router';
+import { deleteMeetup } from 'api';
 
 import {
   DeleteButton,
@@ -25,6 +26,12 @@ export enum MeetupCardVariant {
   Upcoming = 'upcoming',
   Finished = 'finished',
 }
+
+const refresh = () => window.location.reload();
+export const remove = (id: string) => {
+  deleteMeetup(id);
+  refresh();
+};
 
 export const MeetupCard = ({ meetup }: MeetupCardProps): JSX.Element => {
   const {
@@ -97,7 +104,12 @@ export const MeetupCard = ({ meetup }: MeetupCardProps): JSX.Element => {
           </ul>
         )}
         <div className={styles.controls}>
-          <DeleteButton />
+          <DeleteButton
+            onClick={(e) => {
+              e.preventDefault();
+              remove(id);
+            }}
+          />
           {status !== MeetupStatus.DRAFT && (
             <EditButton
               onClick={(e) => {
