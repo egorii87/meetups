@@ -1,0 +1,56 @@
+@import '~style/colors';
+@import '~style/typography';
+
+.wrapper {
+  width: 550px;
+}
+
+.formStyle {
+  width: 470px;
+  max-width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  row-gap: 12px;
+  margin: 0 auto;
+  padding: 24px 0px 34px 0px;
+}
+
+.header {
+  @extend .font-family-primary;
+  @extend .font-color-dark;
+
+  text-align: center;
+}
+
+.paragraph {
+  @extend .font-family-primary;
+  @extend .font-weight-regular;
+  @extend .font-size-xs;
+  @extend .font-color-gray-01;
+
+  margin-top: 16px;
+  text-align: center;
+  line-height: 22px;
+}
+
+.inputForm {
+  margin-top: 14px;
+  border-radius: 5px;
+  background-color: $white-color;
+  min-height: 347px;
+}
+
+.datePicker {
+  list-style-type: none;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 470px;
+}
+
+.placeField {
+  width: 470px;
+  margin-top: 16px;
+  margin-bottom: 24px;
+}

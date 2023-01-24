@@ -6,7 +6,7 @@ import React, {
   useState,
 } from 'react';
 
-import { StepperProgress, StepContent, Step } from 'components';
+import { StepperProgress, StepContent } from 'components';
 
 import styles from './Stepper.module.scss';
 
@@ -22,13 +22,13 @@ export interface StepElementProps {
   index: number;
 }
 
-interface Step {
+export interface StepInfo {
   title: string;
   element: ({ setConfirmed, index }: StepElementProps) => JSX.Element;
   noVerify?: boolean;
 }
 
-export interface StepDescriptor extends Step {
+export interface StepDescriptor extends StepInfo {
   variant: StepVariant;
   confirmed: boolean;
   visited: boolean;
@@ -46,7 +46,7 @@ export type StepperContextType = {
 };
 
 interface StepperProps {
-  steps: Step[];
+  steps: StepInfo[];
   onFinish: () => void;
   finishButtonContent?: JSX.Element | string;
 }
@@ -190,7 +190,7 @@ export const Stepper = ({
           }
         >
           {steps.map(
-            (step: Step, index: number): JSX.Element => (
+            (step: StepInfo, index: number): JSX.Element => (
               <StepContent
                 key={step.title}
                 step={index}

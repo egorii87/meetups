@@ -25,7 +25,9 @@ export const TextArea = ({
 
       // We then set the height directly, outside of the render loop
       // Trying to set this with state or a ref will product an incorrect value.
-      textArea.style.height = scrollHeight + 'px';
+      if (scrollHeight > 106) {
+        textArea.style.height = scrollHeight + 'px';
+      }
     }
   }, [textAreaRef.current, value]);
 
@@ -38,10 +40,7 @@ export const TextArea = ({
         ref={textAreaRef}
         rows={1}
         maxLength={maxLetterCount}
-        className={classNames(
-          className,
-          styles.textArea,
-        )}
+        className={classNames(className, styles.textArea)}
       ></textarea>
       {maxLetterCount && maxLetterCount > 0 && (
         <div className={styles.counter}>

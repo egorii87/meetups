@@ -11,13 +11,13 @@ export const getMeetup = async (id: string): Promise<Meetup> => {
   const { data: meetup } = await httpClient.get<Meetup>(`/meetups/${id}`);
   const votedUsers = await getVotedUsers(id);
 
-  return  {
+  return {
     ...meetup,
     votedUsers,
   };
 };
 
-export const createMeetup = async (
+export const createOneMeetup = async (
   newMeetupData: NewMeetup,
 ): Promise<Meetup> => {
   const { data: createdMeetup } = await httpClient.post<Meetup>('/meetups', {
