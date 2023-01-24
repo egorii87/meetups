@@ -8,11 +8,16 @@ import {
   ViewMeetupPage,
   CreateMeetup,
 } from 'pages';
+import { store } from 'stores';
 
 import styles from './App.module.scss';
 import { ViewNewsPage } from 'pages/ViewNewsPage/ViewNewsPage';
 
 function App() {
+  (async () => {
+    await store.init();
+  })();
+
   return (
     <BrowserRouter>
       <Header />
