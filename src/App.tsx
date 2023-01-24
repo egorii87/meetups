@@ -7,6 +7,7 @@ import {
   NewsPage,
   ViewMeetupPage,
   CreateMeetup,
+  EditMeetupPage,
 } from 'pages';
 import { store } from 'stores';
 
@@ -43,7 +44,7 @@ function App() {
             </Route>
             <Route path=":id">
               <Route index element={<ViewMeetupPage />} />
-              <Route path="edit" element={<div>Edit meetup</div>} />
+              <Route path="edit" element={<EditMeetupPage />} />
             </Route>
           </Route>
           <Route path="news">
