@@ -13,19 +13,19 @@ import { Formik, Form } from 'formik';
 import { useNavigate, useParams } from 'react-router';
 import { useMeetupQuery } from 'hooks';
 import { NotFoundPage } from 'pages';
-import { ShortUser } from 'model';
 import classNames from 'classnames';
 import { updateMeetup } from 'api';
+import { ShortUser } from 'model';
 
 import styles from './EditMeetupPage.module.scss';
 
 type EditFieldsValues = {
-  image?: File | string;
+  image?: File;
   subject: string;
   start?: Date;
-  finish?: Date | string;
+  finish?: Date;
   place?: string;
-  author: ShortUser;
+  author: string;
   excerpt?: string;
 };
 
@@ -33,6 +33,17 @@ export const EditMeetupPage = () => {
   const { id } = useParams();
   const navigate = useNavigate();
   const { meetup, isLoading } = useMeetupQuery(id!);
+
+  let update = async () => {
+    !!meetup && (await updateMeetup(meetup));
+    navigate('/meetups');
+  };
+
+  const newAthorMeetup: ShortUser = {
+    id: '',
+    name: '',
+    surname: '',
+  };
 
   if (isLoading || meetup === undefined) {
     return <div>Загрузка...</div>;
@@ -64,13 +75,13 @@ export const EditMeetupPage = () => {
             start: changeFormatDate(meetup.start),
             finish: changeFormatDate(meetup.finish),
             place: meetup.place,
-            author: meetup.author,
+            author: meetup.author.name + ' ' + meetup.author.surname,
             excerpt: meetup.excerpt,
           }}
           validationSchema={yup.object().shape({
             start: yup.date().typeError('Укажите дату и время начала митапа'),
             finish: yup.date().typeError('Укажите дату и время конца митапа'),
-            place: yup.string().required(`Это поле обязательно`),
+            place: yup.string().required('Это поле обязательно'),
             image: yup
               .mixed()
               .required(
@@ -82,7 +93,24 @@ export const EditMeetupPage = () => {
             setSubmitting(false); // onSubmit is sync, so need to call this
           }}
           validate={(values) => {
-            console.log(values.image);
+            meetup.image = values.image;
+            meetup.subject = values.subject;
+            meetup.start = values.start?.toJSON();
+            meetup.finish = values.finish?.toJSON();
+            meetup.place = values.place;
+            meetup.excerpt = values.excerpt;
+            if (
+              !(
+                values.author.split(' ')[0] === meetup.author.name &&
+                values.author.split(' ')[1] === meetup.author.surname
+              )
+            ) {
+              newAthorMeetup.id = 'ddd-bbb';
+              newAthorMeetup.name = values.author.split(' ')[0];
+              newAthorMeetup.surname = values.author.split(' ')[1];
+              meetup.author = newAthorMeetup;
+              meetup.speakers = [newAthorMeetup];
+            }
           }}
         >
           {() => (
@@ -127,20 +155,18 @@ export const EditMeetupPage = () => {
         <div className={styles.actionsWrapper}>
           <Button
             variant={ButtonVariant.Secondary}
-            /* onClick={(e) => {
-              console.log('work DRAFT')
-              e.preventDefault();
-              !!id && updateMeetup(id)
-              navigate('/meetups/moderation');
-              refresh()
-            }} */
+            onClick={() => {}}
             style={{ width: '128px' }}
           >
             Предпросмотр
           </Button>
         </div>
         <div className={styles.actionsWrapper}>
-          <Button variant={ButtonVariant.Primary} style={{ width: '128px' }}>
+          <Button
+            variant={ButtonVariant.Primary}
+            style={{ width: '128px' }}
+            onClick={update}
+          >
             Сохранить
           </Button>
         </div>
