@@ -24,6 +24,7 @@ export const ImageUploader = ({
       meta: { error },
     }: FieldProps<FileWithUrl | null>) => {
       const image = value;
+      // console.log(image)
       const setImage = (image: FileWithUrl | null): void => {
         setFieldValue(name, image);
       };
