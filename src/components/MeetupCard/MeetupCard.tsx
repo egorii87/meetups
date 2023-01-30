@@ -13,6 +13,7 @@ import {
 } from 'components';
 import { parseDateString } from 'helpers';
 import { Meetup, MeetupStatus } from 'model';
+import { store } from 'stores';
 
 import styles from './MeetupCard.module.scss';
 
@@ -27,10 +28,9 @@ export enum MeetupCardVariant {
   Finished = 'finished',
 }
 
-const refresh = () => window.location.reload();
-export const remove = (id: string) => {
-  deleteMeetup(id);
-  refresh();
+export const removeMeetup = async (id: string) => {
+  await deleteMeetup(id);
+  await store.init();
 };
 
 export const MeetupCard = ({ meetup }: MeetupCardProps): JSX.Element => {
@@ -107,7 +107,7 @@ export const MeetupCard = ({ meetup }: MeetupCardProps): JSX.Element => {
           <DeleteButton
             onClick={(e) => {
               e.preventDefault();
-              remove(id);
+              removeMeetup(id);
             }}
           />
           {status !== MeetupStatus.DRAFT && (

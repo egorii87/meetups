@@ -8,13 +8,12 @@ import {
   TypographyComponent,
   UserPreview,
   UserPreviewVariant,
-  remove,
+  removeMeetup,
 } from 'components';
 import { MeetupStatus, ShortUser } from 'model';
 import { parseDateString } from 'helpers';
 import { useMeetupQuery } from 'hooks';
 import { NotFoundPage } from 'pages';
-import { deleteMeetup } from 'api';
 
 import styles from './ViewMeetupPage.module.scss';
 import defaultImage from 'assets/images/default-image.jpg';
@@ -29,7 +28,6 @@ export const ViewMeetupPage = () => {
   const { id } = useParams();
   const { meetup, isLoading } = useMeetupQuery(id!);
   const votedUsers = meetup?.votedUsers ?? [];
-  const refresh = () => window.location.reload();
 
   if (isLoading || meetup === undefined) {
     return <div>Загрузка...</div>;
@@ -200,11 +198,10 @@ export const ViewMeetupPage = () => {
           <div className={styles.actionsWrapper}>
             <Button
               variant={ButtonVariant.Secondary}
-              onClick={(e) => {
+              onClick={async (e) => {
                 e.preventDefault();
-                !!id && remove(id);
+                !!id && removeMeetup(id);
                 navigate('/meetups/topics');
-                refresh();
               }}
             >
               Удалить
@@ -218,9 +215,8 @@ export const ViewMeetupPage = () => {
               variant={ButtonVariant.Secondary}
               onClick={(e) => {
                 e.preventDefault();
-                !!id && deleteMeetup(id);
+                !!id && removeMeetup(id);
                 navigate('/meetups/moderation');
-                refresh();
               }}
             >
               Удалить
@@ -233,9 +229,8 @@ export const ViewMeetupPage = () => {
             variant={ButtonVariant.Secondary}
             onClick={(e) => {
               e.preventDefault();
-              !!id && deleteMeetup(id);
+              !!id && removeMeetup(id);
               navigate('/meetups/upcoming');
-              refresh();
             }}
           >
             Удалить
