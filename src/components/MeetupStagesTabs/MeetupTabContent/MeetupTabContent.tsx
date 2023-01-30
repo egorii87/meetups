@@ -70,6 +70,7 @@ export const MeetupTabContent = ({ variant }: MeetupTabContentProps) => {
 
   useEffect(() => {
     (async () => {
+      await store.init();
       switch (variant) {
         case MeetupCardVariant.Topic:
           setMeetups(store.getTopics);
