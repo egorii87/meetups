@@ -8,15 +8,17 @@ import {
   ViewMeetupPage,
   CreateMeetup,
   EditMeetupPage,
+  ViewNewsPage,
+  CreateNews,
+  EditNewsPage,
 } from 'pages';
-import { store } from 'stores';
+import { meetupStore } from 'stores';
 
 import styles from './App.module.scss';
-import { ViewNewsPage } from 'pages/ViewNewsPage/ViewNewsPage';
 
 function App() {
   (async () => {
-    await store.init();
+    await meetupStore.init();
   })();
 
   return (
@@ -49,10 +51,10 @@ function App() {
           </Route>
           <Route path="news">
             <Route index element={<NewsPage />} />
-            <Route path="create" element={<div>Create news article</div>} />
+            <Route path="create" element={<CreateNews />} />
             <Route path=":id">
               <Route index element={<ViewNewsPage />} />
-              <Route path="edit" element={<div>Edit news article</div>} />
+              <Route path="edit" element={<EditNewsPage />} />
             </Route>
           </Route>
           <Route path="*" element={<NotFoundPage />} />
