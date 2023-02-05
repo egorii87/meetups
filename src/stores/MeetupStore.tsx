@@ -1,7 +1,13 @@
 import { observable, computed, action } from 'mobx';
 
-import { Meetup, MeetupStatus } from 'model';
-import { getMeetups } from 'api';
+import { Meetup, NewMeetup, MeetupStatus } from 'model';
+import {
+  getMeetups,
+  createOneMeetup,
+  updateMeetup,
+  deleteMeetup,
+  getMeetup,
+} from 'api';
 
 export class MeetupStore {
   @observable meetups: Meetup[] = [];
@@ -53,7 +59,27 @@ export class MeetupStore {
     this.meetups = await getMeetups();
   }
 
+  @action.bound
+  async create(meetup: NewMeetup) {
+    return await createOneMeetup(meetup);
+  }
+
+  @action.bound
+  async edit(meetup: Meetup) {
+    return await updateMeetup(meetup);
+  }
+
+  @action.bound
+  async delete(id: string) {
+    return await deleteMeetup(id);
+  }
+
+  @action.bound
+  async get(id: string) {
+    return await getMeetup(id);
+  }
+
   constructor() {}
 }
 
-export const store = new MeetupStore();
+export const meetupStore = new MeetupStore();
