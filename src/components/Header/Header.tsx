@@ -1,9 +1,11 @@
 import React from 'react';
 import { NavLink } from 'react-router-dom';
 import classNames from 'classnames';
+import { FormattedMessage } from 'react-intl';
 
 import { Typography, UserPreview, UserPreviewVariant } from 'components';
 import { ShortUser } from 'model';
+import { SelectLang } from 'lang/SelectLang';
 
 import styles from './Header.module.scss';
 import logo from 'assets/images/logo.svg';
@@ -28,7 +30,9 @@ export const Header = (): JSX.Element => (
               })
             }
           >
-            <Typography>Митапы</Typography>
+            <Typography>
+              <FormattedMessage id="mainTabs.meetups" defaultMessage="Митапы" />
+            </Typography>
           </NavLink>
           <NavLink
             to="/news"
@@ -38,9 +42,12 @@ export const Header = (): JSX.Element => (
               })
             }
           >
-            <Typography>Новости</Typography>
+            <Typography>
+              <FormattedMessage id="mainTabs.news" defaultMessage="Новости" />
+            </Typography>
           </NavLink>
         </nav>
+        <SelectLang />
         <UserPreview variant={UserPreviewVariant.Header} user={user} />
       </div>
 
@@ -54,7 +61,9 @@ export const Header = (): JSX.Element => (
               })
             }
           >
-            <Typography>Митапы</Typography>
+            <Typography>
+              <FormattedMessage id="mainTabs.meetups" defaultMessage="Митапы" />
+            </Typography>
           </NavLink>
           <NavLink
             to="/news"
@@ -64,7 +73,9 @@ export const Header = (): JSX.Element => (
               })
             }
           >
-            <Typography>Новости</Typography>
+            <Typography>
+              <FormattedMessage id="mainTabs.news" defaultMessage="Новости" />
+            </Typography>
           </NavLink>
         </nav>
       </div>

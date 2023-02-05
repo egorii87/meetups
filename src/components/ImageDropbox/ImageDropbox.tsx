@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import classNames from 'classnames';
+import { FormattedMessage } from 'react-intl';
 import { FileError, FileRejection, useDropzone } from 'react-dropzone';
 import { Typography, TypographyComponent } from 'components';
 import { ReactComponent as UploadIcon } from './upload.svg';
@@ -95,23 +96,38 @@ export const ImageDropbox = ({
           component={TypographyComponent.Paragraph}
           className={styles.promptText}
         >
-          Перетащите изображения сюда
+          <FormattedMessage
+            id="imageUploader.mainText.text"
+            defaultMessage="Перетащите изображение сюда"
+          />
           <br />
-          или
+          <FormattedMessage
+            id="imageUploader.mainText.text.or"
+            defaultMessage="или"
+          />
           <button
             type="button"
             className={styles.browseFileLink}
             onClick={open}
           >
-            загрузите
+            <FormattedMessage
+              id="imageUploader.mainText.link"
+              defaultMessage="загрузите"
+            />
           </button>
         </Typography>
         <div className={styles.constraints}>
           <Typography component={TypographyComponent.Paragraph}>
-            Разрешенные форматы: {acceptFileExtensions}
+            <FormattedMessage
+              id="imageUploader.paragraphFormat"
+              defaultMessage="Allowed formats: .jpg .jpeg .png"
+            />
           </Typography>
           <Typography component={TypographyComponent.Paragraph}>
-            Максимальный размер файла: {getFileSizeString(MAX_FILESIZE)}
+            <FormattedMessage
+              id="imageUploader.paragraphSize"
+              defaultMessage="Maximum file size: 10 Mb"
+            />
           </Typography>
         </div>
         {errors.length > 0 ? (
