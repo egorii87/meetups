@@ -1,4 +1,3 @@
-import { getNews } from 'api';
 import {
   Button,
   ButtonVariant,
@@ -9,6 +8,7 @@ import {
 import { News } from 'model';
 import { useEffect, useState } from 'react';
 import { NavLink, useNavigate } from 'react-router-dom';
+import { newsStore } from 'stores';
 
 import styles from './NewsPage.module.scss';
 
@@ -20,7 +20,10 @@ export const NewsPage = () => {
   const openCreateNewsPage = () => navigate('/news/create');
 
   useEffect(() => {
-    const fetchNews = async () => setNews(await getNews());
+    const fetchNews = async () => {
+      await newsStore.init();
+      return setNews(newsStore.getAllNews);
+    };
     fetchNews();
   }, []);
 

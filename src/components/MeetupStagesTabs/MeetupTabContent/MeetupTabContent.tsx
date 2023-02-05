@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router';
 import { NavLink } from 'react-router-dom';
+import { FormattedMessage } from 'react-intl';
 
 import {
   Button,
@@ -9,7 +10,7 @@ import {
   MeetupCardVariant,
 } from 'components';
 import { Meetup } from 'model';
-import { store } from 'stores';
+import { meetupStore } from 'stores';
 
 import styles from './MeetupTabContent.module.scss';
 
@@ -70,19 +71,19 @@ export const MeetupTabContent = ({ variant }: MeetupTabContentProps) => {
 
   useEffect(() => {
     (async () => {
-      await store.init();
+      await meetupStore.init();
       switch (variant) {
         case MeetupCardVariant.Topic:
-          setMeetups(store.getTopics);
+          setMeetups(meetupStore.getTopics);
           break;
         case MeetupCardVariant.OnModeration:
-          setMeetups(store.getOnModeration);
+          setMeetups(meetupStore.getOnModeration);
           break;
         case MeetupCardVariant.Upcoming:
-          setMeetups(store.getUpcoming);
+          setMeetups(meetupStore.getUpcoming);
           break;
         case MeetupCardVariant.Finished:
-          setMeetups(store.getFinished);
+          setMeetups(meetupStore.getFinished);
           break;
       }
     })();
@@ -99,7 +100,10 @@ export const MeetupTabContent = ({ variant }: MeetupTabContentProps) => {
             variant={ButtonVariant.Secondary}
             onClick={openCreateMeetupPage}
           >
-            + Создать митап
+            <FormattedMessage
+              id="buttons.createMeetup"
+              defaultMessage="+ Создать Митап"
+            />
           </Button>
         )}
       </div>

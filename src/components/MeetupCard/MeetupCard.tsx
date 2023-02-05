@@ -1,6 +1,5 @@
 import classNames from 'classnames';
 import { useNavigate } from 'react-router';
-import { deleteMeetup } from 'api';
 
 import {
   DeleteButton,
@@ -13,7 +12,7 @@ import {
 } from 'components';
 import { parseDateString } from 'helpers';
 import { Meetup, MeetupStatus } from 'model';
-import { store } from 'stores';
+import { meetupStore } from 'stores';
 
 import styles from './MeetupCard.module.scss';
 
@@ -29,8 +28,8 @@ export enum MeetupCardVariant {
 }
 
 export const removeMeetup = async (id: string) => {
-  await deleteMeetup(id);
-  await store.init();
+  await meetupStore.delete(id);
+  await meetupStore.init();
 };
 
 export const MeetupCard = ({ meetup }: MeetupCardProps): JSX.Element => {

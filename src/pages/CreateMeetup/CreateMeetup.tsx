@@ -1,7 +1,7 @@
 import { Stepper, StepInfo } from 'components';
 import { RequiredFields, AdditionalFields } from 'pages';
-import { createOneMeetup } from 'api';
 import { NewMeetup, ShortUser } from 'model';
+import { meetupStore } from 'stores';
 
 import styles from './CreateMeetup.module.scss';
 
@@ -36,7 +36,7 @@ export const CreateMeetup = () => {
   ];
 
   let onFinishCheck = async () => {
-    await createOneMeetup(meetup);
+    await meetupStore.create(meetup);
   };
 
   return (
