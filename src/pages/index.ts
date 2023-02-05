@@ -7,3 +7,6 @@ export * from './EditMeetupPage/EditMeetupPage';
 export * from './CreateMeetup/DescriptionText/DescriptionText';
 export * from './CreateMeetup/RequiredFields/RequiredFields';
 export * from './CreateMeetup/AdditionalFields/AdditionalFields';
+export * from './ViewNewsPage/ViewNewsPage';
+export * from './CreateNewsPage/CreateNewsPage';
+export * from './EditNewsPage/EditNewsPage';
