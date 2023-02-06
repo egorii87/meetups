@@ -7,6 +7,7 @@ import React, {
 } from 'react';
 
 import { StepperProgress, StepContent } from 'components';
+import { FormattedMessage } from 'react-intl';
 
 import styles from './Stepper.module.scss';
 
@@ -23,7 +24,8 @@ export interface StepElementProps {
 }
 
 export interface StepInfo {
-  title: string;
+  key: string;
+  title: JSX.Element;
   element: ({ setConfirmed, index }: StepElementProps) => JSX.Element;
   noVerify?: boolean;
 }
@@ -54,7 +56,9 @@ interface StepperProps {
 export const Stepper = ({
   steps,
   onFinish,
-  finishButtonContent = 'Создать',
+  finishButtonContent = (
+    <FormattedMessage id="buttons.create" defaultMessage="Создать" />
+  ),
 }: StepperProps) => {
   const [currentStep, setCurrentStep] = useState<number>(0);
 
@@ -192,7 +196,7 @@ export const Stepper = ({
           {steps.map(
             (step: StepInfo, index: number): JSX.Element => (
               <StepContent
-                key={step.title}
+                key={step.key}
                 step={index}
                 currentStep={currentStep}
                 isFirst={index === 0}

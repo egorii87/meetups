@@ -7,6 +7,7 @@ import {
 } from 'components';
 import { DescriptionText, meetup } from 'pages';
 import { Formik, Form } from 'formik';
+import { FormattedMessage } from 'react-intl';
 import * as yup from 'yup';
 
 import styles from './AdditionalFields.module.scss';
@@ -59,16 +60,37 @@ export const AdditionalFields = ({ setConfirmed, index }: StepElementProps) => {
             <Form autoComplete="off" className={styles.formStyle}>
               <ul className={styles.datePicker}>
                 <li className={styles.datePickerChild}>
-                  <DateTimePicker name="start" labelText="Начало" />
+                  <DateTimePicker
+                    name="start"
+                    labelText={
+                      <FormattedMessage
+                        id="fieldsName.start"
+                        defaultMessage="Начало"
+                      />
+                    }
+                  />
                 </li>
                 <li className={styles.datePickerChild}>
-                  <DateTimePicker name="finish" labelText="Конец" />
+                  <DateTimePicker
+                    name="finish"
+                    labelText={
+                      <FormattedMessage
+                        id="fieldsName.finish"
+                        defaultMessage="Конец"
+                      />
+                    }
+                  />
                 </li>
               </ul>
               <div className={styles.placeField}>
                 <TextField
                   name="place"
-                  labelText="Место проведения"
+                  labelText={
+                    <FormattedMessage
+                      id="fieldsName.location"
+                      defaultMessage="Место проведения"
+                    />
+                  }
                   multiline={false}
                 />
               </div>

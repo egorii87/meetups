@@ -28,36 +28,104 @@ export const getCounterEnding = (num: number, variant: MeetupCardVariant) => {
         [5, 6, 7, 8, 9, 0].includes(lastNumber) ||
         [11, 12, 13, 14].includes(lastTwoNumbers)
       )
-        return 'тем предложено';
-      if ([2, 3, 4].includes(lastNumber)) return 'темы предложено';
-      if (lastNumber === 1) return 'тема предложена';
+        return (
+          <FormattedMessage
+            id="meetups.tabs.meetupsCount.topics0"
+            defaultMessage="тем предложено"
+          />
+        );
+      if ([2, 3, 4].includes(lastNumber))
+        return (
+          <FormattedMessage
+            id="meetups.tabs.meetupsCount.topics2"
+            defaultMessage="темы предложено"
+          />
+        );
+      if (lastNumber === 1)
+        return (
+          <FormattedMessage
+            id="meetups.tabs.meetupsCount.topics1"
+            defaultMessage="тема предложена"
+          />
+        );
       break;
     case MeetupCardVariant.OnModeration:
       if (
         [5, 6, 7, 8, 9, 0].includes(lastNumber) ||
         [11, 12, 13, 14].includes(lastTwoNumbers)
       )
-        return 'митапов на модерации';
-      if ([2, 3, 4].includes(lastNumber)) return 'митапа на модерации';
-      if (lastNumber === 1) return 'митап на модерации';
+        return (
+          <FormattedMessage
+            id="meetups.tabs.meetupsCount.meetups0.onModeration"
+            defaultMessage="митапов на модерации"
+          />
+        );
+      if ([2, 3, 4].includes(lastNumber))
+        return (
+          <FormattedMessage
+            id="meetups.tabs.meetupsCount.meetups2.onModeration"
+            defaultMessage="митапа на модерации"
+          />
+        );
+      if (lastNumber === 1)
+        return (
+          <FormattedMessage
+            id="meetups.tabs.meetupsCount.meetups1.onModeration"
+            defaultMessage="митап на модерации"
+          />
+        );
       break;
     case MeetupCardVariant.Upcoming:
       if (
         [5, 6, 7, 8, 9, 0].includes(lastNumber) ||
         [11, 12, 13, 14].includes(lastTwoNumbers)
       )
-        return 'митапов опубликовано';
-      if ([2, 3, 4].includes(lastNumber)) return 'митапа опубликовано';
-      if (lastNumber === 1) return 'митап опубликован';
+        return (
+          <FormattedMessage
+            id="meetups.tabs.meetupsCount.meetups0.published"
+            defaultMessage="митапов опубликовано"
+          />
+        );
+      if ([2, 3, 4].includes(lastNumber))
+        return (
+          <FormattedMessage
+            id="meetups.tabs.meetupsCount.meetups2.published"
+            defaultMessage="митапа опубликовано"
+          />
+        );
+      if (lastNumber === 1)
+        return (
+          <FormattedMessage
+            id="meetups.tabs.meetupsCount.meetups1.published"
+            defaultMessage="митап опубликован"
+          />
+        );
       break;
     case MeetupCardVariant.Finished:
       if (
         [5, 6, 7, 8, 9, 0].includes(lastNumber) ||
         [11, 12, 13, 14].includes(lastTwoNumbers)
       )
-        return 'митапов прошло';
-      if ([2, 3, 4].includes(lastNumber)) return 'митапа прошло';
-      if (lastNumber === 1) return 'митап прошёл';
+        return (
+          <FormattedMessage
+            id="meetups.tabs.meetupsCount.meetups0.passed"
+            defaultMessage="митапов прошло"
+          />
+        );
+      if ([2, 3, 4].includes(lastNumber))
+        return (
+          <FormattedMessage
+            id="meetups.tabs.meetupsCount.meetups2.passed"
+            defaultMessage="митапа прошло"
+          />
+        );
+      if (lastNumber === 1)
+        return (
+          <FormattedMessage
+            id="meetups.tabs.meetupsCount.meetups1.passed"
+            defaultMessage="митап прошёл"
+          />
+        );
       break;
   }
 };

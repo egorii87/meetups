@@ -23,7 +23,7 @@ export const StepperProgress = ({ currentStep }: StepperProgressProps) => {
         {stepsDescriptor.map(
           (step: StepDescriptor, i: number): JSX.Element => (
             <Step
-              key={step.title}
+              key={step.key}
               variant={step.variant}
               title={step.title}
               stepNumber={i + 1}

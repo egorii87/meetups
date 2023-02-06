@@ -10,6 +10,7 @@ import {
 import * as yup from 'yup';
 import { Formik, Form } from 'formik';
 import { useNavigate, useParams } from 'react-router';
+import { FormattedMessage } from 'react-intl';
 import { useNewsArticleQuery } from 'hooks';
 import { NotFoundPage } from 'pages';
 import classNames from 'classnames';
@@ -47,7 +48,10 @@ export const EditNewsPage = () => {
         className={styles.header}
         component={TypographyComponent.Heading2}
       >
-        Редактирование Митапа
+        <FormattedMessage
+          id="news.editNews.header"
+          defaultMessage="Редактирвоание Новости"
+        />
       </Typography>
       <div className={styles.wrapper}>
         <Formik<EditNews>
@@ -76,13 +80,32 @@ export const EditNewsPage = () => {
               <Form autoComplete="off" className={styles.formStyle}>
                 <TextField
                   name="title"
-                  labelText="Заголовок"
+                  labelText={
+                    <FormattedMessage
+                      id="fieldsName.heading"
+                      defaultMessage="Заголовок"
+                    />
+                  }
                   multiline={false}
                 />
-                <TextField name="text" labelText="Текст" multiline={true} />
+                <TextField
+                  name="text"
+                  labelText={
+                    <FormattedMessage
+                      id="fieldsName.text"
+                      defaultMessage="Текст"
+                    />
+                  }
+                  multiline={true}
+                />
                 <ImageUploader
                   name="image"
-                  labelText="Изображение"
+                  labelText={
+                    <FormattedMessage
+                      id="fieldsName.image"
+                      defaultMessage="Изображение"
+                    />
+                  }
                   variant={ImagePreviewMode.Large}
                 />
               </Form>
@@ -96,7 +119,7 @@ export const EditNewsPage = () => {
           onClick={() => navigate(-1)}
           style={{ width: '152px', marginRight: '60px' }}
         >
-          Назад
+          <FormattedMessage id="buttons.back" defaultMessage="Назад" />
         </Button>
         <div className={styles.actionsWrapper}>
           <Button
@@ -104,7 +127,7 @@ export const EditNewsPage = () => {
             style={{ width: '152px' }}
             onClick={update}
           >
-            Сохранить
+            <FormattedMessage id="buttons.save" defaultMessage="Сохранить" />
           </Button>
         </div>
       </div>

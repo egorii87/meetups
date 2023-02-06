@@ -19,6 +19,7 @@ import { meetupStore } from 'stores';
 import { ShortUser, MeetupStatus } from 'model';
 import { useState } from 'react';
 import { parseDateString } from 'helpers';
+import { FormattedMessage } from 'react-intl';
 
 import styles from './EditMeetupPage.module.scss';
 import defaultImage from 'assets/images/default-image.jpg';
@@ -90,7 +91,10 @@ export const EditMeetupPage = () => {
           component={TypographyComponent.Span}
           className={styles.dataName}
         >
-          Время и место проведения
+          <FormattedMessage
+            id="fieldsName.timeAndLocation"
+            defaultMessage="Время и место проведения"
+          />
         </Typography>
         <div className={styles.dataContent}>
           <div className={styles.timePlaceInfo}>
@@ -125,7 +129,10 @@ export const EditMeetupPage = () => {
           className={styles.header}
           component={TypographyComponent.Heading2}
         >
-          Редактирование Митапа
+          <FormattedMessage
+            id="meetups.editMeetups.header"
+            defaultMessage="Редактирование Митапа"
+          />
         </Typography>
         <div className={styles.wrapper}>
           <Formik<EditFieldsValues>
@@ -178,30 +185,75 @@ export const EditMeetupPage = () => {
                 <ImageUploader
                   name="image"
                   variant={ImagePreviewMode.Large}
-                  labelText="Фото"
+                  labelText={
+                    <FormattedMessage
+                      id="fieldsName.photo"
+                      defaultMessage="Фото"
+                    />
+                  }
                 />
                 <TextField
                   name="subject"
-                  labelText="Название"
+                  labelText={
+                    <FormattedMessage
+                      id="fieldsName.title"
+                      defaultMessage="Название"
+                    />
+                  }
                   multiline={false}
                 />
                 <ul className={styles.datePicker}>
                   <li className={styles.datePickerChild}>
-                    <DateTimePicker name="start" labelText="Начало" />
+                    <DateTimePicker
+                      name="start"
+                      labelText={
+                        <FormattedMessage
+                          id="fieldsName.start"
+                          defaultMessage="Начало"
+                        />
+                      }
+                    />
                   </li>
                   <li className={styles.datePickerChild}>
-                    <DateTimePicker name="finish" labelText="Конец" />
+                    <DateTimePicker
+                      name="finish"
+                      labelText={
+                        <FormattedMessage
+                          id="fieldsName.finish"
+                          defaultMessage="Окончание"
+                        />
+                      }
+                    />
                   </li>
                 </ul>
                 <TextField
                   name="place"
-                  labelText="Место проведения"
+                  labelText={
+                    <FormattedMessage
+                      id="fieldsName.location"
+                      defaultMessage="Место проведения"
+                    />
+                  }
                   multiline={false}
                 />
-                <TextField name="author" labelText="Спикер" multiline={false} />
+                <TextField
+                  name="author"
+                  labelText={
+                    <FormattedMessage
+                      id="fieldsName.speaker"
+                      defaultMessage="Спикер"
+                    />
+                  }
+                  multiline={false}
+                />
                 <TextField
                   name="excerpt"
-                  labelText="Описание"
+                  labelText={
+                    <FormattedMessage
+                      id="fieldsName.description"
+                      defaultMessage="Описание"
+                    />
+                  }
                   multiline={true}
                 />
               </Form>
@@ -214,7 +266,7 @@ export const EditMeetupPage = () => {
             onClick={() => navigate(-1)}
             style={{ width: '128px', marginRight: '60px' }}
           >
-            Отмена
+            <FormattedMessage id="buttons.cancel" defaultMessage="Отмена" />
           </Button>
           <div className={styles.actionsWrapper}>
             <Button
@@ -222,7 +274,10 @@ export const EditMeetupPage = () => {
               onClick={() => setHiddenPreview(false)}
               style={{ width: '128px' }}
             >
-              Предпросмотр
+              <FormattedMessage
+                id="buttons.preview"
+                defaultMessage="Предпросмотр"
+              />
             </Button>
           </div>
           <div className={styles.actionsWrapper}>
@@ -231,7 +286,7 @@ export const EditMeetupPage = () => {
               style={{ width: '128px' }}
               onClick={update}
             >
-              Сохранить
+              <FormattedMessage id="buttons.save" defaultMessage="Сохранить" />
             </Button>
           </div>
         </div>
@@ -242,7 +297,10 @@ export const EditMeetupPage = () => {
           className={styles.header}
           component={TypographyComponent.Heading2}
         >
-          Предпросмотр Митапа
+          <FormattedMessage
+            id="meetups.previewMeetups.header"
+            defaultMessage="Предпросмотр Митапа"
+          />
         </Typography>
         <div className={styles.headerData}>
           <img
@@ -267,7 +325,14 @@ export const EditMeetupPage = () => {
             component={TypographyComponent.Span}
             className={styles.dataName}
           >
-            {meetup.status === MeetupStatus.DRAFT ? 'Автор' : 'Спикер'}
+            {meetup.status === MeetupStatus.DRAFT ? (
+              <FormattedMessage id="fieldsName.author" defaultMessage="Автор" />
+            ) : (
+              <FormattedMessage
+                id="fieldsName.speaker"
+                defaultMessage="Спикер"
+              />
+            )}
           </Typography>
           <div className={styles.dataContent}>
             {meetup.status === MeetupStatus.DRAFT ? (
@@ -287,7 +352,10 @@ export const EditMeetupPage = () => {
             component={TypographyComponent.Span}
             className={styles.dataName}
           >
-            Описание
+            <FormattedMessage
+              id="fieldsName.description"
+              defaultMessage="Описание"
+            />
           </Typography>
           <div className={styles.dataContent}>
             <Typography
@@ -305,7 +373,7 @@ export const EditMeetupPage = () => {
             onClick={() => setHiddenPreview(true)}
             style={{ width: '128px' }}
           >
-            Отмена
+            <FormattedMessage id="buttons.cancel" defaultMessage="Отмена" />
           </Button>
           <div className={styles.actionsWrapper}>
             <Button
@@ -313,7 +381,7 @@ export const EditMeetupPage = () => {
               style={{ width: '128px' }}
               onClick={update}
             >
-              Сохранить
+              <FormattedMessage id="buttons.save" defaultMessage="Сохранить" />
             </Button>
           </div>
         </div>

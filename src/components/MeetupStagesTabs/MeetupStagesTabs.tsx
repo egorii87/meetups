@@ -1,6 +1,7 @@
 import React from 'react';
 import classNames from 'classnames';
 import { NavLink, Outlet } from 'react-router-dom';
+import { FormattedMessage } from 'react-intl';
 
 import {
   Typography,
@@ -21,26 +22,46 @@ enum MeetupTabLink {
 export const meetupTabsLinks = Object.values(MeetupTabLink);
 
 type MeetupTabDescriptor = {
-  label: string;
+  label: string | JSX.Element;
   component: React.ReactNode | JSX.Element;
 };
 
 export const meetupTabToDescriptor: Record<MeetupTabLink, MeetupTabDescriptor> =
   {
     [MeetupTabLink.Topics]: {
-      label: 'Темы',
+      label: (
+        <FormattedMessage
+          id="meetups.tabs.stepper.topics"
+          defaultMessage="Темы"
+        />
+      ),
       component: <MeetupTabContent variant={MeetupCardVariant.Topic} />,
     },
     [MeetupTabLink.OnModeration]: {
-      label: 'На модерации',
+      label: (
+        <FormattedMessage
+          id="meetups.tabs.stepper.moderation"
+          defaultMessage="На модерации"
+        />
+      ),
       component: <MeetupTabContent variant={MeetupCardVariant.OnModeration} />,
     },
     [MeetupTabLink.Upcoming]: {
-      label: 'Будущие',
+      label: (
+        <FormattedMessage
+          id="meetups.tabs.stepper.future"
+          defaultMessage="Будущие"
+        />
+      ),
       component: <MeetupTabContent variant={MeetupCardVariant.Upcoming} />,
     },
     [MeetupTabLink.Finished]: {
-      label: 'Прошедшие',
+      label: (
+        <FormattedMessage
+          id="meetups.tabs.stepper.past"
+          defaultMessage="Прошедшие"
+        />
+      ),
       component: <MeetupTabContent variant={MeetupCardVariant.Finished} />,
     },
   };

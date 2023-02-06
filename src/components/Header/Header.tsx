@@ -5,10 +5,13 @@ import { FormattedMessage } from 'react-intl';
 
 import { Typography, UserPreview, UserPreviewVariant } from 'components';
 import { ShortUser } from 'model';
-import { SelectLang } from 'lang/SelectLang';
 
 import styles from './Header.module.scss';
 import logo from 'assets/images/logo.svg';
+
+interface HeaderProps {
+  selectLang?: () => JSX.Element;
+}
 
 const user: ShortUser = {
   id: 'AAA-AAA',
@@ -16,7 +19,7 @@ const user: ShortUser = {
   surname: 'Richards',
 };
 
-export const Header = (): JSX.Element => (
+export const Header = ({ selectLang }: HeaderProps): JSX.Element => (
   <header className={styles.header}>
     <div className={styles.container}>
       <div className={styles.navWrapper}>
@@ -47,7 +50,7 @@ export const Header = (): JSX.Element => (
             </Typography>
           </NavLink>
         </nav>
-        <SelectLang />
+        {selectLang && selectLang()}
         <UserPreview variant={UserPreviewVariant.Header} user={user} />
       </div>
 

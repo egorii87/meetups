@@ -1,3 +1,4 @@
+import { FormattedMessage } from 'react-intl';
 import { Stepper, StepInfo } from 'components';
 import { RequiredFields, AdditionalFields } from 'pages';
 import { NewMeetup, ShortUser } from 'model';
@@ -24,12 +25,24 @@ export const meetup: NewMeetup = {
 export const CreateMeetup = () => {
   const steps: StepInfo[] = [
     {
-      title: 'Обязательные поля',
+      title: (
+        <FormattedMessage
+          id="meetups.stepper.steps.requiredFields"
+          defaultMessage="Обязательные поля"
+        />
+      ),
+      key: 'Обязательные поля',
       element: RequiredFields,
       noVerify: false,
     },
     {
-      title: 'Дополнительные поля',
+      title: (
+        <FormattedMessage
+          id="meetups.stepper.steps.additionalFields"
+          defaultMessage="Дополнительные поля"
+        />
+      ),
+      key: 'Дополнительные поля',
       element: AdditionalFields,
       noVerify: false,
     },
@@ -43,7 +56,9 @@ export const CreateMeetup = () => {
     <div className={styles.wrapper}>
       <Stepper
         steps={steps}
-        finishButtonContent="Создать"
+        finishButtonContent={
+          <FormattedMessage id="buttons.create" defaultMessage="Создать" />
+        }
         onFinish={onFinishCheck}
       />
     </div>

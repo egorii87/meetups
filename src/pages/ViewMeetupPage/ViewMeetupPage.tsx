@@ -1,5 +1,6 @@
 import { useNavigate, useParams } from 'react-router';
 import classNames from 'classnames';
+import { FormattedMessage } from 'react-intl';
 
 import {
   Button,
@@ -45,7 +46,7 @@ export const ViewMeetupPage = () => {
             component={TypographyComponent.Span}
             className={styles.dataName}
           >
-            Название
+            <FormattedMessage id="fieldsName.title" defaultMessage="Название" />
           </Typography>
           <div className={styles.dataContent}>
             <Typography
@@ -105,7 +106,10 @@ export const ViewMeetupPage = () => {
           component={TypographyComponent.Span}
           className={styles.dataName}
         >
-          Время и место проведения
+          <FormattedMessage
+            id="fieldsName.timeAndLocation"
+            defaultMessage="Время и место проведения"
+          />
         </Typography>
         <div className={styles.dataContent}>
           <div className={styles.timePlaceInfo}>
@@ -139,7 +143,11 @@ export const ViewMeetupPage = () => {
         component={TypographyComponent.Span}
         className={styles.dataName}
       >
-        {meetup.status === MeetupStatus.DRAFT ? 'Автор' : 'Спикер'}
+        {meetup.status === MeetupStatus.DRAFT ? (
+          <FormattedMessage id="fieldsName.author" defaultMessage="Автор" />
+        ) : (
+          <FormattedMessage id="fieldsName.speaker" defaultMessage="Спикер" />
+        )}
       </Typography>
       <div className={styles.dataContent}>
         {meetup.status === MeetupStatus.DRAFT ? (
@@ -168,7 +176,10 @@ export const ViewMeetupPage = () => {
           component={TypographyComponent.Span}
           className={styles.dataName}
         >
-          Поддерживают
+          <FormattedMessage
+            id="fieldsName.support"
+            defaultMessage="Поддерживают"
+          />
         </Typography>
         <div className={classNames(styles.dataContent, styles.votedUsers)}>
           {previewVotedUsers.map((user: ShortUser) => (
@@ -192,7 +203,7 @@ export const ViewMeetupPage = () => {
     return (
       <div className={classNames(styles.dataContent, styles.actions)}>
         <Button variant={ButtonVariant.Default} onClick={() => navigate(-1)}>
-          Назад
+          <FormattedMessage id="buttons.back" defaultMessage="Назад" />
         </Button>
         {meetup.status === MeetupStatus.DRAFT && (
           <div className={styles.actionsWrapper}>
@@ -204,9 +215,14 @@ export const ViewMeetupPage = () => {
                 navigate('/meetups/topics');
               }}
             >
-              Удалить
+              <FormattedMessage id="buttons.delete" defaultMessage="Удалить" />
             </Button>
-            <Button variant={ButtonVariant.Primary}>Одобрить тему</Button>
+            <Button variant={ButtonVariant.Primary}>
+              <FormattedMessage
+                id="buttons.approveTopic"
+                defaultMessage="Одобрить тему"
+              />
+            </Button>
           </div>
         )}
         {meetup.status === MeetupStatus.REQUEST && (
@@ -219,9 +235,14 @@ export const ViewMeetupPage = () => {
                 navigate('/meetups/moderation');
               }}
             >
-              Удалить
+              <FormattedMessage id="buttons.delete" defaultMessage="Удалить" />
             </Button>
-            <Button variant={ButtonVariant.Primary}>Опубликовать</Button>
+            <Button variant={ButtonVariant.Primary}>
+              <FormattedMessage
+                id="buttons.publish"
+                defaultMessage="Опубликовать"
+              />
+            </Button>
           </div>
         )}
         {meetup.status === MeetupStatus.CONFIRMED && (
@@ -233,7 +254,7 @@ export const ViewMeetupPage = () => {
               navigate('/meetups/upcoming');
             }}
           >
-            Удалить
+            <FormattedMessage id="buttons.delete" defaultMessage="Удалить" />
           </Button>
         )}
       </div>
@@ -246,7 +267,17 @@ export const ViewMeetupPage = () => {
         className={styles.heading}
         component={TypographyComponent.Heading1}
       >
-        Просмотр {meetup.status === MeetupStatus.DRAFT ? 'темы' : 'митапа'}
+        {meetup.status === MeetupStatus.DRAFT ? (
+          <FormattedMessage
+            id="meetups.topicsPreview.header"
+            defaultMessage="Просмотр Темы"
+          />
+        ) : (
+          <FormattedMessage
+            id="meetups.meetupsPreview.header"
+            defaultMessage="Просмотр Митапа"
+          />
+        )}
       </Typography>
       <div className={styles.dataWrapper}>
         {renderHeader()}
@@ -257,7 +288,10 @@ export const ViewMeetupPage = () => {
             component={TypographyComponent.Span}
             className={styles.dataName}
           >
-            Описание
+            <FormattedMessage
+              id="fieldsName.description"
+              defaultMessage="Описание"
+            />
           </Typography>
           <div className={styles.dataContent}>
             <Typography

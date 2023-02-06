@@ -2,6 +2,7 @@ import { StepElementProps, TextField } from 'components';
 import { DescriptionText, meetup } from 'pages';
 import { ShortUser } from 'model';
 import { Formik, Form } from 'formik';
+import { FormattedMessage } from 'react-intl';
 import * as yup from 'yup';
 
 import styles from './RequiredFields.module.scss';
@@ -66,13 +67,32 @@ export const RequiredFields = ({ setConfirmed, index }: StepElementProps) => {
               <Form autoComplete="off" className={styles.formStyle}>
                 <TextField
                   name="subject"
-                  labelText="Название"
+                  labelText={
+                    <FormattedMessage
+                      id="fieldsName.title"
+                      defaultMessage="Название"
+                    />
+                  }
                   multiline={false}
                 />
-                <TextField name="author" labelText="Спикер" multiline={false} />
+                <TextField
+                  name="author"
+                  labelText={
+                    <FormattedMessage
+                      id="fieldsName.speaker"
+                      defaultMessage="Спикер"
+                    />
+                  }
+                  multiline={false}
+                />
                 <TextField
                   name="excerpt"
-                  labelText="Описание"
+                  labelText={
+                    <FormattedMessage
+                      id="fieldsName.description"
+                      defaultMessage="Описание"
+                    />
+                  }
                   multiline={true}
                 />
               </Form>

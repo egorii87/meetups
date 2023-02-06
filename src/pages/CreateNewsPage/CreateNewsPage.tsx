@@ -6,6 +6,7 @@ import {
   Button,
   ButtonVariant,
 } from 'components';
+import { FormattedMessage } from 'react-intl';
 import { NewNews } from 'model';
 import { TextField } from 'components';
 import { Formik, Form } from 'formik';
@@ -34,7 +35,10 @@ export const CreateNews = () => {
           className={styles.header}
           component={TypographyComponent.Heading1}
         >
-          Создание Новости
+          <FormattedMessage
+            id="news.createNews.header"
+            defaultMessage="Создание Новости"
+          />
         </Typography>
       </div>
       <div className={styles.inputForm}>
@@ -66,13 +70,32 @@ export const CreateNews = () => {
               <Form autoComplete="off" className={styles.formStyle}>
                 <TextField
                   name="title"
-                  labelText="Заголовок"
+                  labelText={
+                    <FormattedMessage
+                      id="fieldsName.heading"
+                      defaultMessage="Заголовок"
+                    />
+                  }
                   multiline={false}
                 />
-                <TextField name="text" labelText="Текст" multiline={true} />
+                <TextField
+                  name="text"
+                  labelText={
+                    <FormattedMessage
+                      id="fieldsName.text"
+                      defaultMessage="Текст"
+                    />
+                  }
+                  multiline={true}
+                />
                 <ImageUploader
                   name="image"
-                  labelText="Изображение"
+                  labelText={
+                    <FormattedMessage
+                      id="fieldsName.image"
+                      defaultMessage="Изображение"
+                    />
+                  }
                   variant={ImagePreviewMode.Large}
                 />
               </Form>
@@ -86,7 +109,7 @@ export const CreateNews = () => {
           style={{ width: '152px' }}
           onClick={() => navigate(-1)}
         >
-          Назад
+          <FormattedMessage id="buttons.back" defaultMessage="Назад" />
         </Button>
         <div className={styles.actionsWrapper}>
           <Button
@@ -97,7 +120,7 @@ export const CreateNews = () => {
               navigate(-1);
             }}
           >
-            Создать
+            <FormattedMessage id="buttons.create" defaultMessage="Создать" />
           </Button>
         </div>
       </div>

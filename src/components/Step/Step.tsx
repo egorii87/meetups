@@ -7,7 +7,7 @@ import check from './check.svg';
 
 interface StepProps {
   variant: StepVariant;
-  title: string;
+  title: JSX.Element;
   stepNumber: number;
 }
 
