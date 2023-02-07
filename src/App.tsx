@@ -16,12 +16,14 @@ import { meetupStore } from 'stores';
 import { IntlProvider } from 'react-intl';
 import languages_ru from './lang/ru.json';
 import languages_en from './lang/en.json';
+import languages_ua from './lang/ua.json';
 
 import styles from './App.module.scss';
 
 const languages = {
   ru: languages_ru,
   en: languages_en,
+  ua: languages_ua,
 };
 
 function App() {
@@ -42,6 +44,7 @@ function App() {
             }}
           >
             <option value="ru">Русский</option>
+            <option value="ua">Українська</option>
             <option value="en">English</option>
           </select>
         </div>
