@@ -49,13 +49,18 @@ export const MeetupCard = ({ meetup }: MeetupCardProps): JSX.Element => {
 
   const openEditMeetupPage = () => navigate(`/meetups/${id}/edit`);
 
-  let formattedWeekdayShort: string | undefined;
-  let formattedDate: string | undefined;
+  let formattedWeekdayShort: JSX.Element | undefined;
+  let formattedDateDay: string | undefined;
+  let translatedFormattedDateMonth: JSX.Element | string | undefined;
   let formattedTime: string | undefined;
 
   if (start) {
-    ({ formattedWeekdayShort, formattedDate, formattedTime } =
-      parseDateString(start));
+    ({
+      formattedWeekdayShort,
+      formattedDateDay,
+      translatedFormattedDateMonth,
+      formattedTime,
+    } = parseDateString(start));
   }
 
   const getVariant = (): MeetupCardVariant => {
@@ -83,7 +88,8 @@ export const MeetupCard = ({ meetup }: MeetupCardProps): JSX.Element => {
               <>
                 <li className={styles.appointmentItem} key="date">
                   <Typography className={styles.date}>
-                    {`${formattedWeekdayShort}, ${formattedDate}`}
+                    {formattedWeekdayShort} {`${formattedDateDay}`}{' '}
+                    {translatedFormattedDateMonth}
                   </Typography>
                 </li>
                 <li className={styles.appointmentItem} key="time">

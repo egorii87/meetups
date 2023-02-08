@@ -87,10 +87,20 @@ export const ViewMeetupPage = () => {
     let date, time;
 
     if (meetup.start) {
-      const { formattedWeekdayLong, formattedDate, formattedTime } =
-        parseDateString(meetup.start);
+      const {
+        formattedWeekdayLong,
+        formattedDateDay,
+        translatedFormattedDateMonth,
+        formattedTime,
+      } = parseDateString(meetup.start);
 
-      date = `${formattedWeekdayLong}, ${formattedDate}`;
+      date = [
+        formattedWeekdayLong,
+        ', ',
+        `${formattedDateDay}`,
+        ' ',
+        translatedFormattedDateMonth,
+      ];
       time = `${formattedTime}`;
 
       if (meetup.finish) {
@@ -116,7 +126,7 @@ export const ViewMeetupPage = () => {
             <div className={styles.info}>
               <img className={styles.image} src={calendar} alt="Дата" />
               <Typography component={TypographyComponent.Span}>
-                {date || '—'}
+                {date ? date : '—'}
               </Typography>
             </div>
             <div className={styles.info}>
