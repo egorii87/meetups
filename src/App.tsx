@@ -14,43 +14,25 @@ import {
 } from 'pages';
 import { meetupStore } from 'stores';
 import { IntlProvider } from 'react-intl';
+import { LanguageSelector } from 'lang/LanguageSelector';
+
+import styles from './App.module.scss';
 import languages_ru from './lang/ru.json';
 import languages_en from './lang/en.json';
 import languages_ua from './lang/ua.json';
-
-import styles from './App.module.scss';
-
-const languages = {
-  ru: languages_ru,
-  en: languages_en,
-  ua: languages_ua,
-};
 
 function App() {
   (async () => {
     await meetupStore.init();
   })();
 
-  const [language, setLanguage] = useState<string>('ru');
-
-  const selectLanguage = () => {
-    return (
-      <div className="App-header">
-        <div>
-          <select
-            value={language}
-            onChange={(e) => {
-              setLanguage(e.target.value);
-            }}
-          >
-            <option value="ru">Русский</option>
-            <option value="ua">Українська</option>
-            <option value="en">English</option>
-          </select>
-        </div>
-      </div>
-    );
+  const languages = {
+    ru: languages_ru,
+    en: languages_en,
+    ua: languages_ua,
   };
+
+  const [language, setLanguage] = useState<string>('ru');
 
   return (
     <IntlProvider
@@ -58,7 +40,7 @@ function App() {
       messages={languages[language as keyof typeof languages]}
     >
       <BrowserRouter>
-        <Header selectLang={selectLanguage} />
+        <Header SelectLang={LanguageSelector(language, setLanguage)} />
         <main className={styles.container}>
           <Routes>
             <Route path="/" element={<Navigate replace to="/meetups" />} />
