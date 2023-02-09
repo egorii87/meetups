@@ -40,7 +40,11 @@ function App() {
       messages={languages[language as keyof typeof languages]}
     >
       <BrowserRouter>
-        <Header SelectLang={LanguageSelector(language, setLanguage)} />
+        <Header
+          LanguageSelector={
+            <LanguageSelector selectLang={setLanguage} lang={language} />
+          }
+        />
         <main className={styles.container}>
           <Routes>
             <Route path="/" element={<Navigate replace to="/meetups" />} />

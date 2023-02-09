@@ -1,14 +1,19 @@
-export function LanguageSelector(
-  lang: string,
-  sete: React.Dispatch<React.SetStateAction<string>>,
-): JSX.Element {
+type LanguageSelectorprops = {
+  selectLang: (value: string) => void;
+  lang: string;
+};
+
+export function LanguageSelector({
+  selectLang,
+  lang,
+}: LanguageSelectorprops): JSX.Element {
   return (
     <div>
       <div>
         <select
           value={lang}
           onChange={(e) => {
-            sete(e.target.value);
+            selectLang(e.target.value);
           }}
         >
           <option value="ru">Русский</option>

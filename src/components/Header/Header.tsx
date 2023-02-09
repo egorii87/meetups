@@ -10,7 +10,7 @@ import styles from './Header.module.scss';
 import logo from 'assets/images/logo.svg';
 
 interface HeaderProps {
-  SelectLang?: JSX.Element;
+  LanguageSelector?: JSX.Element;
 }
 
 const user: ShortUser = {
@@ -19,7 +19,7 @@ const user: ShortUser = {
   surname: 'Richards',
 };
 
-export const Header = ({ SelectLang }: HeaderProps): JSX.Element => (
+export const Header = ({ LanguageSelector }: HeaderProps): JSX.Element => (
   <header className={styles.header}>
     <div className={styles.container}>
       <div className={styles.navWrapper}>
@@ -50,7 +50,7 @@ export const Header = ({ SelectLang }: HeaderProps): JSX.Element => (
             </Typography>
           </NavLink>
         </nav>
-        {SelectLang}
+        {LanguageSelector}
         <UserPreview variant={UserPreviewVariant.Header} user={user} />
       </div>
 
