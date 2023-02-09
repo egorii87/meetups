@@ -1,5 +1,6 @@
 import { PropsWithChildren, useContext } from 'react';
-
+import { useNavigate } from 'react-router-dom';
+import { FormattedMessage } from 'react-intl';
 import {
   StepperContext,
   StepperContextType,
@@ -30,6 +31,8 @@ export const StepContent = ({
     handlePreviousStep,
   } = useContext(StepperContext) as StepperContextType;
 
+  const navigate = useNavigate();
+
   return (
     <div className={styles.step}>
       <div className={styles.stepBody}>{children}</div>
@@ -39,12 +42,15 @@ export const StepContent = ({
           onClick={handlePreviousStep}
           variant={ButtonVariant.Default}
         >
-          Назад
+          <FormattedMessage id="buttons.back" defaultMessage="Назад" />
         </Button>
 
         {isLast ? (
           <Button
-            onClick={handleFinish}
+            onClick={() => {
+              handleFinish();
+              navigate('/meetups/moderation');
+            }}
             variant={ButtonVariant.Primary}
             disabled={!stepsDescriptor[step].confirmed}
           >
@@ -56,7 +62,7 @@ export const StepContent = ({
             variant={ButtonVariant.Primary}
             disabled={!stepsDescriptor[step].confirmed}
           >
-            Далее
+            <FormattedMessage id="buttons.next" defaultMessage="Далее" />
           </Button>
         )}
       </div>

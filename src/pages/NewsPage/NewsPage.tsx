@@ -1,4 +1,3 @@
-import { getNews } from 'api';
 import {
   Button,
   ButtonVariant,
@@ -9,6 +8,8 @@ import {
 import { News } from 'model';
 import { useEffect, useState } from 'react';
 import { NavLink, useNavigate } from 'react-router-dom';
+import { FormattedMessage } from 'react-intl';
+import { newsStore } from 'stores';
 
 import styles from './NewsPage.module.scss';
 
@@ -20,7 +21,10 @@ export const NewsPage = () => {
   const openCreateNewsPage = () => navigate('/news/create');
 
   useEffect(() => {
-    const fetchNews = async () => setNews(await getNews());
+    const fetchNews = async () => {
+      await newsStore.init();
+      return setNews(newsStore.getAllNews);
+    };
     fetchNews();
   }, []);
 
@@ -31,10 +35,13 @@ export const NewsPage = () => {
           component={TypographyComponent.Heading1}
           className={styles.heading}
         >
-          Новости
+          <FormattedMessage id="news.header" defaultMessage="Новости" />
         </Typography>
         <Button variant={ButtonVariant.Secondary} onClick={openCreateNewsPage}>
-          + Создать новость
+          <FormattedMessage
+            id="buttons.createNews"
+            defaultMessage="+ Создать Новость"
+          />
         </Button>
       </div>
       <ul className={styles.newsList}>

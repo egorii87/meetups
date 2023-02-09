@@ -1,5 +1,6 @@
 import classNames from 'classnames';
 import { Typography, TypographyComponent } from 'components';
+import { FormattedMessage } from 'react-intl';
 import { ReactComponent as ImagePlaceholder } from './assets/image-placeholder.svg';
 import { ReactComponent as CloseIcon } from './assets/close.svg';
 import { ReactComponent as ChangeImageIcon } from './assets/change-photo.svg';
@@ -50,7 +51,11 @@ export const ImagePreview = ({
             component={TypographyComponent.Paragraph}
             className={styles.fileSize}
           >
-            Размер файла: {getFileSizeString(size, 1)}
+            <FormattedMessage
+              id="imageUploader.fileSize"
+              defaultMessage="Размер файла:"
+            />{' '}
+            {getFileSizeString(size, 1)}
           </Typography>
         </div>
       )}

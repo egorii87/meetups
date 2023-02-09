@@ -4,11 +4,10 @@
   flex-direction: column;
   row-gap: 25px;
 
-  &Body {
-    flex: 1;
-  }
-  
   &Actions {
+    min-width: 72px;
+    background-color: white;
+    padding: 16px 38px;
     display: flex;
     justify-content: space-between;
   }

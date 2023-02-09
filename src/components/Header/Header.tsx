@@ -1,6 +1,7 @@
 import React from 'react';
 import { NavLink } from 'react-router-dom';
 import classNames from 'classnames';
+import { FormattedMessage } from 'react-intl';
 
 import { Typography, UserPreview, UserPreviewVariant } from 'components';
 import { ShortUser } from 'model';
@@ -8,13 +9,17 @@ import { ShortUser } from 'model';
 import styles from './Header.module.scss';
 import logo from 'assets/images/logo.svg';
 
+interface HeaderProps {
+  SelectLang?: JSX.Element;
+}
+
 const user: ShortUser = {
   id: 'AAA-AAA',
   name: 'Albert',
   surname: 'Richards',
 };
 
-export const Header = (): JSX.Element => (
+export const Header = ({ SelectLang }: HeaderProps): JSX.Element => (
   <header className={styles.header}>
     <div className={styles.container}>
       <div className={styles.navWrapper}>
@@ -28,7 +33,9 @@ export const Header = (): JSX.Element => (
               })
             }
           >
-            <Typography>Митапы</Typography>
+            <Typography>
+              <FormattedMessage id="mainTabs.meetups" defaultMessage="Митапы" />
+            </Typography>
           </NavLink>
           <NavLink
             to="/news"
@@ -38,9 +45,12 @@ export const Header = (): JSX.Element => (
               })
             }
           >
-            <Typography>Новости</Typography>
+            <Typography>
+              <FormattedMessage id="mainTabs.news" defaultMessage="Новости" />
+            </Typography>
           </NavLink>
         </nav>
+        {SelectLang}
         <UserPreview variant={UserPreviewVariant.Header} user={user} />
       </div>
 
@@ -54,7 +64,9 @@ export const Header = (): JSX.Element => (
               })
             }
           >
-            <Typography>Митапы</Typography>
+            <Typography>
+              <FormattedMessage id="mainTabs.meetups" defaultMessage="Митапы" />
+            </Typography>
           </NavLink>
           <NavLink
             to="/news"
@@ -64,7 +76,9 @@ export const Header = (): JSX.Element => (
               })
             }
           >
-            <Typography>Новости</Typography>
+            <Typography>
+              <FormattedMessage id="mainTabs.news" defaultMessage="Новости" />
+            </Typography>
           </NavLink>
         </nav>
       </div>

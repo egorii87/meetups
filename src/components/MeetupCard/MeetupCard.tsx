@@ -12,6 +12,7 @@ import {
 } from 'components';
 import { parseDateString } from 'helpers';
 import { Meetup, MeetupStatus } from 'model';
+import { meetupStore } from 'stores';
 
 import styles from './MeetupCard.module.scss';
 
@@ -25,6 +26,11 @@ export enum MeetupCardVariant {
   Upcoming = 'upcoming',
   Finished = 'finished',
 }
+
+export const removeMeetup = async (id: string) => {
+  await meetupStore.delete(id);
+  await meetupStore.init();
+};
 
 export const MeetupCard = ({ meetup }: MeetupCardProps): JSX.Element => {
   const {
@@ -43,13 +49,18 @@ export const MeetupCard = ({ meetup }: MeetupCardProps): JSX.Element => {
 
   const openEditMeetupPage = () => navigate(`/meetups/${id}/edit`);
 
-  let formattedWeekdayShort: string | undefined;
-  let formattedDate: string | undefined;
+  let formattedWeekdayShort: JSX.Element | undefined;
+  let formattedDateDay: string | undefined;
+  let translatedFormattedDateMonth: JSX.Element | string | undefined;
   let formattedTime: string | undefined;
 
   if (start) {
-    ({ formattedWeekdayShort, formattedDate, formattedTime } =
-      parseDateString(start));
+    ({
+      formattedWeekdayShort,
+      formattedDateDay,
+      translatedFormattedDateMonth,
+      formattedTime,
+    } = parseDateString(start));
   }
 
   const getVariant = (): MeetupCardVariant => {
@@ -77,7 +88,8 @@ export const MeetupCard = ({ meetup }: MeetupCardProps): JSX.Element => {
               <>
                 <li className={styles.appointmentItem} key="date">
                   <Typography className={styles.date}>
-                    {`${formattedWeekdayShort}, ${formattedDate}`}
+                    {formattedWeekdayShort} {`${formattedDateDay}`}{' '}
+                    {translatedFormattedDateMonth}
                   </Typography>
                 </li>
                 <li className={styles.appointmentItem} key="time">
@@ -97,7 +109,12 @@ export const MeetupCard = ({ meetup }: MeetupCardProps): JSX.Element => {
           </ul>
         )}
         <div className={styles.controls}>
-          <DeleteButton />
+          <DeleteButton
+            onClick={(e) => {
+              e.preventDefault();
+              removeMeetup(id);
+            }}
+          />
           {status !== MeetupStatus.DRAFT && (
             <EditButton
               onClick={(e) => {

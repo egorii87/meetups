@@ -19,7 +19,7 @@ export type InputRenderProps = FieldProps & {
 
 export interface InputFieldExternalProps {
   name: string;
-  labelText?: string;
+  labelText?: string | JSX.Element;
   successText?: string;
   hintText?: string;
 }

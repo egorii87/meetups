@@ -1,5 +1,5 @@
 import { ComponentStory, ComponentMeta } from '@storybook/react';
-
+import { FormattedMessage } from 'react-intl';
 import { StepElementProps, Stepper } from 'components';
 
 /* Mocked steps */
@@ -35,8 +35,9 @@ const steps = [
   },
 ];
 
-export default {
-  title: 'Components/Stepper',
+/* export default {
+  title: <FormattedMessage id="meetups.stepper.steps.additionalFields" defaultMessage="Дополнительные поля" />,,
+  key: 'Components/Stepper',
   component: Stepper,
   parameters: {
     layout: 'centered',
@@ -45,7 +46,7 @@ export default {
     steps: steps,
     onFinish: () => alert('Something is done!'),
   },
-} as ComponentMeta<typeof Stepper>;
+} as ComponentMeta<typeof Stepper>;  */
 
 const Template: ComponentStory<typeof Stepper> = (args) => (
   <div style={{ width: '550px' }}>

@@ -23,4 +23,4 @@ export interface Meetup {
   votedUsers?: ShortUser[];
 }
 
-export type NewMeetup = Omit<Meetup, 'id'>;
+export type NewMeetup = Omit<Meetup, 'id' | 'goCount' | 'status' | 'isOver'>;

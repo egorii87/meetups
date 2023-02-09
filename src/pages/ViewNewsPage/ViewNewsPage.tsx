@@ -1,5 +1,6 @@
 import { useLocation, useNavigate, useParams } from 'react-router';
 import classNames from 'classnames';
+import { FormattedMessage } from 'react-intl';
 
 import {
   Button,
@@ -65,14 +66,14 @@ export const ViewNewsPage = () => {
     return (
       <div className={classNames(styles.textSection, styles.actions)}>
         <Button variant={ButtonVariant.Default} onClick={handleBack}>
-          Назад
+          <FormattedMessage id="buttons.back" defaultMessage="Назад" />
         </Button>
         <div className={styles.actionGroup}>
-          <Button 
-            variant={ButtonVariant.Secondary} 
-            onClick={handleEdit}
-          >
-            Редактировать
+          <Button variant={ButtonVariant.Secondary} onClick={handleEdit}>
+            <FormattedMessage
+              id="buttons.edit"
+              defaultMessage="Редактировать"
+            />
           </Button>
         </div>
       </div>
@@ -85,7 +86,10 @@ export const ViewNewsPage = () => {
         className={styles.heading}
         component={TypographyComponent.Heading1}
       >
-        Просмотр новости
+        <FormattedMessage
+          id="news.previewNews.header"
+          defaultMessage="Просмотр новости"
+        />
       </Typography>
       <div className={styles.contentWrapper}>
         {renderImage()}

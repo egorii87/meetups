@@ -1,5 +1,6 @@
 import { ReactComponent as ProfileIcon } from './profile.svg';
 import { Typography, TypographyComponent } from 'components';
+import { FormattedMessage } from 'react-intl';
 
 import styles from './VotesCount.module.scss';
 
@@ -14,7 +15,8 @@ export const VotesCount = ({ votesCount }: VotesCountProps): JSX.Element => (
       component={TypographyComponent.Paragraph}
       className={styles.text}
     >
-      {votesCount} поддерживают
+      {votesCount}{' '}
+      <FormattedMessage id="fieldsName.support" defaultMessage="Поддерживают" />
     </Typography>
   </div>
 );

@@ -1,4 +1,4 @@
-import { getMeetup } from 'api';
+import { meetupStore } from 'stores';
 import { AxiosError } from 'axios';
 import { Meetup } from 'model';
 import { useEffect, useState } from 'react';
@@ -7,9 +7,9 @@ type UseMeetupQueryResult = {
   meetup?: Meetup | null;
   isLoading: boolean;
   error: string | null;
-}
+};
 
-export function useMeetupQuery(id: string) : UseMeetupQueryResult {
+export function useMeetupQuery(id: string): UseMeetupQueryResult {
   const [meetup, setMeetup] = useState<Meetup | null>();
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [error, setError] = useState<string | null>(null);
@@ -18,13 +18,12 @@ export function useMeetupQuery(id: string) : UseMeetupQueryResult {
     (async () => {
       setIsLoading(true);
       try {
-        setMeetup(await getMeetup(id));
-      }
-      catch(e) {
+        setMeetup(await meetupStore.get(id));
+      } catch (e) {
         const error = e as AxiosError;
         const status = error.response?.status;
 
-        switch(status){
+        switch (status) {
           case 404:
             setError('Митап не найден!');
             setMeetup(null);
@@ -32,13 +31,11 @@ export function useMeetupQuery(id: string) : UseMeetupQueryResult {
           default:
             setError('Что-то пошло не так!');
         }
-      }
-      finally {
+      } finally {
         setIsLoading(false);
       }
     })();
   }, [id]);
-
 
   return {
     meetup,
