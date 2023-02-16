@@ -1,3 +1,5 @@
+import styles from './LanguageSelector.module.scss';
+
 type LanguageSelectorprops = {
   selectLang: (value: string) => void;
   lang: string;
@@ -11,6 +13,7 @@ export function LanguageSelector({
     <div>
       <div>
         <select
+          className={styles.select}
           value={lang}
           onChange={(e) => {
             selectLang(e.target.value);
