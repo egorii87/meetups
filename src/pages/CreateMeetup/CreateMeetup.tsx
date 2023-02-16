@@ -3,6 +3,7 @@ import { Stepper, StepInfo } from 'components';
 import { RequiredFields, AdditionalFields } from 'pages';
 import { NewMeetup, ShortUser } from 'model';
 import { meetupStore } from 'stores';
+import { image64 } from 'pages';
 
 import styles from './CreateMeetup.module.scss';
 
@@ -49,7 +50,8 @@ export const CreateMeetup = () => {
   ];
 
   let onFinishCheck = async () => {
-    await meetupStore.create(meetup);
+    const updatedMeetup = await meetupStore.create(meetup);
+    localStorage.setItem(updatedMeetup.id, image64);
   };
 
   return (
@@ -61,6 +63,7 @@ export const CreateMeetup = () => {
         }
         onFinish={onFinishCheck}
       />
+      <div className={styles.backgroung}></div>
     </div>
   );
 };

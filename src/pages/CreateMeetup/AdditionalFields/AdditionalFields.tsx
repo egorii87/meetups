@@ -19,6 +19,8 @@ type AdditionalFieldsValues = {
   image?: File;
 };
 
+export let image64: string;
+
 export const AdditionalFields = ({ setConfirmed, index }: StepElementProps) => {
   return (
     <div>
@@ -34,7 +36,6 @@ export const AdditionalFields = ({ setConfirmed, index }: StepElementProps) => {
           validationSchema={yup.object().shape({
             start: yup.date().typeError('Укажите дату и время начала митапа'),
             finish: yup.date().typeError('Укажите дату и время конца митапа'),
-            place: yup.string().required(`Это поле обязательно`),
           })}
           onSubmit={(values: AdditionalFieldsValues, { setSubmitting }) => {
             console.log(values);
@@ -46,6 +47,16 @@ export const AdditionalFields = ({ setConfirmed, index }: StepElementProps) => {
               meetup.finish = values.finish?.toJSON();
               meetup.place = values.place;
               meetup.image = values.image;
+            }
+            if (!!values.image) {
+              const fr = new FileReader();
+              fr.readAsDataURL(values.image);
+              fr.addEventListener('load', () => {
+                const res = fr.result;
+                if (typeof res === 'string') {
+                  image64 = res;
+                }
+              });
             }
             setConfirmed(
               index,
