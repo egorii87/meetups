@@ -11,6 +11,7 @@ import {
   ViewNewsPage,
   CreateNews,
   EditNewsPage,
+  LoginPage,
 } from 'pages';
 import { meetupStore } from 'stores';
 import { IntlProvider } from 'react-intl';
@@ -47,6 +48,9 @@ function App() {
         />
         <main className={styles.container}>
           <Routes>
+            <Route path="login">
+              <Route index element={<LoginPage />} />
+            </Route>
             <Route path="/" element={<Navigate replace to="/meetups" />} />
             <Route path="meetups">
               <Route element={<MeetupPage />}>
