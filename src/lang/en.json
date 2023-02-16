@@ -40,6 +40,7 @@
   "buttons.create": "Create",
   "buttons.edit": "Edit",
   "buttons.next": "Next",
+  "buttons.signIn": "Sign in",
   "mainTabs.meetups": "Meetups",
   "mainTabs.news": "News",
   "imageUploader.mainText.text": "Drag image here",
@@ -88,5 +89,6 @@
   "meetupCar.month.sep": "September",
   "meetupCar.month.oct": "October",
   "meetupCar.month.nov": "November",
-  "meetupCar.month.dec": "December"
+  "meetupCar.month.dec": "December",
+  "login": "Login"
 }

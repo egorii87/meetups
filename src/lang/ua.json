@@ -40,6 +40,7 @@
   "buttons.create": "Створити",
   "buttons.edit": "Редагувати",
   "buttons.next": "Далі",
+  "buttons.signIn": "Увійти",
   "mainTabs.meetups": "Мітапи",
   "mainTabs.news": "Новини",
   "imageUploader.mainText.text": "Перетягніть зображення сюди",
@@ -88,5 +89,6 @@
   "meetupCar.month.sep": "вересня",
   "meetupCar.month.oct": "жовтня",
   "meetupCar.month.nov": "листопада",
-  "meetupCar.month.dec": "грудня"
+  "meetupCar.month.dec": "грудня",
+  "login": "Логiн"
 }
