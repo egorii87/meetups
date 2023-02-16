@@ -34,6 +34,11 @@ export const EditNewsPage = () => {
     navigate('/news');
   };
 
+  let remove = async () => {
+    !!id && (await newsStore.remove(id));
+    navigate('/news');
+  };
+
   if (isLoading || newsArticle === undefined) {
     return <div>Загрузка...</div>;
   }
@@ -50,7 +55,7 @@ export const EditNewsPage = () => {
       >
         <FormattedMessage
           id="news.editNews.header"
-          defaultMessage="Редактирвоание Новости"
+          defaultMessage="Редактирование Новости"
         />
       </Typography>
       <div className={styles.wrapper}>
@@ -121,15 +126,21 @@ export const EditNewsPage = () => {
         >
           <FormattedMessage id="buttons.back" defaultMessage="Назад" />
         </Button>
-        <div className={styles.actionsWrapper}>
-          <Button
-            variant={ButtonVariant.Primary}
-            style={{ width: '152px' }}
-            onClick={update}
-          >
-            <FormattedMessage id="buttons.save" defaultMessage="Сохранить" />
-          </Button>
-        </div>
+
+        <Button
+          variant={ButtonVariant.Default}
+          onClick={remove}
+          style={{ width: '152px', marginRight: '10px' }}
+        >
+          <FormattedMessage id="buttons.delete" defaultMessage="Удалить" />
+        </Button>
+        <Button
+          variant={ButtonVariant.Primary}
+          style={{ width: '152px' }}
+          onClick={update}
+        >
+          <FormattedMessage id="buttons.save" defaultMessage="Сохранить" />
+        </Button>
       </div>
     </div>
   );

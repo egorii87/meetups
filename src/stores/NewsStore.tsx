@@ -1,7 +1,12 @@
 import { observable, computed, action } from 'mobx';
 
 import { News, NewNews } from 'model';
-import { getNews, createNewsArticle, updateNewsArticle } from 'api';
+import {
+  getNews,
+  createNewsArticle,
+  updateNewsArticle,
+  deleteNewsArticle,
+} from 'api';
 
 export class NewsStore {
   @observable news: News[] = [];
@@ -23,6 +28,11 @@ export class NewsStore {
   @action.bound
   async update(news: News) {
     return await updateNewsArticle(news);
+  }
+
+  @action.bound
+  async remove(id: string) {
+    return await deleteNewsArticle(id);
   }
 
   constructor() {}
