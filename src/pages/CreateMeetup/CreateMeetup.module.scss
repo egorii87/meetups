@@ -3,4 +3,16 @@
 
 .wrapper {
   width: 550px;
+  height: 100%;
+}
+
+.backgroung {
+  position: absolute;
+  right: 0;
+  bottom: -60px;
+  background: url('background-img.png') right bottom no-repeat;
+  background-size: 630px;
+  width: 630px;
+  height: 474px;
+  z-index: -1;
 }
