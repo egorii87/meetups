@@ -38,6 +38,15 @@ export const ViewMeetupPage = () => {
     return <NotFoundPage />;
   }
 
+  const renderImg = () => {
+    if (!!id) {
+      let image = localStorage.getItem(id);
+      if (image) {
+        return image;
+      }
+    }
+  };
+
   const renderHeader = () => {
     if (meetup.status === MeetupStatus.DRAFT) {
       return (
@@ -64,7 +73,7 @@ export const ViewMeetupPage = () => {
       <div className={styles.headerData}>
         <img
           className={styles.image}
-          src={defaultImage}
+          src={renderImg() || defaultImage}
           alt="Изображение митапа"
         />
         <div className={styles.headerDataContent}>
