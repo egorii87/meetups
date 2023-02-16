@@ -71,6 +71,7 @@ export class MeetupStore {
 
   @action.bound
   async delete(id: string) {
+    localStorage.removeItem(id);
     return await deleteMeetup(id);
   }
 
