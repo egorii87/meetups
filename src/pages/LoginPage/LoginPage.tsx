@@ -15,12 +15,10 @@ const schema = Yup.object().shape({
 export const LoginPage = () => {
   return (
     <>
-      {/* Wrapping form inside formik tag and passing our schema to validationSchema prop */}
       <Formik
         validationSchema={schema}
         initialValues={{ username: '', password: '' }}
         onSubmit={(values) => {
-          // Alert the input values of the form that we filled
           alert(JSON.stringify(values));
         }}
       >
@@ -34,12 +32,10 @@ export const LoginPage = () => {
         }) => (
           <div className={styles.login}>
             <div className={styles.form}>
-              {/* Passing handleSubmit parameter tohtml form onSubmit property */}
               <form noValidate onSubmit={handleSubmit}>
                 <Typography>
                   <FormattedMessage id="login" defaultMessage="Логин" />
                 </Typography>
-                {/* Our input html with passing formik parameters like handleChange, values, handleBlur to input properties */}
                 <input
                   type="text"
                   name="username"
@@ -50,11 +46,9 @@ export const LoginPage = () => {
                   className="form-control inp_text"
                   id="username"
                 />
-                {/* If validation is not passed show errors */}
                 <p className={styles.error}>
                   {errors.username && touched.username && errors.username}
                 </p>
-                {/* Our input html with passing formik parameters like handleChange, values, handleBlur to input properties */}
                 <input
                   type="password"
                   name="password"
@@ -64,14 +58,12 @@ export const LoginPage = () => {
                   placeholder="Enter password"
                   className="form-control"
                 />
-                {/* If validation is not passed show errors */}
                 <p className={styles.error}>
                   {errors.password && touched.password && errors.password}
                 </p>
-                {/* Click on submit button to submit the form */}
                 <Button
                   variant={ButtonVariant.Primary}
-                  style={{ width: '270px' }}
+                  className={styles.loginButton}
                 >
                   <FormattedMessage
                     id="buttons.signIn"
