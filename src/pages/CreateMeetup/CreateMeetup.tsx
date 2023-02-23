@@ -50,8 +50,8 @@ export const CreateMeetup = () => {
   ];
 
   let onFinishCheck = async () => {
-    const updatedMeetup = await meetupStore.create(meetup);
-    localStorage.setItem(updatedMeetup.id, image64);
+    const newMeetup = await meetupStore.create(meetup);
+    localStorage.setItem(newMeetup.id, image64);
   };
 
   return (
