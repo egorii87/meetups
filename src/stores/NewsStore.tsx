@@ -32,6 +32,7 @@ export class NewsStore {
 
   @action.bound
   async remove(id: string) {
+    localStorage.removeItem(id);
     return await deleteNewsArticle(id);
   }
 
