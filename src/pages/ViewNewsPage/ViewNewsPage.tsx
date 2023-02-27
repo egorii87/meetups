@@ -12,7 +12,6 @@ import { useNewsArticleQuery } from 'hooks';
 import { NotFoundPage } from 'pages';
 
 import styles from './ViewNewsPage.module.scss';
-import defaultImage from 'assets/images/default-background-blue.jpg';
 
 export const ViewNewsPage = () => {
   const { id } = useParams();
@@ -22,6 +21,21 @@ export const ViewNewsPage = () => {
 
   const handleBack = (): void => navigate(-1);
   const handleEdit = (): void => navigate(pathname + '/edit');
+
+  const renderImg = () => {
+    if (!!id) {
+      let image = localStorage.getItem(id);
+      if (image) {
+        return image;
+      }
+    }
+  };
+
+  const renderHostingImg = () => {
+    if (typeof image === 'string' && !!image) {
+      return image;
+    }
+  };
 
   if (isLoading || newsArticle === undefined) {
     return <div>Загрузка...</div>;
@@ -38,7 +52,7 @@ export const ViewNewsPage = () => {
       <figure className={classNames(styles.section, styles.imageWrapper)}>
         <img
           className={styles.image}
-          src={image ?? defaultImage}
+          src={renderImg() || renderHostingImg()}
           alt="Изображение новости"
         />
       </figure>
