@@ -1,6 +1,7 @@
 import { Typography, TypographyComponent } from 'components';
 import { parseDateString } from 'helpers';
 import { News } from 'model';
+
 import styles from './NewsCard.module.scss';
 
 interface NewsCardProps {
@@ -14,10 +15,23 @@ export const NewsCard = ({ news }: NewsCardProps): JSX.Element => {
     dateOptions: { dateStyle: 'short' },
   });
 
+  function renderLocalStorageImg() {
+    let image = localStorage.getItem(news.id);
+    if (image) {
+      return image;
+    }
+  }
+
+  function renderHostingImg() {
+    if (typeof image === 'string' && !!image) {
+      return image;
+    }
+  }
+
   return (
     <article className={styles.news}>
       <figure className={styles.image}>
-        <img src={image} alt={title} />
+        <img src={renderLocalStorageImg() || renderHostingImg()} alt={title} />
       </figure>
       <div className={styles.content}>
         <Typography

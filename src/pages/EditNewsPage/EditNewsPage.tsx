@@ -21,7 +21,7 @@ import styles from './EditNewsPage.module.scss';
 type EditNews = {
   title: string;
   text: string;
-  image: string;
+  image?: File;
 };
 
 export const EditNewsPage = () => {
@@ -77,7 +77,6 @@ export const EditNewsPage = () => {
             newsArticle.title = values.title;
             newsArticle.text = values.text;
             newsArticle.image = values.image;
-            console.log(values.image);
           }}
         >
           {() => {

@@ -54,6 +54,27 @@ export const EditMeetupPage = () => {
     surname: '',
   };
 
+  const renderImg = () => {
+    if (!!id) {
+      let image = localStorage.getItem(id);
+      if (image) {
+        return image;
+      }
+    }
+  };
+
+  const convertImage = () => {
+    if (!!id) {
+      let image = localStorage.getItem(id);
+      if (image) {
+        const file = new File([new Blob([image])], 'fileName', {
+          type: 'image/png',
+        });
+        return file;
+      }
+    }
+  };
+
   if (isLoading || meetup === undefined) {
     return <div>Загрузка...</div>;
   }
@@ -133,7 +154,7 @@ export const EditMeetupPage = () => {
   };
 
   return (
-    <div className="">
+    <div>
       <div className={hiddenPreview ? '' : styles.hidden}>
         <Typography
           className={styles.header}
@@ -147,7 +168,7 @@ export const EditMeetupPage = () => {
         <div className={styles.wrapper}>
           <Formik<EditFieldsValues>
             initialValues={{
-              image: meetup.image,
+              image: convertImage(),
               subject: meetup.subject,
               start: changeFormatDate(meetup.start),
               finish: changeFormatDate(meetup.finish),
@@ -171,11 +192,9 @@ export const EditMeetupPage = () => {
               meetup.finish = values.finish?.toJSON();
               meetup.place = values.place;
               meetup.excerpt = values.excerpt;
-              console.log(values.author, values.author.split(' ').length);
               if (values.author.split(' ').length === 1) {
                 console.log(!values.author.split(' ')[1]);
               }
-              //console.log(values.author, values.author.length)
               if (
                 !(
                   values.author.split(' ')[0] === meetup.author.name &&
@@ -315,7 +334,7 @@ export const EditMeetupPage = () => {
         <div className={styles.headerData}>
           <img
             className={styles.image}
-            src={defaultImage}
+            src={renderImg() || defaultImage}
             alt="Изображение митапа"
           />
           <div className={styles.headerDataContent}>
