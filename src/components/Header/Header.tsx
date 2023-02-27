@@ -5,6 +5,7 @@ import { FormattedMessage } from 'react-intl';
 
 import { Typography, UserPreview, UserPreviewVariant } from 'components';
 import { ShortUser } from 'model';
+import { userStore } from 'stores';
 
 import styles from './Header.module.scss';
 import logo from 'assets/images/logo.svg';
@@ -13,10 +14,33 @@ interface HeaderProps {
   LanguageSelector?: JSX.Element;
 }
 
-const user: ShortUser = {
-  id: 'AAA-AAA',
-  name: 'Albert',
-  surname: 'Richards',
+const renderUser = () => {
+  if (userStore.currentUser) {
+    const user: ShortUser = {
+      id: userStore.currentUser?.id,
+      name: userStore.currentUser?.name,
+      surname: userStore.currentUser?.surname,
+    };
+    return <UserPreview variant={UserPreviewVariant.Header} user={user} />;
+  }
+
+  return (
+    <NavLink
+      to="/login"
+      className={({ isActive }) =>
+        classNames(styles.navLink, {
+          [styles.active]: isActive,
+        })
+      }
+    >
+      <Typography>
+        <FormattedMessage
+          id="mainTabs.singin"
+          defaultMessage="Авторизоваться"
+        />
+      </Typography>
+    </NavLink>
+  );
 };
 
 export const Header = ({ LanguageSelector }: HeaderProps): JSX.Element => (
@@ -51,7 +75,7 @@ export const Header = ({ LanguageSelector }: HeaderProps): JSX.Element => (
           </NavLink>
         </nav>
         {LanguageSelector}
-        <UserPreview variant={UserPreviewVariant.Header} user={user} />
+        {renderUser()}
       </div>
 
       <div className={styles.navAdaptiveWrapper}>
