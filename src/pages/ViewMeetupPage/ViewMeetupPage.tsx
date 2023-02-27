@@ -15,6 +15,7 @@ import { MeetupStatus, ShortUser } from 'model';
 import { parseDateString } from 'helpers';
 import { useMeetupQuery } from 'hooks';
 import { NotFoundPage } from 'pages';
+import { meetupStore } from 'stores';
 
 import styles from './ViewMeetupPage.module.scss';
 import defaultImage from 'assets/images/default-image.jpg';
@@ -46,6 +47,14 @@ export const ViewMeetupPage = () => {
       }
     }
   };
+
+  async function approveMeetup() {
+    if (meetup) {
+      meetup.status = MeetupStatus.CONFIRMED;
+      await meetupStore.edit(meetup);
+      navigate('/meetups/upcoming');
+    }
+  }
 
   const renderHeader = () => {
     if (meetup.status === MeetupStatus.DRAFT) {
@@ -256,7 +265,7 @@ export const ViewMeetupPage = () => {
             >
               <FormattedMessage id="buttons.delete" defaultMessage="Удалить" />
             </Button>
-            <Button variant={ButtonVariant.Primary}>
+            <Button variant={ButtonVariant.Primary} onClick={approveMeetup}>
               <FormattedMessage
                 id="buttons.publish"
                 defaultMessage="Опубликовать"
