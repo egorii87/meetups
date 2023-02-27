@@ -1,25 +1,30 @@
 import { Formik } from 'formik';
 import * as Yup from 'yup';
+import { useNavigate } from 'react-router';
 import { Button, ButtonVariant, Typography } from 'components';
 import { FormattedMessage } from 'react-intl';
+import { userStore } from 'stores';
 
 import styles from './LoginPage.module.scss';
 
 const schema = Yup.object().shape({
-  username: Yup.string().required('Email is a required field'),
+  username: Yup.string().required('Login is a required field'),
   password: Yup.string()
     .required('Password is a required field')
-    .min(8, 'Password must be at least 8 characters'),
+    .min(5, 'Password must be at least 5 characters'),
 });
 
 export const LoginPage = () => {
+  const navigate = useNavigate();
+
   return (
     <>
       <Formik
         validationSchema={schema}
         initialValues={{ username: '', password: '' }}
-        onSubmit={(values) => {
-          alert(JSON.stringify(values));
+        onSubmit={async (values) => {
+          await userStore.login(values);
+          navigate('/meetups');
         }}
       >
         {({
@@ -64,6 +69,7 @@ export const LoginPage = () => {
                 <Button
                   variant={ButtonVariant.Primary}
                   className={styles.loginButton}
+                  type="submit"
                 >
                   <FormattedMessage
                     id="buttons.signIn"
