@@ -9,7 +9,8 @@ import { News } from 'model';
 import { useEffect, useState } from 'react';
 import { NavLink, useNavigate } from 'react-router-dom';
 import { FormattedMessage } from 'react-intl';
-import { newsStore } from 'stores';
+import { newsStore, userStore } from 'stores';
+import { UserRole } from 'model';
 
 import styles from './NewsPage.module.scss';
 
@@ -37,12 +38,17 @@ export const NewsPage = () => {
         >
           <FormattedMessage id="news.header" defaultMessage="Новости" />
         </Typography>
-        <Button variant={ButtonVariant.Secondary} onClick={openCreateNewsPage}>
-          <FormattedMessage
-            id="buttons.createNews"
-            defaultMessage="+ Создать Новость"
-          />
-        </Button>
+        {userStore.currentUser?.roles.toLowerCase() === UserRole.CHIEF && (
+          <Button
+            variant={ButtonVariant.Secondary}
+            onClick={openCreateNewsPage}
+          >
+            <FormattedMessage
+              id="buttons.createNews"
+              defaultMessage="+ Создать Новость"
+            />
+          </Button>
+        )}
       </div>
       <ul className={styles.newsList}>
         {news.map((article: News) => (
