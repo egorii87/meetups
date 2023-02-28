@@ -1,6 +1,6 @@
 import { observable, computed, action } from 'mobx';
 
-import { Credentials, User } from 'model';
+import { Credentials, User, ShortUser } from 'model';
 import { login, logout, checkLogin } from 'api';
 
 export class UserStore {
@@ -8,6 +8,18 @@ export class UserStore {
 
   @computed get currentUser() {
     return this.user;
+  }
+
+  @computed get currentShortUser() {
+    if (this.user) {
+      const shortUser: ShortUser = {
+        id: this.user.id,
+        name: this.user.name,
+        surname: this.user.surname,
+      };
+      return shortUser;
+    }
+    return null;
   }
 
   @action.bound
