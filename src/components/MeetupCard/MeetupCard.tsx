@@ -2,6 +2,8 @@ import classNames from 'classnames';
 import { useNavigate } from 'react-router';
 
 import {
+  Button,
+  ButtonVariant,
   DeleteButton,
   EditButton,
   Typography,
@@ -11,8 +13,8 @@ import {
   VotesCount,
 } from 'components';
 import { parseDateString } from 'helpers';
-import { Meetup, MeetupStatus } from 'model';
-import { meetupStore } from 'stores';
+import { Meetup, MeetupStatus, ShortUser } from 'model';
+import { meetupStore, userStore } from 'stores';
 
 import styles from './MeetupCard.module.scss';
 
@@ -62,6 +64,45 @@ export const MeetupCard = ({ meetup }: MeetupCardProps): JSX.Element => {
       formattedTime,
     } = parseDateString(start));
   }
+
+  const renderSupportButton = () => {
+    return (
+      <Button
+        variant={ButtonVariant.Secondary}
+        style={{ width: '130px', height: '20px', borderRadius: '10px' }}
+        disabled={true}
+        onClick={async (e) => {
+          e.preventDefault();
+          if (userStore.currentShortUser) {
+            let result = await meetupStore.deleteVotedUser(
+              id,
+              userStore.currentShortUser,
+            );
+            console.log(result);
+          }
+        }}
+      >
+        Поддерживаете
+      </Button>
+    );
+
+    /* return (
+      <Button
+        variant={ButtonVariant.Primary}
+        
+        style={{ width: '130px', height: '20px', borderRadius: '10px' }}
+        onClick={async (e) => {
+          e.preventDefault();
+          if(userStore.currentShortUser){
+            let result = await meetupStore.addVotingUser(id, userStore.currentShortUser);
+            console.log(result)
+          }
+        }}
+      >
+        Поддержать
+      </Button>
+    ) */
+  };
 
   const getVariant = (): MeetupCardVariant => {
     switch (status) {
@@ -145,7 +186,12 @@ export const MeetupCard = ({ meetup }: MeetupCardProps): JSX.Element => {
 
       <footer className={styles.footer}>
         {status === MeetupStatus.DRAFT ? (
-          goCount > 0 && <VotesCount votesCount={goCount} />
+          goCount > 0 && (
+            <div className={styles.support}>
+              <VotesCount votesCount={goCount} />
+              {renderSupportButton()}
+            </div>
+          )
         ) : (
           <UserPreview user={author} variant={UserPreviewVariant.Card} />
         )}

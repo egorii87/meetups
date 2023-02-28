@@ -88,4 +88,9 @@
       @extend .font-color-gray-02;
     }
   }
+
+  .support {
+    display: flex;
+    justify-content: space-between;
+  }
 }
