@@ -3,6 +3,7 @@ import { parseDateString } from 'helpers';
 import { News } from 'model';
 
 import styles from './NewsCard.module.scss';
+import defaultImage from 'assets/images/default-image.jpg';
 
 interface NewsCardProps {
   news: News;
@@ -22,16 +23,10 @@ export const NewsCard = ({ news }: NewsCardProps): JSX.Element => {
     }
   }
 
-  function renderHostingImg() {
-    if (typeof image === 'string' && !!image) {
-      return image;
-    }
-  }
-
   return (
     <article className={styles.news}>
       <figure className={styles.image}>
-        <img src={renderLocalStorageImg() || renderHostingImg()} alt={title} />
+        <img src={renderLocalStorageImg() || defaultImage} alt={title} />
       </figure>
       <div className={styles.content}>
         <Typography

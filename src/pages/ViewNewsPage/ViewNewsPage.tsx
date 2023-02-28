@@ -12,6 +12,7 @@ import { useNewsArticleQuery } from 'hooks';
 import { NotFoundPage } from 'pages';
 
 import styles from './ViewNewsPage.module.scss';
+import defaultImage from 'assets/images/default-image.jpg';
 
 export const ViewNewsPage = () => {
   const { id } = useParams();
@@ -31,12 +32,6 @@ export const ViewNewsPage = () => {
     }
   };
 
-  const renderHostingImg = () => {
-    if (typeof image === 'string' && !!image) {
-      return image;
-    }
-  };
-
   if (isLoading || newsArticle === undefined) {
     return <div>Загрузка...</div>;
   }
@@ -45,14 +40,14 @@ export const ViewNewsPage = () => {
     return <NotFoundPage />;
   }
 
-  const { image, title, text } = newsArticle;
+  const { title, text } = newsArticle;
 
   const renderImage = (): JSX.Element => {
     return (
       <figure className={classNames(styles.section, styles.imageWrapper)}>
         <img
           className={styles.image}
-          src={renderImg() || renderHostingImg()}
+          src={renderImg() || defaultImage}
           alt="Изображение новости"
         />
       </figure>
