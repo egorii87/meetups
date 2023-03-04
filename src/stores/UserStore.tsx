@@ -1,7 +1,8 @@
 import { observable, computed, action } from 'mobx';
 
-import { Credentials, User, ShortUser } from 'model';
+import { Credentials, User, ShortUser, UserRole } from 'model';
 import { login, logout, checkLogin } from 'api';
+import { makeAutoObservable } from 'mobx';
 
 export class UserStore {
   @observable user?: User;
@@ -33,12 +34,23 @@ export class UserStore {
     await logout();
   }
 
-  /* @action.bound
+  @action.bound
   async checkLogin() {
-    await checkLogin();
-  }   */
+    let res = await checkLogin();
+    if (!this.user) {
+      this.user = res;
+    }
+    return res;
+  }
 
-  constructor() {}
+  @action.bound
+  hasChiefPermission() {
+    return userStore.currentUser?.roles.toLowerCase() === UserRole.CHIEF;
+  }
+
+  constructor() {
+    makeAutoObservable(this);
+  }
 }
 
 export const userStore = new UserStore();
