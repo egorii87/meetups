@@ -1,0 +1,46 @@
+@use 'sass:color';
+@import '~style/colors';
+@import '~style/typography';
+@import '~style/mixins';
+
+.data {
+  display: flex;
+  flex-direction: column;
+  row-gap: 8px;
+
+  &Name {
+    @extend .font-family-primary;
+    @extend .font-weight-regular;
+    @extend .font-size-xs;
+    @extend .font-color-gray-03;
+  }
+
+  &Content {
+    padding: 25px;
+    background: $white-color;
+    box-shadow: 0px 4px 7px color.change($gray-shadow-05-color, $alpha: 0.4);
+    border-radius: 5px;
+  }
+}
+
+.votedUsers {
+  display: flex;
+  justify-content: space-between;
+}
+
+.restCounter {
+  min-width: 50px;
+  min-height: 50px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  border-radius: 50%;
+  background-color: $gray-03-color;
+
+  @extend .font-family-primary;
+  @extend .font-weight-regular;
+  @extend .font-size-s;
+  @extend .font-color-white;
+}
