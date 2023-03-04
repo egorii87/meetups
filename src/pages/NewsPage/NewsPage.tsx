@@ -10,7 +10,6 @@ import { useEffect, useState } from 'react';
 import { NavLink, useNavigate } from 'react-router-dom';
 import { FormattedMessage } from 'react-intl';
 import { newsStore, userStore } from 'stores';
-import { UserRole } from 'model';
 
 import styles from './NewsPage.module.scss';
 
@@ -38,7 +37,7 @@ export const NewsPage = () => {
         >
           <FormattedMessage id="news.header" defaultMessage="Новости" />
         </Typography>
-        {userStore.currentUser?.roles.toLowerCase() === UserRole.CHIEF && (
+        {userStore.hasChiefPermission() && (
           <Button
             variant={ButtonVariant.Secondary}
             onClick={openCreateNewsPage}
