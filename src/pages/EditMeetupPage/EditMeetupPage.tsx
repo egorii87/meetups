@@ -8,6 +8,7 @@ import {
   Button,
   ButtonVariant,
   UserPreview,
+  Loader,
 } from 'components';
 import * as yup from 'yup';
 import { Formik, Form } from 'formik';
@@ -54,15 +55,6 @@ export const EditMeetupPage = () => {
     surname: '',
   };
 
-  const renderImg = () => {
-    if (!!id) {
-      let image = localStorage.getItem(id);
-      if (image) {
-        return image;
-      }
-    }
-  };
-
   const convertImage = () => {
     if (!!id) {
       let image = localStorage.getItem(id);
@@ -76,7 +68,7 @@ export const EditMeetupPage = () => {
   };
 
   if (isLoading || meetup === undefined) {
-    return <div>Загрузка...</div>;
+    return <Loader />;
   }
 
   if (meetup === null) {
@@ -334,7 +326,7 @@ export const EditMeetupPage = () => {
         <div className={styles.headerData}>
           <img
             className={styles.image}
-            src={renderImg() || defaultImage}
+            src={id && (localStorage.getItem(id) || defaultImage)}
             alt="Изображение митапа"
           />
           <div className={styles.headerDataContent}>

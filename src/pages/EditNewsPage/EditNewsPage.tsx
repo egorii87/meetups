@@ -6,6 +6,7 @@ import {
   TextField,
   Button,
   ButtonVariant,
+  Loader,
 } from 'components';
 import * as yup from 'yup';
 import { Formik, Form } from 'formik';
@@ -40,7 +41,7 @@ export const EditNewsPage = () => {
   };
 
   if (isLoading || newsArticle === undefined) {
-    return <div>Загрузка...</div>;
+    return <Loader />;
   }
 
   if (newsArticle === null) {
