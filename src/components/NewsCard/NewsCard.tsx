@@ -16,17 +16,10 @@ export const NewsCard = ({ news }: NewsCardProps): JSX.Element => {
     dateOptions: { dateStyle: 'short' },
   });
 
-  function renderLocalStorageImg() {
-    let image = localStorage.getItem(news.id);
-    if (image) {
-      return image;
-    }
-  }
-
   return (
     <article className={styles.news}>
       <figure className={styles.image}>
-        <img src={renderLocalStorageImg() || defaultImage} alt={title} />
+        <img src={localStorage.getItem(news.id) || defaultImage} alt={title} />
       </figure>
       <div className={styles.content}>
         <Typography
