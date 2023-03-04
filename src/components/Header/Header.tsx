@@ -2,9 +2,9 @@ import React from 'react';
 import { NavLink } from 'react-router-dom';
 import classNames from 'classnames';
 import { FormattedMessage } from 'react-intl';
+import { observer } from 'mobx-react';
 
 import { Typography, UserPreview, UserPreviewVariant } from 'components';
-import { ShortUser } from 'model';
 import { userStore } from 'stores';
 
 import styles from './Header.module.scss';
@@ -14,14 +14,14 @@ interface HeaderProps {
   LanguageSelector?: JSX.Element;
 }
 
-const renderUser = () => {
+const RenderUser = observer(() => {
   if (userStore.currentUser) {
-    const user: ShortUser = {
-      id: userStore.currentUser?.id,
-      name: userStore.currentUser?.name,
-      surname: userStore.currentUser?.surname,
-    };
-    return <UserPreview variant={UserPreviewVariant.Header} user={user} />;
+    return (
+      <UserPreview
+        variant={UserPreviewVariant.Header}
+        user={userStore.currentUser}
+      />
+    );
   }
 
   return (
@@ -41,7 +41,7 @@ const renderUser = () => {
       </Typography>
     </NavLink>
   );
-};
+});
 
 export const Header = ({ LanguageSelector }: HeaderProps): JSX.Element => (
   <header className={styles.header}>
@@ -75,7 +75,7 @@ export const Header = ({ LanguageSelector }: HeaderProps): JSX.Element => (
           </NavLink>
         </nav>
         {LanguageSelector}
-        {renderUser()}
+        <RenderUser />
       </div>
 
       <div className={styles.navAdaptiveWrapper}>
