@@ -7,6 +7,7 @@ import {
   ButtonVariant,
   Typography,
   TypographyComponent,
+  Loader,
 } from 'components';
 import { useNewsArticleQuery } from 'hooks';
 import { NotFoundPage } from 'pages';
@@ -23,17 +24,8 @@ export const ViewNewsPage = () => {
   const handleBack = (): void => navigate(-1);
   const handleEdit = (): void => navigate(pathname + '/edit');
 
-  const renderImg = () => {
-    if (!!id) {
-      let image = localStorage.getItem(id);
-      if (image) {
-        return image;
-      }
-    }
-  };
-
   if (isLoading || newsArticle === undefined) {
-    return <div>Загрузка...</div>;
+    return <Loader />;
   }
 
   if (newsArticle === null) {
@@ -47,7 +39,7 @@ export const ViewNewsPage = () => {
       <figure className={classNames(styles.section, styles.imageWrapper)}>
         <img
           className={styles.image}
-          src={renderImg() || defaultImage}
+          src={id && (localStorage.getItem(id) || defaultImage)}
           alt="Изображение новости"
         />
       </figure>
