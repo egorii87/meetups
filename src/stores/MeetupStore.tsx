@@ -1,6 +1,7 @@
 import { observable, computed, action } from 'mobx';
 
 import { Meetup, NewMeetup, MeetupStatus, ShortUser } from 'model';
+import { userStore } from './UserStore';
 import {
   getMeetups,
   createOneMeetup,
@@ -84,8 +85,23 @@ export class MeetupStore {
   }
 
   @action.bound
+  async approve(id: string) {
+    let approvingMeetup = await getMeetup(id);
+    approvingMeetup.status = MeetupStatus.CONFIRMED;
+    await meetupStore.edit(approvingMeetup);
+  }
+
+  @action.bound
   async getVotedUsers(id: string) {
     return await getVotedUsers(id);
+  }
+
+  @action.bound
+  votedThisMeetup(votedList: ShortUser[]) {
+    let result = votedList.find(
+      (user) => user.id === userStore.currentShortUser?.id,
+    );
+    return !!result;
   }
 
   @action.bound
