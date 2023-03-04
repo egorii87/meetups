@@ -13,7 +13,7 @@ import {
   EditNewsPage,
   LoginPage,
 } from 'pages';
-import { meetupStore } from 'stores';
+import { meetupStore, userStore } from 'stores';
 import { IntlProvider } from 'react-intl';
 import { LanguageSelector } from 'lang/LanguageSelector';
 
@@ -25,6 +25,7 @@ import languages_ua from './lang/ua.json';
 function App() {
   (async () => {
     await meetupStore.init();
+    await userStore.checkLogin();
   })();
 
   const languages = {
