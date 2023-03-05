@@ -1,14 +1,33 @@
-import { observable, computed, action } from 'mobx';
+import { observable, computed, action, makeAutoObservable } from 'mobx';
+import { getUsers } from 'api';
 
 import { Credentials, User, ShortUser, UserRole } from 'model';
 import { login, logout, checkLogin } from 'api';
-import { makeAutoObservable } from 'mobx';
 
 export class UserStore {
   @observable user?: User;
 
+  @observable usersList: User[] = [];
+
   @computed get currentUser() {
     return this.user;
+  }
+
+  @computed get getUsersList() {
+    return this.usersList;
+  }
+
+  @computed get getAuthorList() {
+    return this.usersList.map((value) => {
+      return {
+        value: {
+          id: value.id,
+          name: value.name,
+          surname: value.surname,
+        },
+        label: `${value.name} ${value.surname}`,
+      };
+    });
   }
 
   @computed get currentShortUser() {
@@ -41,6 +60,11 @@ export class UserStore {
       this.user = res;
     }
     return res;
+  }
+
+  @action.bound
+  async initUsersList() {
+    this.usersList = await getUsers();
   }
 
   @action.bound
