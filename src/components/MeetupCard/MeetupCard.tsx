@@ -109,6 +109,7 @@ export const MeetupCard = ({ meetup }: MeetupCardProps): JSX.Element => {
                 e.preventDefault();
                 openEditMeetupPage();
               }}
+              title="Edit meetup"
             />
           )}
         </div>
