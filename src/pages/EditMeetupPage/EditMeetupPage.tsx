@@ -9,6 +9,7 @@ import {
   ButtonVariant,
   UserPreview,
   Loader,
+  MeetupTimePlace,
 } from 'components';
 import * as yup from 'yup';
 import { Formik, Form } from 'formik';
@@ -19,15 +20,11 @@ import classNames from 'classnames';
 import { meetupStore } from 'stores';
 import { ShortUser, MeetupStatus } from 'model';
 import { useState } from 'react';
-import { parseDateString } from 'helpers';
 import { FormattedMessage } from 'react-intl';
+import { convertImageFromBase64toFile } from 'helpers';
 
 import styles from './EditMeetupPage.module.scss';
 import defaultImage from 'assets/images/default-image.jpg';
-import calendar from './assets/calendar.svg';
-import clock from './assets/clock.svg';
-import pin from './assets/pin.svg';
-
 type EditFieldsValues = {
   image?: File;
   subject: string;
@@ -55,17 +52,7 @@ export const EditMeetupPage = () => {
     surname: '',
   };
 
-  const convertImage = () => {
-    if (!!id) {
-      let image = localStorage.getItem(id);
-      if (image) {
-        const file = new File([new Blob([image])], 'fileName', {
-          type: 'image/png',
-        });
-        return file;
-      }
-    }
-  };
+  let image = (id && localStorage.getItem(id)) as string;
 
   if (isLoading || meetup === undefined) {
     return <Loader />;
@@ -79,70 +66,6 @@ export const EditMeetupPage = () => {
     if (!!date) {
       return new Date(date);
     }
-  };
-
-  const renderTimePlace = () => {
-    let date, time;
-
-    if (meetup.start) {
-      const {
-        formattedWeekdayLong,
-        formattedDateDay,
-        translatedFormattedDateMonth,
-        formattedTime,
-      } = parseDateString(meetup.start);
-
-      date = [
-        formattedWeekdayLong,
-        ', ',
-        `${formattedDateDay}`,
-        ' ',
-        translatedFormattedDateMonth,
-      ];
-      time = `${formattedTime}`;
-
-      if (meetup.finish) {
-        const { formattedTime } = parseDateString(meetup.finish);
-
-        time = time + ` — ${formattedTime}`;
-      }
-    }
-
-    return (
-      <div className={styles.data}>
-        <Typography
-          component={TypographyComponent.Span}
-          className={styles.dataName}
-        >
-          <FormattedMessage
-            id="fieldsName.timeAndLocation"
-            defaultMessage="Время и место проведения"
-          />
-        </Typography>
-        <div className={styles.dataContent}>
-          <div className={styles.timePlaceInfo}>
-            <div className={styles.info}>
-              <img className={styles.image} src={calendar} alt="Дата" />
-              <Typography component={TypographyComponent.Span}>
-                {date ? date : '—'}
-              </Typography>
-            </div>
-            <div className={styles.info}>
-              <img className={styles.image} src={clock} alt="Время" />
-              <Typography component={TypographyComponent.Span}>
-                {time || '—'}
-              </Typography>
-            </div>
-            <div className={styles.info}>
-              <img className={styles.image} src={pin} alt="Место" />
-              <Typography component={TypographyComponent.Span}>
-                {meetup.place || '—'}
-              </Typography>
-            </div>
-          </div>
-        </div>
-      </div>
-    );
   };
 
   return (
@@ -160,7 +83,7 @@ export const EditMeetupPage = () => {
         <div className={styles.wrapper}>
           <Formik<EditFieldsValues>
             initialValues={{
-              image: convertImage(),
+              image: image ? convertImageFromBase64toFile(image) : undefined,
               subject: meetup.subject,
               start: changeFormatDate(meetup.start),
               finish: changeFormatDate(meetup.finish),
@@ -178,6 +101,19 @@ export const EditMeetupPage = () => {
               setSubmitting(false); // onSubmit is sync, so need to call this
             }}
             validate={(values) => {
+              if (values.image === null) {
+                id && localStorage.removeItem(id);
+              }
+              if (!!values.image && id) {
+                const fr = new FileReader();
+                fr.readAsDataURL(values.image);
+                fr.addEventListener('load', () => {
+                  const res = fr.result;
+                  if (typeof res === 'string') {
+                    localStorage.setItem(id, res);
+                  }
+                });
+              }
               meetup.image = values.image;
               meetup.subject = values.subject;
               meetup.start = values.start?.toJSON();
@@ -339,7 +275,7 @@ export const EditMeetupPage = () => {
           </div>
         </div>
 
-        {renderTimePlace()}
+        <MeetupTimePlace meetup={meetup} />
 
         <div className={styles.data}>
           <Typography
