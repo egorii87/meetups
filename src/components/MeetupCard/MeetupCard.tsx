@@ -8,7 +8,6 @@ import {
   TypographyComponent,
   UserPreview,
   UserPreviewVariant,
-  VotesCount,
   SupportButton,
 } from 'components';
 import { parseDateString } from 'helpers';
@@ -134,14 +133,11 @@ export const MeetupCard = ({ meetup }: MeetupCardProps): JSX.Element => {
 
       <footer className={styles.footer}>
         {status === MeetupStatus.DRAFT ? (
-          goCount > 0 && (
-            <div className={styles.support}>
-              <VotesCount votesCount={goCount} />
-              {userStore.user && status === MeetupStatus.DRAFT ? (
-                <SupportButton id={id} />
-              ) : null}
-            </div>
-          )
+          <div>
+            {userStore.user && status === MeetupStatus.DRAFT ? (
+              <SupportButton id={id} />
+            ) : null}
+          </div>
         ) : (
           <UserPreview user={author} variant={UserPreviewVariant.Card} />
         )}

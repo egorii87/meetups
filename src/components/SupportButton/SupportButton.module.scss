@@ -2,7 +2,13 @@
 
 .wrapper {
   display: flex;
+  justify-content: space-between;
+}
+
+.iconWrapper {
+  display: flex;
   flex-direction: row;
+  justify-content: space-between;
   align-items: center;
   column-gap: 10px;
 }
