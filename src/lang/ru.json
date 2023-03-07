@@ -91,5 +91,10 @@
   "meetupCar.month.oct": "октября",
   "meetupCar.month.nov": "ноября",
   "meetupCar.month.dec": "декабря",
-  "login": "Логин"
+  "login": "Логин",
+  "logout.name": "Имя пользователя",
+  "logout.role": "Роль",
+  "logout.button": "Выйти",
+  "supportButton.support": "Поддержать",
+  "supportButton.supported": "Поддерживаете"
 }

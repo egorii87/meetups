@@ -91,5 +91,10 @@
   "meetupCar.month.oct": "October",
   "meetupCar.month.nov": "November",
   "meetupCar.month.dec": "December",
-  "login": "Login"
+  "login": "Login",
+  "logout.name": "Username",
+  "logout.role": "Role",
+  "logout.button": "Sign out",
+  "supportButton.support": "Support",
+  "supportButton.supported": "Supported"
 }
