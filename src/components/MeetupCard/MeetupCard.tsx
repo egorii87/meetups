@@ -33,17 +33,7 @@ export const removeMeetup = async (id: string) => {
 };
 
 export const MeetupCard = ({ meetup }: MeetupCardProps): JSX.Element => {
-  const {
-    status,
-    author,
-    start,
-    place,
-    subject,
-    excerpt,
-    goCount,
-    isOver,
-    id,
-  } = meetup;
+  const { status, author, start, place, subject, excerpt, isOver, id } = meetup;
 
   const navigate = useNavigate();
 
@@ -97,21 +87,26 @@ export const MeetupCard = ({ meetup }: MeetupCardProps): JSX.Element => {
           </ul>
         )}
         <div className={styles.controls}>
-          <DeleteButton
-            onClick={(e) => {
-              e.preventDefault();
-              removeMeetup(id);
-            }}
-          />
-          {status !== MeetupStatus.DRAFT && (
-            <EditButton
+          {(userStore.hasChiefPermission() ||
+            userStore.hasPermissionToInteract(author.id)) && (
+            <DeleteButton
               onClick={(e) => {
                 e.preventDefault();
-                openEditMeetupPage();
+                removeMeetup(id);
               }}
-              title="Edit meetup"
             />
           )}
+          {status !== MeetupStatus.DRAFT &&
+            (userStore.hasChiefPermission() ||
+              userStore.hasPermissionToInteract(author.id)) && (
+              <EditButton
+                onClick={(e) => {
+                  e.preventDefault();
+                  openEditMeetupPage();
+                }}
+                title="Edit meetup"
+              />
+            )}
         </div>
       </header>
 

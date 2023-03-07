@@ -11,6 +11,7 @@ import {
 } from 'components';
 import { useNewsArticleQuery } from 'hooks';
 import { NotFoundPage } from 'pages';
+import { userStore } from 'stores';
 
 import styles from './ViewNewsPage.module.scss';
 import defaultImage from 'assets/images/default-image.jpg';
@@ -70,12 +71,14 @@ export const ViewNewsPage = () => {
           <FormattedMessage id="buttons.back" defaultMessage="Назад" />
         </Button>
         <div className={styles.actionGroup}>
-          <Button variant={ButtonVariant.Secondary} onClick={handleEdit}>
-            <FormattedMessage
-              id="buttons.edit"
-              defaultMessage="Редактировать"
-            />
-          </Button>
+          {userStore.hasChiefPermission() && (
+            <Button variant={ButtonVariant.Secondary} onClick={handleEdit}>
+              <FormattedMessage
+                id="buttons.edit"
+                defaultMessage="Редактировать"
+              />
+            </Button>
+          )}
         </div>
       </div>
     );

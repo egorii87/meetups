@@ -10,7 +10,7 @@ import {
   MeetupCardVariant,
 } from 'components';
 import { Meetup } from 'model';
-import { meetupStore } from 'stores';
+import { meetupStore, userStore } from 'stores';
 
 import styles from './MeetupTabContent.module.scss';
 
@@ -163,17 +163,18 @@ export const MeetupTabContent = ({ variant }: MeetupTabContentProps) => {
         <div className={styles.counter}>
           {meetups.length} {getCounterEnding(meetups.length, variant)}
         </div>
-        {variant === MeetupCardVariant.Topic && (
-          <Button
-            variant={ButtonVariant.Secondary}
-            onClick={openCreateMeetupPage}
-          >
-            <FormattedMessage
-              id="buttons.createMeetup"
-              defaultMessage="+ Создать Митап"
-            />
-          </Button>
-        )}
+        {variant === MeetupCardVariant.Topic &&
+          userStore.hasPermissionToCreateMeetup() && (
+            <Button
+              variant={ButtonVariant.Secondary}
+              onClick={openCreateMeetupPage}
+            >
+              <FormattedMessage
+                id="buttons.createMeetup"
+                defaultMessage="+ Создать Митап"
+              />
+            </Button>
+          )}
       </div>
       <div className={styles.topics}>
         {meetups.map((meetup) => (

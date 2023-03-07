@@ -72,6 +72,18 @@ export class UserStore {
     return userStore.currentUser?.roles.toLowerCase() === UserRole.CHIEF;
   }
 
+  @action.bound
+  hasPermissionToCreateMeetup() {
+    if (userStore.currentUser === undefined) return false;
+    else return true;
+  }
+
+  @action.bound
+  hasPermissionToInteract(id: string) {
+    if (this.user?.id === id) return true;
+    else return false;
+  }
+
   constructor() {
     makeAutoObservable(this);
   }
