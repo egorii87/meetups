@@ -18,7 +18,7 @@ import { useMeetupQuery } from 'hooks';
 import { NotFoundPage } from 'pages';
 import classNames from 'classnames';
 import { meetupStore } from 'stores';
-import { ShortUser, MeetupStatus } from 'model';
+import { MeetupStatus } from 'model';
 import { useState } from 'react';
 import { FormattedMessage } from 'react-intl';
 import { convertImageFromBase64toFile } from 'helpers';
@@ -31,7 +31,7 @@ type EditFieldsValues = {
   start?: Date;
   finish?: Date;
   place?: string;
-  author: string;
+  speaker: string;
   excerpt?: string;
 };
 
@@ -44,12 +44,6 @@ export const EditMeetupPage = () => {
   let update = async () => {
     !!meetup && (await meetupStore.edit(meetup));
     navigate('/meetups');
-  };
-
-  const newAthorMeetup: ShortUser = {
-    id: '',
-    name: '',
-    surname: '',
   };
 
   let image = (id && localStorage.getItem(id)) as string;
@@ -88,7 +82,8 @@ export const EditMeetupPage = () => {
               start: changeFormatDate(meetup.start),
               finish: changeFormatDate(meetup.finish),
               place: meetup.place,
-              author: meetup.author.name + ' ' + meetup.author.surname,
+              speaker:
+                meetup.speakers[0].name + ' ' + meetup.speakers[0].surname,
               excerpt: meetup.excerpt,
             }}
             validationSchema={yup.object().shape({
@@ -120,21 +115,6 @@ export const EditMeetupPage = () => {
               meetup.finish = values.finish?.toJSON();
               meetup.place = values.place;
               meetup.excerpt = values.excerpt;
-              if (values.author.split(' ').length === 1) {
-                console.log(!values.author.split(' ')[1]);
-              }
-              if (
-                !(
-                  values.author.split(' ')[0] === meetup.author.name &&
-                  values.author.split(' ')[1] === meetup.author.surname
-                )
-              ) {
-                newAthorMeetup.id = 'ddd-bbb';
-                newAthorMeetup.name = values.author.split(' ')[0];
-                newAthorMeetup.surname = values.author.split(' ')[1];
-                meetup.author = newAthorMeetup;
-                meetup.speakers = [newAthorMeetup];
-              }
             }}
           >
             {() => (
@@ -194,7 +174,7 @@ export const EditMeetupPage = () => {
                   multiline={false}
                 />
                 <TextField
-                  name="author"
+                  name="speaker"
                   labelText={
                     <FormattedMessage
                       id="fieldsName.speaker"

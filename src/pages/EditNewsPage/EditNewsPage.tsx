@@ -16,6 +16,7 @@ import { useNewsArticleQuery } from 'hooks';
 import { NotFoundPage } from 'pages';
 import classNames from 'classnames';
 import { newsStore } from 'stores';
+import { convertImageFromBase64toFile } from 'helpers';
 
 import styles from './EditNewsPage.module.scss';
 
@@ -39,6 +40,8 @@ export const EditNewsPage = () => {
     !!id && (await newsStore.remove(id));
     navigate('/news');
   };
+
+  let image = (id && localStorage.getItem(id)) as string;
 
   if (isLoading || newsArticle === undefined) {
     return <Loader />;
@@ -64,7 +67,7 @@ export const EditNewsPage = () => {
           initialValues={{
             title: newsArticle.title,
             text: newsArticle.text,
-            image: newsArticle.image,
+            image: image ? convertImageFromBase64toFile(image) : undefined,
           }}
           validationSchema={yup.object().shape({
             title: yup.string().required(`Это поле обязательно`),
@@ -75,6 +78,19 @@ export const EditNewsPage = () => {
             setSubmitting(false); // onSubmit is sync, so need to call this
           }}
           validate={(values) => {
+            if (values.image === null) {
+              id && localStorage.removeItem(id);
+            }
+            if (!!values.image && id) {
+              const fr = new FileReader();
+              fr.readAsDataURL(values.image);
+              fr.addEventListener('load', () => {
+                const res = fr.result;
+                if (typeof res === 'string') {
+                  localStorage.setItem(id, res);
+                }
+              });
+            }
             newsArticle.title = values.title;
             newsArticle.text = values.text;
             newsArticle.image = values.image;
