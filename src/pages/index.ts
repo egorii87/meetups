@@ -11,3 +11,4 @@ export * from './ViewNewsPage/ViewNewsPage';
 export * from './CreateNewsPage/CreateNewsPage';
 export * from './EditNewsPage/EditNewsPage';
 export * from './LoginPage/LoginPage';
+export * from './LogoutPage/LogoutPage';
