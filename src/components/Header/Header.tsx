@@ -17,10 +17,12 @@ interface HeaderProps {
 const RenderUser = observer(() => {
   if (userStore.currentUser) {
     return (
-      <UserPreview
-        variant={UserPreviewVariant.Header}
-        user={userStore.currentUser}
-      />
+      <NavLink to="/logout" style={{ cursor: 'pointer' }}>
+        <UserPreview
+          variant={UserPreviewVariant.Header}
+          user={userStore.currentUser}
+        />
+      </NavLink>
     );
   }
 

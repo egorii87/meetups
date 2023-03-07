@@ -12,6 +12,7 @@ import {
   CreateNews,
   EditNewsPage,
   LoginPage,
+  LogoutPage,
 } from 'pages';
 import { meetupStore, userStore } from 'stores';
 import { IntlProvider } from 'react-intl';
@@ -52,6 +53,9 @@ function App() {
           <Routes>
             <Route path="login">
               <Route index element={<LoginPage />} />
+            </Route>
+            <Route path="logout">
+              <Route index element={<LogoutPage />} />
             </Route>
             <Route path="/" element={<Navigate replace to="/meetups" />} />
             <Route path="meetups">
