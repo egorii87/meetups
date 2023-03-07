@@ -63,7 +63,17 @@ export const SupportButton = ({ id }: SupportButtonProps): JSX.Element => {
           variant ? handleUnvoting() : handleVoting();
         }}
       >
-        {variant ? 'Поддерживаете' : 'Поддержать'}
+        {variant ? (
+          <FormattedMessage
+            id="supportButton.supported"
+            defaultMessage="Поддерживаете"
+          />
+        ) : (
+          <FormattedMessage
+            id="supportButton.support"
+            defaultMessage="Поддержать"
+          />
+        )}
       </Button>
     </div>
   );
