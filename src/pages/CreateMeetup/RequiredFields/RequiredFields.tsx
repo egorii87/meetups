@@ -1,4 +1,4 @@
-import { StepElementProps, TextField } from 'components';
+import { StepElementProps, TextField, InputLabel } from 'components';
 import { DescriptionText, meetup } from 'pages';
 import { ShortUser } from 'model';
 import { Formik, Form } from 'formik';
@@ -16,15 +16,8 @@ type RequiredFieldsValues = {
   excerpt: string;
 };
 
-const newAthorMeetup: ShortUser = {
-  id: '',
-  name: '',
-  surname: '',
-};
-
 export const RequiredFields = ({ setConfirmed, index }: StepElementProps) => {
-  const [selectedOption, setSelectedOption] =
-    useState<ShortUser>(newAthorMeetup);
+  const [selectedOption, setSelectedOption] = useState<ShortUser>();
 
   const handleTypeSelect = (e: any) => {
     setSelectedOption(e.value);
@@ -53,8 +46,8 @@ export const RequiredFields = ({ setConfirmed, index }: StepElementProps) => {
             if (!!values.subject && !!selectedOption && !!values.excerpt) {
               meetup.subject = values.subject;
               meetup.excerpt = values.excerpt;
-              meetup.author = selectedOption;
-              meetup.speakers = [newAthorMeetup];
+              meetup.author = userStore.currentShortUser as ShortUser;
+              meetup.speakers = [selectedOption];
             }
             setConfirmed(
               index,
@@ -75,31 +68,29 @@ export const RequiredFields = ({ setConfirmed, index }: StepElementProps) => {
                   }
                   multiline={false}
                 />
-                {/* <TextField
-                  name="author"
-                  labelText={
+                <div>
+                  <InputLabel className={styles.selectLabel} name="qwe">
                     <FormattedMessage
                       id="fieldsName.speaker"
                       defaultMessage="Спикер"
                     />
-                  }
-                  multiline={false}
-                /> */}
-                <div style={{ width: '100%' }}>
+                  </InputLabel>
                   <AsyncSelect
                     classNamePrefix="select"
                     isSearchable={true}
-                    name="author"
                     options={userStore.getAuthorList}
                     onChange={handleTypeSelect}
                     maxMenuHeight={150}
-                    /* styles={{
-                    control: (baseStyles, state) => ({
-                      ...baseStyles,
-                      borderColor: state.isFocused ? 'grey' : 'red',
-                      width: ,
-                    }),
-                  }} */
+                    className={styles.select}
+                    placeholder=""
+                    styles={{
+                      control: (base) => ({
+                        ...base,
+                        border: '1px solid #d5dce7',
+                        minHeight: '40px',
+                        width: '100%',
+                      }),
+                    }}
                   />
                 </div>
                 <TextField

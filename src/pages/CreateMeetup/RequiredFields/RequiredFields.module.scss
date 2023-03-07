@@ -1,12 +1,13 @@
+@use 'sass:color';
 @import '~style/colors';
 @import '~style/typography';
+@import '~style/mixins';
 
 .formStyle {
   width: 470px;
   max-width: 100%;
   display: flex;
   flex-direction: column;
-  align-items: center;
   row-gap: 12px;
   margin: 0 auto;
   padding: 24px 0px 34px 0px;
@@ -17,4 +18,29 @@
   border-radius: 5px;
   background-color: $white-color;
   min-height: 347px;
+}
+
+.selectLabel {
+  margin-bottom: 8px;
+}
+
+.select {
+  [class$='-control'] {
+    background-color: color.change($gray-07-color, $alpha: 0.4);
+  }
+
+  [class$='-singleValue'] {
+    @extend .font-color-dark;
+  }
+
+  [class$='-control']:hover {
+    border: 1px solid $gray-05-color;
+    border-radius: 4px;
+    background-color: $gray-07-color;
+  }
+
+  @extend .font-family-primary;
+  @extend .font-weight-regular;
+  @extend .font-size-xs;
+  @extend .line-height-xs;
 }
