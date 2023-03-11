@@ -1,3 +1,4 @@
+import { Dispatch, SetStateAction } from 'react';
 import classNames from 'classnames';
 import { useNavigate } from 'react-router';
 
@@ -18,6 +19,7 @@ import styles from './MeetupCard.module.scss';
 
 interface MeetupCardProps {
   meetup: Meetup;
+  setCount: Dispatch<SetStateAction<number>>;
 }
 
 export enum MeetupCardVariant {
@@ -32,7 +34,10 @@ export const removeMeetup = async (id: string) => {
   await meetupStore.init();
 };
 
-export const MeetupCard = ({ meetup }: MeetupCardProps): JSX.Element => {
+export const MeetupCard = ({
+  meetup,
+  setCount,
+}: MeetupCardProps): JSX.Element => {
   const { status, author, start, place, subject, excerpt, isOver, id } = meetup;
 
   const navigate = useNavigate();
@@ -93,6 +98,7 @@ export const MeetupCard = ({ meetup }: MeetupCardProps): JSX.Element => {
               onClick={(e) => {
                 e.preventDefault();
                 removeMeetup(id);
+                setCount(meetupStore.getAllMeetups.length - 1);
               }}
             />
           )}
