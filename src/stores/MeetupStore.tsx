@@ -1,12 +1,16 @@
 import { observable, computed, action } from 'mobx';
 
-import { Meetup, NewMeetup, MeetupStatus } from 'model';
+import { Meetup, NewMeetup, MeetupStatus, ShortUser } from 'model';
+import { userStore } from './UserStore';
 import {
   getMeetups,
   createOneMeetup,
   updateMeetup,
   deleteMeetup,
   getMeetup,
+  getVotedUsers,
+  addVotingUser,
+  deleteVotedUser,
 } from 'api';
 
 export class MeetupStore {
@@ -71,12 +75,43 @@ export class MeetupStore {
 
   @action.bound
   async delete(id: string) {
+    localStorage.removeItem(id);
     return await deleteMeetup(id);
   }
 
   @action.bound
   async get(id: string) {
     return await getMeetup(id);
+  }
+
+  @action.bound
+  async approve(id: string) {
+    let approvingMeetup = await getMeetup(id);
+    approvingMeetup.status = MeetupStatus.CONFIRMED;
+    await meetupStore.edit(approvingMeetup);
+  }
+
+  @action.bound
+  async getVotedUsers(id: string) {
+    return await getVotedUsers(id);
+  }
+
+  @action.bound
+  votedThisMeetup(votedList: ShortUser[]) {
+    let result = votedList.find(
+      (user) => user.id === userStore.currentShortUser?.id,
+    );
+    return !!result;
+  }
+
+  @action.bound
+  async addVotingUser(id: string, votingUser: ShortUser) {
+    return await addVotingUser(id, votingUser);
+  }
+
+  @action.bound
+  async deleteVotedUser(id: string, votedUser: ShortUser) {
+    return await deleteVotedUser(id, votedUser);
   }
 
   constructor() {}

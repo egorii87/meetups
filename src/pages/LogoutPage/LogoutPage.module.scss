@@ -1,0 +1,23 @@
+@use 'sass:color';
+@import '~style/colors';
+@import '~style/typography';
+@import '~style/mixins';
+
+.container {
+  display: flex;
+  flex-direction: column;
+  row-gap: 30px;
+  padding: 50px 30px;
+  background: $white-color;
+  box-shadow: 0px 4px 7px color.change($gray-shadow-05-color, $alpha: 0.4);
+  border-radius: 5px;
+}
+
+.heading {
+  font-style: italic;
+
+  @extend .font-family-secondary;
+  @extend .font-weight-bold;
+  @extend .line-height-m;
+  @extend .font-color-dark;
+}

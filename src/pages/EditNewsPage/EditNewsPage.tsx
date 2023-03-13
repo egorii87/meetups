@@ -6,6 +6,7 @@ import {
   TextField,
   Button,
   ButtonVariant,
+  Loader,
 } from 'components';
 import * as yup from 'yup';
 import { Formik, Form } from 'formik';
@@ -15,13 +16,14 @@ import { useNewsArticleQuery } from 'hooks';
 import { NotFoundPage } from 'pages';
 import classNames from 'classnames';
 import { newsStore } from 'stores';
+import { convertImageFromBase64toFile } from 'helpers';
 
 import styles from './EditNewsPage.module.scss';
 
 type EditNews = {
   title: string;
   text: string;
-  image: string;
+  image?: File;
 };
 
 export const EditNewsPage = () => {
@@ -34,8 +36,15 @@ export const EditNewsPage = () => {
     navigate('/news');
   };
 
+  let remove = async () => {
+    !!id && (await newsStore.remove(id));
+    navigate('/news');
+  };
+
+  let image = (id && localStorage.getItem(id)) as string;
+
   if (isLoading || newsArticle === undefined) {
-    return <div>Загрузка...</div>;
+    return <Loader />;
   }
 
   if (newsArticle === null) {
@@ -50,7 +59,7 @@ export const EditNewsPage = () => {
       >
         <FormattedMessage
           id="news.editNews.header"
-          defaultMessage="Редактирвоание Новости"
+          defaultMessage="Редактирование Новости"
         />
       </Typography>
       <div className={styles.wrapper}>
@@ -58,7 +67,7 @@ export const EditNewsPage = () => {
           initialValues={{
             title: newsArticle.title,
             text: newsArticle.text,
-            image: newsArticle.image,
+            image: image ? convertImageFromBase64toFile(image) : undefined,
           }}
           validationSchema={yup.object().shape({
             title: yup.string().required(`Это поле обязательно`),
@@ -69,10 +78,22 @@ export const EditNewsPage = () => {
             setSubmitting(false); // onSubmit is sync, so need to call this
           }}
           validate={(values) => {
+            if (values.image === null) {
+              id && localStorage.removeItem(id);
+            }
+            if (!!values.image && id) {
+              const fr = new FileReader();
+              fr.readAsDataURL(values.image);
+              fr.addEventListener('load', () => {
+                const res = fr.result;
+                if (typeof res === 'string') {
+                  localStorage.setItem(id, res);
+                }
+              });
+            }
             newsArticle.title = values.title;
             newsArticle.text = values.text;
             newsArticle.image = values.image;
-            console.log(values.image);
           }}
         >
           {() => {
@@ -121,15 +142,21 @@ export const EditNewsPage = () => {
         >
           <FormattedMessage id="buttons.back" defaultMessage="Назад" />
         </Button>
-        <div className={styles.actionsWrapper}>
-          <Button
-            variant={ButtonVariant.Primary}
-            style={{ width: '152px' }}
-            onClick={update}
-          >
-            <FormattedMessage id="buttons.save" defaultMessage="Сохранить" />
-          </Button>
-        </div>
+
+        <Button
+          variant={ButtonVariant.Default}
+          onClick={remove}
+          style={{ width: '152px', marginRight: '10px' }}
+        >
+          <FormattedMessage id="buttons.delete" defaultMessage="Удалить" />
+        </Button>
+        <Button
+          variant={ButtonVariant.Primary}
+          style={{ width: '152px' }}
+          onClick={update}
+        >
+          <FormattedMessage id="buttons.save" defaultMessage="Сохранить" />
+        </Button>
       </div>
     </div>
   );

@@ -7,12 +7,14 @@ import {
   ButtonVariant,
   Typography,
   TypographyComponent,
+  Loader,
 } from 'components';
 import { useNewsArticleQuery } from 'hooks';
 import { NotFoundPage } from 'pages';
+import { userStore } from 'stores';
 
 import styles from './ViewNewsPage.module.scss';
-import defaultImage from 'assets/images/default-background-blue.jpg';
+import defaultImage from 'assets/images/default-image.jpg';
 
 export const ViewNewsPage = () => {
   const { id } = useParams();
@@ -24,21 +26,21 @@ export const ViewNewsPage = () => {
   const handleEdit = (): void => navigate(pathname + '/edit');
 
   if (isLoading || newsArticle === undefined) {
-    return <div>Загрузка...</div>;
+    return <Loader />;
   }
 
   if (newsArticle === null) {
     return <NotFoundPage />;
   }
 
-  const { image, title, text } = newsArticle;
+  const { title, text } = newsArticle;
 
   const renderImage = (): JSX.Element => {
     return (
       <figure className={classNames(styles.section, styles.imageWrapper)}>
         <img
           className={styles.image}
-          src={image ?? defaultImage}
+          src={id && (localStorage.getItem(id) || defaultImage)}
           alt="Изображение новости"
         />
       </figure>
@@ -69,12 +71,14 @@ export const ViewNewsPage = () => {
           <FormattedMessage id="buttons.back" defaultMessage="Назад" />
         </Button>
         <div className={styles.actionGroup}>
-          <Button variant={ButtonVariant.Secondary} onClick={handleEdit}>
-            <FormattedMessage
-              id="buttons.edit"
-              defaultMessage="Редактировать"
-            />
-          </Button>
+          {userStore.hasChiefPermission() && (
+            <Button variant={ButtonVariant.Secondary} onClick={handleEdit}>
+              <FormattedMessage
+                id="buttons.edit"
+                defaultMessage="Редактировать"
+              />
+            </Button>
+          )}
         </div>
       </div>
     );

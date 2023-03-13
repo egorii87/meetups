@@ -1,3 +1,4 @@
+@use 'sass:color';
 @import '~style/colors';
 @import '~style/typography';
 
@@ -7,6 +8,11 @@
 
   text-align: center;
   margin-bottom: 48px;
+}
+
+.wrapper {
+  background-color: $white-color;
+  box-shadow: 0px 4px 7px color.adjust($gray-shadow-05-color, $alpha: +0.25);
 }
 
 .formStyle {
@@ -37,4 +43,5 @@
 .actions {
   display: flex;
   justify-content: space-between;
+  box-shadow: 0px 4px 7px color.adjust($gray-shadow-05-color, $alpha: +0.25);
 }

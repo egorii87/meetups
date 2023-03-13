@@ -11,8 +11,10 @@ import {
   ViewNewsPage,
   CreateNews,
   EditNewsPage,
+  LoginPage,
+  LogoutPage,
 } from 'pages';
-import { meetupStore } from 'stores';
+import { meetupStore, userStore } from 'stores';
 import { IntlProvider } from 'react-intl';
 import { LanguageSelector } from 'lang/LanguageSelector';
 
@@ -24,6 +26,8 @@ import languages_ua from './lang/ua.json';
 function App() {
   (async () => {
     await meetupStore.init();
+    await userStore.initUsersList();
+    await userStore.checkLogin();
   })();
 
   const languages = {
@@ -40,9 +44,19 @@ function App() {
       messages={languages[language as keyof typeof languages]}
     >
       <BrowserRouter>
-        <Header SelectLang={LanguageSelector(language, setLanguage)} />
+        <Header
+          LanguageSelector={
+            <LanguageSelector selectLang={setLanguage} lang={language} />
+          }
+        />
         <main className={styles.container}>
           <Routes>
+            <Route path="login">
+              <Route index element={<LoginPage />} />
+            </Route>
+            <Route path="logout">
+              <Route index element={<LogoutPage />} />
+            </Route>
             <Route path="/" element={<Navigate replace to="/meetups" />} />
             <Route path="meetups">
               <Route element={<MeetupPage />}>

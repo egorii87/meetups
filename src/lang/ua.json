@@ -40,8 +40,10 @@
   "buttons.create": "Створити",
   "buttons.edit": "Редагувати",
   "buttons.next": "Далі",
+  "buttons.signIn": "Увійти",
   "mainTabs.meetups": "Мітапи",
   "mainTabs.news": "Новини",
+  "mainTabs.singin": "Авторизувати",
   "imageUploader.mainText.text": "Перетягніть зображення сюди",
   "imageUploader.mainText.text.or": "або",
   "imageUploader.mainText.link": "завантажте",
@@ -88,5 +90,11 @@
   "meetupCar.month.sep": "вересня",
   "meetupCar.month.oct": "жовтня",
   "meetupCar.month.nov": "листопада",
-  "meetupCar.month.dec": "грудня"
+  "meetupCar.month.dec": "грудня",
+  "login": "Логiн",
+  "logout.name": "Ім'я користувача",
+  "logout.role": "Роль",
+  "logout.button": "Вийти",
+  "supportButton.support": "Підтримати",
+  "supportButton.supported": "Підтримуєте"
 }

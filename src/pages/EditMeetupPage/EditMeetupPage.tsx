@@ -8,6 +8,8 @@ import {
   Button,
   ButtonVariant,
   UserPreview,
+  Loader,
+  MeetupTimePlace,
 } from 'components';
 import * as yup from 'yup';
 import { Formik, Form } from 'formik';
@@ -16,24 +18,20 @@ import { useMeetupQuery } from 'hooks';
 import { NotFoundPage } from 'pages';
 import classNames from 'classnames';
 import { meetupStore } from 'stores';
-import { ShortUser, MeetupStatus } from 'model';
+import { MeetupStatus } from 'model';
 import { useState } from 'react';
-import { parseDateString } from 'helpers';
 import { FormattedMessage } from 'react-intl';
+import { convertImageFromBase64toFile } from 'helpers';
 
 import styles from './EditMeetupPage.module.scss';
 import defaultImage from 'assets/images/default-image.jpg';
-import calendar from './assets/calendar.svg';
-import clock from './assets/clock.svg';
-import pin from './assets/pin.svg';
-
 type EditFieldsValues = {
   image?: File;
   subject: string;
   start?: Date;
   finish?: Date;
   place?: string;
-  author: string;
+  speaker: string;
   excerpt?: string;
 };
 
@@ -48,14 +46,10 @@ export const EditMeetupPage = () => {
     navigate('/meetups');
   };
 
-  const newAthorMeetup: ShortUser = {
-    id: '',
-    name: '',
-    surname: '',
-  };
+  let image = (id && localStorage.getItem(id)) as string;
 
   if (isLoading || meetup === undefined) {
-    return <div>Загрузка...</div>;
+    return <Loader />;
   }
 
   if (meetup === null) {
@@ -68,72 +62,8 @@ export const EditMeetupPage = () => {
     }
   };
 
-  const renderTimePlace = () => {
-    let date, time;
-
-    if (meetup.start) {
-      const {
-        formattedWeekdayLong,
-        formattedDateDay,
-        translatedFormattedDateMonth,
-        formattedTime,
-      } = parseDateString(meetup.start);
-
-      date = [
-        formattedWeekdayLong,
-        ', ',
-        `${formattedDateDay}`,
-        ' ',
-        translatedFormattedDateMonth,
-      ];
-      time = `${formattedTime}`;
-
-      if (meetup.finish) {
-        const { formattedTime } = parseDateString(meetup.finish);
-
-        time = time + ` — ${formattedTime}`;
-      }
-    }
-
-    return (
-      <div className={styles.data}>
-        <Typography
-          component={TypographyComponent.Span}
-          className={styles.dataName}
-        >
-          <FormattedMessage
-            id="fieldsName.timeAndLocation"
-            defaultMessage="Время и место проведения"
-          />
-        </Typography>
-        <div className={styles.dataContent}>
-          <div className={styles.timePlaceInfo}>
-            <div className={styles.info}>
-              <img className={styles.image} src={calendar} alt="Дата" />
-              <Typography component={TypographyComponent.Span}>
-                {date ? date : '—'}
-              </Typography>
-            </div>
-            <div className={styles.info}>
-              <img className={styles.image} src={clock} alt="Время" />
-              <Typography component={TypographyComponent.Span}>
-                {time || '—'}
-              </Typography>
-            </div>
-            <div className={styles.info}>
-              <img className={styles.image} src={pin} alt="Место" />
-              <Typography component={TypographyComponent.Span}>
-                {meetup.place || '—'}
-              </Typography>
-            </div>
-          </div>
-        </div>
-      </div>
-    );
-  };
-
   return (
-    <div className="">
+    <div>
       <div className={hiddenPreview ? '' : styles.hidden}>
         <Typography
           className={styles.header}
@@ -147,12 +77,13 @@ export const EditMeetupPage = () => {
         <div className={styles.wrapper}>
           <Formik<EditFieldsValues>
             initialValues={{
-              image: meetup.image,
+              image: image ? convertImageFromBase64toFile(image) : undefined,
               subject: meetup.subject,
               start: changeFormatDate(meetup.start),
               finish: changeFormatDate(meetup.finish),
               place: meetup.place,
-              author: meetup.author.name + ' ' + meetup.author.surname,
+              speaker:
+                meetup.speakers[0].name + ' ' + meetup.speakers[0].surname,
               excerpt: meetup.excerpt,
             }}
             validationSchema={yup.object().shape({
@@ -165,29 +96,25 @@ export const EditMeetupPage = () => {
               setSubmitting(false); // onSubmit is sync, so need to call this
             }}
             validate={(values) => {
+              if (values.image === null) {
+                id && localStorage.removeItem(id);
+              }
+              if (!!values.image && id) {
+                const fr = new FileReader();
+                fr.readAsDataURL(values.image);
+                fr.addEventListener('load', () => {
+                  const res = fr.result;
+                  if (typeof res === 'string') {
+                    localStorage.setItem(id, res);
+                  }
+                });
+              }
               meetup.image = values.image;
               meetup.subject = values.subject;
               meetup.start = values.start?.toJSON();
               meetup.finish = values.finish?.toJSON();
               meetup.place = values.place;
               meetup.excerpt = values.excerpt;
-              console.log(values.author, values.author.split(' ').length);
-              if (values.author.split(' ').length === 1) {
-                console.log(!values.author.split(' ')[1]);
-              }
-              //console.log(values.author, values.author.length)
-              if (
-                !(
-                  values.author.split(' ')[0] === meetup.author.name &&
-                  values.author.split(' ')[1] === meetup.author.surname
-                )
-              ) {
-                newAthorMeetup.id = 'ddd-bbb';
-                newAthorMeetup.name = values.author.split(' ')[0];
-                newAthorMeetup.surname = values.author.split(' ')[1];
-                meetup.author = newAthorMeetup;
-                meetup.speakers = [newAthorMeetup];
-              }
             }}
           >
             {() => (
@@ -247,7 +174,7 @@ export const EditMeetupPage = () => {
                   multiline={false}
                 />
                 <TextField
-                  name="author"
+                  name="speaker"
                   labelText={
                     <FormattedMessage
                       id="fieldsName.speaker"
@@ -315,7 +242,7 @@ export const EditMeetupPage = () => {
         <div className={styles.headerData}>
           <img
             className={styles.image}
-            src={defaultImage}
+            src={id && (localStorage.getItem(id) || defaultImage)}
             alt="Изображение митапа"
           />
           <div className={styles.headerDataContent}>
@@ -328,7 +255,7 @@ export const EditMeetupPage = () => {
           </div>
         </div>
 
-        {renderTimePlace()}
+        <MeetupTimePlace meetup={meetup} />
 
         <div className={styles.data}>
           <Typography

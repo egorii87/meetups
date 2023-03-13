@@ -2,24 +2,50 @@ import React from 'react';
 import { NavLink } from 'react-router-dom';
 import classNames from 'classnames';
 import { FormattedMessage } from 'react-intl';
+import { observer } from 'mobx-react';
 
 import { Typography, UserPreview, UserPreviewVariant } from 'components';
-import { ShortUser } from 'model';
+import { userStore } from 'stores';
 
 import styles from './Header.module.scss';
 import logo from 'assets/images/logo.svg';
 
 interface HeaderProps {
-  SelectLang?: JSX.Element;
+  LanguageSelector?: JSX.Element;
 }
 
-const user: ShortUser = {
-  id: 'AAA-AAA',
-  name: 'Albert',
-  surname: 'Richards',
-};
+const RenderUser = observer(() => {
+  if (userStore.currentUser) {
+    return (
+      <NavLink to="/logout" style={{ cursor: 'pointer' }}>
+        <UserPreview
+          variant={UserPreviewVariant.Header}
+          user={userStore.currentUser}
+        />
+      </NavLink>
+    );
+  }
 
-export const Header = ({ SelectLang }: HeaderProps): JSX.Element => (
+  return (
+    <NavLink
+      to="/login"
+      className={({ isActive }) =>
+        classNames(styles.navLink, {
+          [styles.active]: isActive,
+        })
+      }
+    >
+      <Typography>
+        <FormattedMessage
+          id="mainTabs.singin"
+          defaultMessage="Авторизоваться"
+        />
+      </Typography>
+    </NavLink>
+  );
+});
+
+export const Header = ({ LanguageSelector }: HeaderProps): JSX.Element => (
   <header className={styles.header}>
     <div className={styles.container}>
       <div className={styles.navWrapper}>
@@ -50,8 +76,8 @@ export const Header = ({ SelectLang }: HeaderProps): JSX.Element => (
             </Typography>
           </NavLink>
         </nav>
-        {SelectLang}
-        <UserPreview variant={UserPreviewVariant.Header} user={user} />
+        {LanguageSelector}
+        <RenderUser />
       </div>
 
       <div className={styles.navAdaptiveWrapper}>

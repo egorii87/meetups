@@ -1,3 +1,4 @@
+import { Dispatch, SetStateAction } from 'react';
 import classNames from 'classnames';
 import { useNavigate } from 'react-router';
 
@@ -8,16 +9,17 @@ import {
   TypographyComponent,
   UserPreview,
   UserPreviewVariant,
-  VotesCount,
+  SupportButton,
 } from 'components';
 import { parseDateString } from 'helpers';
 import { Meetup, MeetupStatus } from 'model';
-import { meetupStore } from 'stores';
+import { meetupStore, userStore } from 'stores';
 
 import styles from './MeetupCard.module.scss';
 
 interface MeetupCardProps {
   meetup: Meetup;
+  setCount: Dispatch<SetStateAction<number>>;
 }
 
 export enum MeetupCardVariant {
@@ -32,18 +34,11 @@ export const removeMeetup = async (id: string) => {
   await meetupStore.init();
 };
 
-export const MeetupCard = ({ meetup }: MeetupCardProps): JSX.Element => {
-  const {
-    status,
-    author,
-    start,
-    place,
-    subject,
-    excerpt,
-    goCount,
-    isOver,
-    id,
-  } = meetup;
+export const MeetupCard = ({
+  meetup,
+  setCount,
+}: MeetupCardProps): JSX.Element => {
+  const { status, author, start, place, subject, excerpt, isOver, id } = meetup;
 
   const navigate = useNavigate();
 
@@ -63,19 +58,7 @@ export const MeetupCard = ({ meetup }: MeetupCardProps): JSX.Element => {
     } = parseDateString(start));
   }
 
-  const getVariant = (): MeetupCardVariant => {
-    switch (status) {
-      case MeetupStatus.DRAFT:
-      default:
-        return MeetupCardVariant.Topic;
-      case MeetupStatus.REQUEST:
-        return MeetupCardVariant.OnModeration;
-      case MeetupStatus.CONFIRMED:
-        return isOver ? MeetupCardVariant.Finished : MeetupCardVariant.Upcoming;
-    }
-  };
-
-  const variant = getVariant();
+  const variant = getVariant(status, isOver);
 
   return (
     <article className={classNames(styles.card, styles[variant])}>
@@ -109,20 +92,27 @@ export const MeetupCard = ({ meetup }: MeetupCardProps): JSX.Element => {
           </ul>
         )}
         <div className={styles.controls}>
-          <DeleteButton
-            onClick={(e) => {
-              e.preventDefault();
-              removeMeetup(id);
-            }}
-          />
-          {status !== MeetupStatus.DRAFT && (
-            <EditButton
+          {(userStore.hasChiefPermission() ||
+            userStore.hasPermissionToInteract(author.id)) && (
+            <DeleteButton
               onClick={(e) => {
                 e.preventDefault();
-                openEditMeetupPage();
+                removeMeetup(id);
+                setCount(meetupStore.getAllMeetups.length - 1);
               }}
             />
           )}
+          {status !== MeetupStatus.DRAFT &&
+            (userStore.hasChiefPermission() ||
+              userStore.hasPermissionToInteract(author.id)) && (
+              <EditButton
+                onClick={(e) => {
+                  e.preventDefault();
+                  openEditMeetupPage();
+                }}
+                title="Edit meetup"
+              />
+            )}
         </div>
       </header>
 
@@ -145,7 +135,11 @@ export const MeetupCard = ({ meetup }: MeetupCardProps): JSX.Element => {
 
       <footer className={styles.footer}>
         {status === MeetupStatus.DRAFT ? (
-          goCount > 0 && <VotesCount votesCount={goCount} />
+          <div>
+            {userStore.user && status === MeetupStatus.DRAFT ? (
+              <SupportButton id={id} />
+            ) : null}
+          </div>
         ) : (
           <UserPreview user={author} variant={UserPreviewVariant.Card} />
         )}
@@ -153,3 +147,15 @@ export const MeetupCard = ({ meetup }: MeetupCardProps): JSX.Element => {
     </article>
   );
 };
+
+function getVariant(status: MeetupStatus, isOver: boolean): MeetupCardVariant {
+  switch (status) {
+    case MeetupStatus.DRAFT:
+    default:
+      return MeetupCardVariant.Topic;
+    case MeetupStatus.REQUEST:
+      return MeetupCardVariant.OnModeration;
+    case MeetupStatus.CONFIRMED:
+      return isOver ? MeetupCardVariant.Finished : MeetupCardVariant.Upcoming;
+  }
+}

@@ -10,7 +10,7 @@ import {
   MeetupCardVariant,
 } from 'components';
 import { Meetup } from 'model';
-import { meetupStore } from 'stores';
+import { meetupStore, userStore } from 'stores';
 
 import styles from './MeetupTabContent.module.scss';
 
@@ -132,30 +132,30 @@ export const getCounterEnding = (num: number, variant: MeetupCardVariant) => {
 
 export const MeetupTabContent = ({ variant }: MeetupTabContentProps) => {
   const [meetups, setMeetups] = useState<Meetup[]>([]);
+  const [meetupsCount, setMeetupsCount] = useState(
+    meetupStore.getAllMeetups.length,
+  );
 
   const navigate = useNavigate();
 
   const openCreateMeetupPage = () => navigate('/meetups/create');
 
   useEffect(() => {
-    (async () => {
-      await meetupStore.init();
-      switch (variant) {
-        case MeetupCardVariant.Topic:
-          setMeetups(meetupStore.getTopics);
-          break;
-        case MeetupCardVariant.OnModeration:
-          setMeetups(meetupStore.getOnModeration);
-          break;
-        case MeetupCardVariant.Upcoming:
-          setMeetups(meetupStore.getUpcoming);
-          break;
-        case MeetupCardVariant.Finished:
-          setMeetups(meetupStore.getFinished);
-          break;
-      }
-    })();
-  }, [variant]);
+    switch (variant) {
+      case MeetupCardVariant.Topic:
+        setMeetups(meetupStore.getTopics);
+        break;
+      case MeetupCardVariant.OnModeration:
+        setMeetups(meetupStore.getOnModeration);
+        break;
+      case MeetupCardVariant.Upcoming:
+        setMeetups(meetupStore.getUpcoming);
+        break;
+      case MeetupCardVariant.Finished:
+        setMeetups(meetupStore.getFinished);
+        break;
+    }
+  }, [variant, meetupsCount]);
 
   return (
     <section className={styles.topicsTab}>
@@ -163,22 +163,23 @@ export const MeetupTabContent = ({ variant }: MeetupTabContentProps) => {
         <div className={styles.counter}>
           {meetups.length} {getCounterEnding(meetups.length, variant)}
         </div>
-        {variant === MeetupCardVariant.Topic && (
-          <Button
-            variant={ButtonVariant.Secondary}
-            onClick={openCreateMeetupPage}
-          >
-            <FormattedMessage
-              id="buttons.createMeetup"
-              defaultMessage="+ Создать Митап"
-            />
-          </Button>
-        )}
+        {variant === MeetupCardVariant.Topic &&
+          userStore.hasPermissionToCreateMeetup() && (
+            <Button
+              variant={ButtonVariant.Secondary}
+              onClick={openCreateMeetupPage}
+            >
+              <FormattedMessage
+                id="buttons.createMeetup"
+                defaultMessage="+ Создать Митап"
+              />
+            </Button>
+          )}
       </div>
       <div className={styles.topics}>
         {meetups.map((meetup) => (
           <NavLink to={`/meetups/${meetup.id}`} key={meetup.id}>
-            <MeetupCard meetup={meetup} />
+            <MeetupCard meetup={meetup} setCount={setMeetupsCount} />
           </NavLink>
         ))}
       </div>

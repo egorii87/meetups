@@ -1,9 +1,12 @@
-import { StepElementProps, TextField } from 'components';
+import { StepElementProps, TextField, InputLabel } from 'components';
 import { DescriptionText, meetup } from 'pages';
 import { ShortUser } from 'model';
 import { Formik, Form } from 'formik';
 import { FormattedMessage } from 'react-intl';
+import AsyncSelect from 'react-select';
 import * as yup from 'yup';
+import { useState } from 'react';
+import { userStore } from 'stores';
 
 import styles from './RequiredFields.module.scss';
 
@@ -13,13 +16,13 @@ type RequiredFieldsValues = {
   excerpt: string;
 };
 
-const newAthorMeetup: ShortUser = {
-  id: '',
-  name: '',
-  surname: '',
-};
-
 export const RequiredFields = ({ setConfirmed, index }: StepElementProps) => {
+  const [selectedOption, setSelectedOption] = useState<ShortUser>();
+
+  const handleTypeSelect = (e: any) => {
+    setSelectedOption(e.value);
+  };
+
   return (
     <div>
       <DescriptionText />
@@ -27,7 +30,7 @@ export const RequiredFields = ({ setConfirmed, index }: StepElementProps) => {
         <Formik<RequiredFieldsValues>
           initialValues={{
             subject: '',
-            author: '', // I want to display the author's name and surname by default, but I don't know how to do it
+            author: '',
             excerpt: '',
           }}
           validationSchema={yup.object().shape({
@@ -40,25 +43,15 @@ export const RequiredFields = ({ setConfirmed, index }: StepElementProps) => {
             setConfirmed(index, true);
           }}
           validate={(values) => {
-            if (!!values.subject && !!values.author && !!values.excerpt) {
+            if (!!values.subject && !!selectedOption && !!values.excerpt) {
               meetup.subject = values.subject;
               meetup.excerpt = values.excerpt;
-              if (
-                !(
-                  values.author.split(' ')[0] === meetup.author.name &&
-                  values.author.split(' ')[1] === meetup.author.surname
-                )
-              ) {
-                newAthorMeetup.id = 'qqq-bbb';
-                newAthorMeetup.name = values.author.split(' ')[0];
-                newAthorMeetup.surname = values.author.split(' ')[1];
-                meetup.author = newAthorMeetup;
-                meetup.speakers = [newAthorMeetup];
-              }
+              meetup.author = userStore.currentShortUser as ShortUser;
+              meetup.speakers = [selectedOption];
             }
             setConfirmed(
               index,
-              !!values.subject && !!values.author && !!values.excerpt,
+              !!values.subject && !!selectedOption && !!values.excerpt,
             );
           }}
         >
@@ -75,16 +68,31 @@ export const RequiredFields = ({ setConfirmed, index }: StepElementProps) => {
                   }
                   multiline={false}
                 />
-                <TextField
-                  name="author"
-                  labelText={
+                <div>
+                  <InputLabel className={styles.selectLabel} name="qwe">
                     <FormattedMessage
                       id="fieldsName.speaker"
                       defaultMessage="Спикер"
                     />
-                  }
-                  multiline={false}
-                />
+                  </InputLabel>
+                  <AsyncSelect
+                    classNamePrefix="select"
+                    isSearchable={true}
+                    options={userStore.getAuthorList}
+                    onChange={handleTypeSelect}
+                    maxMenuHeight={150}
+                    className={styles.select}
+                    placeholder=""
+                    styles={{
+                      control: (base) => ({
+                        ...base,
+                        border: '1px solid #d5dce7',
+                        minHeight: '40px',
+                        width: '100%',
+                      }),
+                    }}
+                  />
+                </div>
                 <TextField
                   name="excerpt"
                   labelText={

@@ -20,10 +20,15 @@ import styles from './CreateNewsPage.module.scss';
 const newNews: NewNews = {
   title: '',
   text: '',
-  image: '',
+  image: undefined,
 };
 
-const createOneNews = () => newsStore.create(newNews);
+let image64: string;
+
+async function createOneNews() {
+  let createdNews = await newsStore.create(newNews);
+  localStorage.setItem(createdNews.id, image64);
+}
 
 export const CreateNews = () => {
   const navigate = useNavigate();
@@ -46,7 +51,7 @@ export const CreateNews = () => {
           initialValues={{
             title: '',
             text: '',
-            image: '',
+            image: undefined,
           }}
           validationSchema={yup.object().shape({
             title: yup.string().required(`Это поле обязательно`),
@@ -62,6 +67,17 @@ export const CreateNews = () => {
               newNews.text = values.text;
               newNews.image = values.image;
               console.log(newNews);
+            }
+            if (!!values.image) {
+              const fr = new FileReader();
+              fr.readAsDataURL(values.image);
+              fr.addEventListener('load', () => {
+                const res = fr.result;
+                if (typeof res === 'string') {
+                  image64 = res;
+                  console.log(image64);
+                }
+              });
             }
           }}
         >

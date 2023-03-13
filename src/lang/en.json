@@ -40,8 +40,10 @@
   "buttons.create": "Create",
   "buttons.edit": "Edit",
   "buttons.next": "Next",
+  "buttons.signIn": "Sign in",
   "mainTabs.meetups": "Meetups",
   "mainTabs.news": "News",
+  "mainTabs.singin": "Sing in",
   "imageUploader.mainText.text": "Drag image here",
   "imageUploader.mainText.text.or": "or",
   "imageUploader.mainText.link": "upload",
@@ -88,5 +90,11 @@
   "meetupCar.month.sep": "September",
   "meetupCar.month.oct": "October",
   "meetupCar.month.nov": "November",
-  "meetupCar.month.dec": "December"
+  "meetupCar.month.dec": "December",
+  "login": "Login",
+  "logout.name": "Username",
+  "logout.role": "Role",
+  "logout.button": "Sign out",
+  "supportButton.support": "Support",
+  "supportButton.supported": "Supported"
 }

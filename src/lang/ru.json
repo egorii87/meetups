@@ -26,7 +26,7 @@
   "meetups.meetupsPreview.header": "Просмотр Митапа",
   "news.header": "Новости",
   "news.createNews.header": "Создание Новости",
-  "news.editNews.header": "Редактирвоание Новости",
+  "news.editNews.header": "Редактирование Новости",
   "news.previewNews.header": "Просмотр Новости",
   "buttons.back": "Назад",
   "buttons.delete": "Удалить",
@@ -40,8 +40,10 @@
   "buttons.create": "Создать",
   "buttons.edit": "Редактировать",
   "buttons.next": "Далее",
+  "buttons.signIn": "Войти",
   "mainTabs.meetups": "Митапы",
   "mainTabs.news": "Новости",
+  "mainTabs.singin": "Авторизоваться",
   "imageUploader.mainText.text": "Перетащите изображение сюда",
   "imageUploader.mainText.text.or": "или",
   "imageUploader.mainText.link": "загрузите",
@@ -88,5 +90,11 @@
   "meetupCar.month.sep": "сентября",
   "meetupCar.month.oct": "октября",
   "meetupCar.month.nov": "ноября",
-  "meetupCar.month.dec": "декабря"
+  "meetupCar.month.dec": "декабря",
+  "login": "Логин",
+  "logout.name": "Имя пользователя",
+  "logout.role": "Роль",
+  "logout.button": "Выйти",
+  "supportButton.support": "Поддержать",
+  "supportButton.supported": "Поддерживаете"
 }
