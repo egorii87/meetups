@@ -9,8 +9,10 @@ export const httpClient = axios.create({
 httpClient.interceptors.response.use(
   (response: AxiosResponse) => response,
   (error) => {
-    errorChecker(error.response.status);
-    console.log(error);
-    throw error;
+    if (error.response.status !== 401) {
+      errorChecker(error.response.status);
+      console.log(error);
+      throw error;
+    }
   },
 );
