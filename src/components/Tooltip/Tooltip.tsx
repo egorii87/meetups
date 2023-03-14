@@ -14,8 +14,9 @@ export enum TooltipVariant {
 
 interface TooltipProps {
   variant?: TooltipVariant;
-  title: string;
-  description: string;
+  title?: string;
+  description: string | JSX.Element;
+  descriptionAction?: () => Promise<void>;
 }
 
 export const Tooltip = ({
@@ -23,6 +24,7 @@ export const Tooltip = ({
   variant = TooltipVariant.Dark,
   title,
   description,
+  descriptionAction,
 }: PropsWithChildren<TooltipProps>) => {
   const [visible, setVisible] = useState(false);
 
@@ -50,6 +52,7 @@ export const Tooltip = ({
         <Typography
           component={TypographyComponent.Paragraph}
           className={styles.description}
+          onClick={() => descriptionAction && descriptionAction()}
         >
           {description}
         </Typography>
