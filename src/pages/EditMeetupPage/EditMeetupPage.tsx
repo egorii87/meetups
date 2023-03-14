@@ -204,7 +204,7 @@ export const EditMeetupPage = () => {
           <Button
             variant={ButtonVariant.Default}
             onClick={() => navigate(-1)}
-            style={{ width: '128px', marginRight: '60px' }}
+            className={styles.buttonCancel}
           >
             <FormattedMessage id="buttons.cancel" defaultMessage="Отмена" />
           </Button>
@@ -212,7 +212,7 @@ export const EditMeetupPage = () => {
             <Button
               variant={ButtonVariant.Secondary}
               onClick={() => setHiddenPreview(false)}
-              style={{ width: '128px' }}
+              className={styles.button}
             >
               <FormattedMessage
                 id="buttons.preview"
@@ -223,7 +223,7 @@ export const EditMeetupPage = () => {
           <div className={styles.actionsWrapper}>
             <Button
               variant={ButtonVariant.Primary}
-              style={{ width: '128px' }}
+              className={styles.button}
               onClick={update}
             >
               <FormattedMessage id="buttons.save" defaultMessage="Сохранить" />
@@ -311,14 +311,14 @@ export const EditMeetupPage = () => {
           <Button
             variant={ButtonVariant.Default}
             onClick={() => setHiddenPreview(true)}
-            style={{ width: '128px' }}
+            className={styles.button}
           >
             <FormattedMessage id="buttons.cancel" defaultMessage="Отмена" />
           </Button>
           <div className={styles.actionsWrapper}>
             <Button
               variant={ButtonVariant.Primary}
-              style={{ width: '128px' }}
+              className={styles.button}
               onClick={update}
             >
               <FormattedMessage id="buttons.save" defaultMessage="Сохранить" />

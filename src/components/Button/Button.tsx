@@ -9,18 +9,20 @@ export enum ButtonVariant {
 }
 
 type ButtonProps = {
+  className?: string;
   variant?: ButtonVariant;
 } & PropsWithChildren &
   ButtonHTMLAttributes<HTMLButtonElement>;
 
 export const Button = ({
+  className,
   variant = ButtonVariant.Primary,
   children,
   ...nativeButtonProps
 }: ButtonProps): JSX.Element => (
   <button
     {...nativeButtonProps}
-    className={classNames(styles.button, styles[variant])}
+    className={classNames(styles.button, styles[variant], className)}
   >
     {children}
   </button>

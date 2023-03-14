@@ -124,7 +124,7 @@ export const CreateNews = () => {
       <div className={classNames(styles.buttonContent, styles.actions)}>
         <Button
           variant={ButtonVariant.Default}
-          style={{ width: '152px' }}
+          className={styles.button}
           onClick={() => navigate(-1)}
         >
           <FormattedMessage id="buttons.back" defaultMessage="Назад" />
@@ -132,7 +132,7 @@ export const CreateNews = () => {
         <div className={styles.actionsWrapper}>
           <Button
             variant={ButtonVariant.Primary}
-            style={{ width: '152px' }}
+            className={styles.button}
             onClick={async () => {
               await createOneNews();
               navigate(-1);

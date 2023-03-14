@@ -45,3 +45,17 @@
   justify-content: space-between;
   box-shadow: 0px 4px 7px color.adjust($gray-shadow-05-color, $alpha: +0.25);
 }
+
+.button {
+  width: 152px;
+
+  &Remove {
+    width: 152px;
+    margin-right: 10px;
+  }
+
+  &Back {
+    width: 152px;
+    margin-right: 60px;
+  }
+}

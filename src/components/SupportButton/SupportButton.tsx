@@ -63,7 +63,7 @@ export const SupportButton = ({ id }: SupportButtonProps): JSX.Element => {
       </div>
       <Button
         variant={variant ? ButtonVariant.Secondary : ButtonVariant.Primary}
-        style={{ width: '130px', height: '20px', borderRadius: '10px' }}
+        className={styles.supportButton}
         onClick={async (e) => {
           e.preventDefault();
           if (variant) {
