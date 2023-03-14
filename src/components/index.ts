@@ -37,3 +37,4 @@ export * from './MeetupTimePlace/MeetupTimePlace';
 export * from './MeetupAuthor/MeetupAuthor';
 export * from './MeetupVotedUsers/MeetupVotedUsers';
 export * from './MeetupActions/MeetupActions';
+export * from './Notification/Notification';
