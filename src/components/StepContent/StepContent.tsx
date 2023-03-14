@@ -7,6 +7,7 @@ import {
   Button,
   ButtonVariant,
 } from 'components';
+import { dataCy } from 'helpers';
 
 import styles from './StepContent.module.scss';
 
@@ -53,6 +54,7 @@ export const StepContent = ({
             }}
             variant={ButtonVariant.Primary}
             disabled={!stepsDescriptor[step].confirmed}
+            {...dataCy('buttonFinish')}
           >
             {finishButtonContent}
           </Button>
@@ -61,6 +63,7 @@ export const StepContent = ({
             onClick={handleNextStep}
             variant={ButtonVariant.Primary}
             disabled={!stepsDescriptor[step].confirmed}
+            {...dataCy('buttonNext')}
           >
             <FormattedMessage id="buttons.next" defaultMessage="Далее" />
           </Button>

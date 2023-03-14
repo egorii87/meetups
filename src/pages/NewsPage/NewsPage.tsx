@@ -10,6 +10,7 @@ import { useEffect, useState } from 'react';
 import { NavLink, useNavigate } from 'react-router-dom';
 import { FormattedMessage } from 'react-intl';
 import { newsStore, userStore } from 'stores';
+import { dataCy } from 'helpers';
 
 import styles from './NewsPage.module.scss';
 
@@ -41,6 +42,7 @@ export const NewsPage = () => {
           <Button
             variant={ButtonVariant.Secondary}
             onClick={openCreateNewsPage}
+            {...dataCy('createNews')}
           >
             <FormattedMessage
               id="buttons.createNews"
