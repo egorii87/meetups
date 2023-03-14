@@ -7,6 +7,8 @@ import {
   Button,
   ButtonVariant,
   Loader,
+  NotificationVariant,
+  notification,
 } from 'components';
 import * as yup from 'yup';
 import { Formik, Form } from 'formik';
@@ -34,11 +36,13 @@ export const EditNewsPage = () => {
   let update = async () => {
     !!newsArticle && (await newsStore.update(newsArticle));
     navigate('/news');
+    notification(NotificationVariant.Success, 'Новость успешно изменена');
   };
 
   let remove = async () => {
     !!id && (await newsStore.remove(id));
     navigate('/news');
+    notification(NotificationVariant.Success, 'Новость успешно удалена');
   };
 
   let image = (id && localStorage.getItem(id)) as string;

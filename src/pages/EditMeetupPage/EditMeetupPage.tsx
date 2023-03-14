@@ -10,6 +10,8 @@ import {
   UserPreview,
   Loader,
   MeetupTimePlace,
+  NotificationVariant,
+  notification,
 } from 'components';
 import * as yup from 'yup';
 import { Formik, Form } from 'formik';
@@ -44,6 +46,7 @@ export const EditMeetupPage = () => {
   let update = async () => {
     !!meetup && (await meetupStore.edit(meetup));
     navigate('/meetups');
+    notification(NotificationVariant.Success, 'Митап успешно изменён');
   };
 
   let image = (id && localStorage.getItem(id)) as string;
