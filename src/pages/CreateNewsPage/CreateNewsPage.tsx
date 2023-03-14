@@ -5,15 +5,18 @@ import {
   ImagePreviewMode,
   Button,
   ButtonVariant,
+  TextField,
+  NotificationVariant,
+  notification,
 } from 'components';
 import { FormattedMessage } from 'react-intl';
 import { NewNews } from 'model';
-import { TextField } from 'components';
 import { Formik, Form } from 'formik';
 import * as yup from 'yup';
 import classNames from 'classnames';
 import { useNavigate } from 'react-router-dom';
 import { newsStore } from 'stores';
+import { dataCy } from 'helpers';
 
 import styles from './CreateNewsPage.module.scss';
 
@@ -28,6 +31,7 @@ let image64: string;
 async function createOneNews() {
   let createdNews = await newsStore.create(newNews);
   localStorage.setItem(createdNews.id, image64);
+  notification(NotificationVariant.Success, 'Новость успешно создана');
 }
 
 export const CreateNews = () => {
@@ -66,7 +70,6 @@ export const CreateNews = () => {
               newNews.title = values.title;
               newNews.text = values.text;
               newNews.image = values.image;
-              console.log(newNews);
             }
             if (!!values.image) {
               const fr = new FileReader();
@@ -75,7 +78,6 @@ export const CreateNews = () => {
                 const res = fr.result;
                 if (typeof res === 'string') {
                   image64 = res;
-                  console.log(image64);
                 }
               });
             }
@@ -135,6 +137,7 @@ export const CreateNews = () => {
               await createOneNews();
               navigate(-1);
             }}
+            {...dataCy('submitNews')}
           >
             <FormattedMessage id="buttons.create" defaultMessage="Создать" />
           </Button>

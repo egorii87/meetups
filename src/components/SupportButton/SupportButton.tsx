@@ -1,12 +1,18 @@
 import { useState, useEffect } from 'react';
-import { Button } from 'components';
-import { ButtonVariant } from 'components';
+import {
+  Button,
+  ButtonVariant,
+  Typography,
+  TypographyComponent,
+  NotificationVariant,
+  notification,
+} from 'components';
 import { meetupStore, userStore } from 'stores';
-
-import { ReactComponent as ProfileIcon } from './profile.svg';
-import { Typography, TypographyComponent } from 'components';
+import { dataCy } from 'helpers';
 import { FormattedMessage } from 'react-intl';
+
 import styles from './SupportButton.module.scss';
+import { ReactComponent as ProfileIcon } from './profile.svg';
 
 interface SupportButtonProps {
   id: string;
@@ -60,8 +66,18 @@ export const SupportButton = ({ id }: SupportButtonProps): JSX.Element => {
         style={{ width: '130px', height: '20px', borderRadius: '10px' }}
         onClick={async (e) => {
           e.preventDefault();
-          variant ? handleUnvoting() : handleVoting();
+          if (variant) {
+            handleUnvoting();
+            notification(
+              NotificationVariant.Info,
+              'Вы больше не поддерживаете митап',
+            );
+          } else {
+            handleVoting();
+            notification(NotificationVariant.Info, 'Вы поддерживаете митап');
+          }
         }}
+        {...dataCy('supportBuuton')}
       >
         {variant ? (
           <FormattedMessage

@@ -1,9 +1,16 @@
 import { Formik } from 'formik';
 import * as Yup from 'yup';
 import { useNavigate } from 'react-router';
-import { Button, ButtonVariant, Typography } from 'components';
+import {
+  Button,
+  ButtonVariant,
+  Typography,
+  NotificationVariant,
+  notification,
+} from 'components';
 import { FormattedMessage } from 'react-intl';
 import { userStore } from 'stores';
+import { dataCy } from 'helpers';
 
 import styles from './LoginPage.module.scss';
 
@@ -23,8 +30,16 @@ export const LoginPage = () => {
         validationSchema={schema}
         initialValues={{ username: '', password: '' }}
         onSubmit={async (values) => {
-          await userStore.login(values);
-          navigate('/meetups');
+          const res = await userStore.login(values);
+          if (!res) {
+            notification(
+              NotificationVariant.Error,
+              'Неверный логин или пароль',
+            );
+          } else {
+            notification(NotificationVariant.Success, 'Вход выполнен успешно');
+            navigate('/meetups');
+          }
         }}
       >
         {({
@@ -70,6 +85,7 @@ export const LoginPage = () => {
                   variant={ButtonVariant.Primary}
                   className={styles.loginButton}
                   type="submit"
+                  {...dataCy('submitLogin')}
                 >
                   <FormattedMessage
                     id="buttons.signIn"
