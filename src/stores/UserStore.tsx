@@ -30,6 +30,20 @@ export class UserStore {
     });
   }
 
+  @computed get getCurrentAuthorList() {
+    if (this.user) {
+      return {
+        value: {
+          id: this.user.id,
+          name: this.user.name,
+          surname: this.user.surname,
+        },
+        label: `${this.user.name} ${this.user.surname}`,
+      };
+    }
+    return undefined;
+  }
+
   @computed get currentShortUser() {
     if (this.user) {
       const shortUser: ShortUser = {
@@ -44,7 +58,11 @@ export class UserStore {
 
   @action.bound
   async login(data: Credentials) {
-    this.user = await login(data);
+    let res = await login(data);
+    if (typeof res !== 'boolean') {
+      this.user = res;
+      return res;
+    } else return res;
   }
 
   @action.bound
@@ -56,7 +74,7 @@ export class UserStore {
   @action.bound
   async checkLogin() {
     let res = await checkLogin();
-    if (!this.user) {
+    if (!this.user && typeof res !== 'boolean') {
       this.user = res;
     }
     return res;
