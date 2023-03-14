@@ -60,18 +60,20 @@ export const MeetupActions = ({
             >
               <FormattedMessage id="buttons.delete" defaultMessage="Удалить" />
             </Button>
-            <Button
-              variant={ButtonVariant.Primary}
-              onClick={() => {
-                id && meetupStore.approve(id);
-                navigate('/meetups/upcoming');
-              }}
-            >
-              <FormattedMessage
-                id="buttons.publish"
-                defaultMessage="Опубликовать"
-              />
-            </Button>
+            {userStore.hasChiefPermission() && (
+              <Button
+                variant={ButtonVariant.Primary}
+                onClick={() => {
+                  id && meetupStore.approve(id);
+                  navigate('/meetups/upcoming');
+                }}
+              >
+                <FormattedMessage
+                  id="buttons.publish"
+                  defaultMessage="Опубликовать"
+                />
+              </Button>
+            )}
           </div>
         )}
       {meetup.status === MeetupStatus.CONFIRMED &&
