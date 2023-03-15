@@ -17,6 +17,7 @@ export function LanguageSelector({
           value={lang}
           onChange={(e) => {
             selectLang(e.target.value);
+            localStorage.setItem('lang', e.target.value);
           }}
         >
           <option value="ru">Русский</option>

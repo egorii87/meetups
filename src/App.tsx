@@ -39,7 +39,9 @@ function App() {
     ua: languages_ua,
   };
 
-  const [language, setLanguage] = useState<string>('ru');
+  const [language, setLanguage] = useState<string>(
+    localStorage.getItem('lang') || 'ru',
+  );
 
   return (
     <IntlProvider
