@@ -1,3 +1,4 @@
+import { AxiosError } from 'axios';
 import { httpClient } from 'helpers';
 import { Credentials, User } from 'model';
 
@@ -7,7 +8,10 @@ export const login = async (
   try {
     const resp = await httpClient.post('/login', credentials);
     return resp.data.user as User;
-  } catch {
+  } catch (e) {
+    if (e instanceof AxiosError) {
+      throw e;
+    }
     return false;
   }
 };
@@ -16,7 +20,10 @@ export const checkLogin = async (): Promise<User | boolean> => {
   try {
     const { data: authenticatedUser } = await httpClient.get<User>('/login');
     return authenticatedUser;
-  } catch {
+  } catch (e) {
+    if (e instanceof AxiosError) {
+      throw e;
+    }
     return false;
   }
 };

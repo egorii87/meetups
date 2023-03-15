@@ -14,7 +14,7 @@ type PrivateRoutesProps = {
   types: TypePermission;
 };
 
-let flag = 0;
+let notificationCount = 0;
 
 export const PrivateRoutes = (types: PrivateRoutesProps) => {
   const { id } = useParams();
@@ -22,14 +22,14 @@ export const PrivateRoutes = (types: PrivateRoutesProps) => {
   const [login, setLogin] = useState<boolean>();
 
   if (login === false) {
-    if (flag === 1) {
+    if (notificationCount === 1) {
       notification(NotificationVariant.Error, 'У Вас нет доступа');
     }
-    flag++;
+    notificationCount++;
   }
 
   async function checkLogin() {
-    await userStore.checkLogin();
+    const resp = await userStore.checkLogin();
     switch (types.types) {
       case 'CHIEF':
         if (userStore.hasChiefPermission()) {
@@ -51,10 +51,10 @@ export const PrivateRoutes = (types: PrivateRoutesProps) => {
         }
         break;
       case 'NOTAUTHENTICATED':
-        setLogin(!(await userStore.checkLogin()));
+        setLogin(!resp);
         break;
       case 'AUTHENTICATED':
-        setLogin(!!(await userStore.checkLogin()));
+        setLogin(!!resp);
         break;
     }
     return login;

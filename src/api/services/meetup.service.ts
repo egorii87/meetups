@@ -1,4 +1,5 @@
 import { getVotedUsers } from 'api';
+import { AxiosError } from 'axios';
 import { httpClient } from 'helpers';
 import { Meetup, NewMeetup } from 'model';
 
@@ -35,6 +36,14 @@ export const updateMeetup = async (
   return updatedMeetup;
 };
 
-export const deleteMeetup = async (id: string): Promise<void> => {
-  await httpClient.delete(`/meetups/${id}`);
+export const deleteMeetup = async (id: string): Promise<boolean> => {
+  try {
+    await httpClient.delete(`/meetups/${id}`);
+    return true;
+  } catch (e) {
+    if (e instanceof AxiosError) {
+      throw e;
+    }
+    return false;
+  }
 };
