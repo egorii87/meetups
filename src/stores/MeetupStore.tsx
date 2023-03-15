@@ -75,9 +75,10 @@ export class MeetupStore {
 
   @action.bound
   async delete(id: string) {
-    localStorage.removeItem(id);
-    this.meetups = this.meetups.filter((meetup) => meetup.id !== id);
-    return await deleteMeetup(id);
+    if (await deleteMeetup(id)) {
+      localStorage.removeItem(id);
+      this.meetups = this.meetups.filter((meetup) => meetup.id !== id);
+    }
   }
 
   @action.bound
