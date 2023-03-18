@@ -6,7 +6,7 @@ import {
   notification,
 } from 'components';
 import { RequiredFields, AdditionalFields, image64 } from 'pages';
-import { NewMeetup, ShortUser } from 'model';
+import { Meetup, NewMeetup, ShortUser } from 'model';
 import { meetupStore } from 'stores';
 
 import styles from './CreateMeetup.module.scss';
@@ -54,7 +54,7 @@ export const CreateMeetup = () => {
   ];
 
   let onFinishCheck = async () => {
-    const newMeetup = await meetupStore.create(meetup);
+    const newMeetup = (await meetupStore.create(meetup)) as Meetup;
     localStorage.setItem(newMeetup.id, image64);
     if (newMeetup) {
       notification(NotificationVariant.Success, 'Митап успешно создан');
