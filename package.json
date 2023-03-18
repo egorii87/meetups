@@ -175,12 +175,13 @@
       "^.+\\.module\\.(css|sass|scss)$": "identity-obj-proxy",
       "^components/(.*)": "<rootDir>/src/components/$1",
       "^common/(.*)": "<rootDir>/src/common/$1",
-      "^store/(.*)": "<rootDir>/src/store/$1",
+      "^store/(.*)": "<rootDir>/src/stores/$1",
       "^components": "<rootDir>/src/components",
       "^api": "<rootDir>/src/api",
-      "^store": "<rootDir>/src/store",
+      "^store": "<rootDir>/src/stores",
       "^pages": "<rootDir>/src/pages",
-      "^router": "<rootDir>/src/router"
+      "^router": "<rootDir>/src/router",
+      "axios": "axios/dist/node/axios.cjs"
     },
     "moduleFileExtensions": [
       "web.js",
