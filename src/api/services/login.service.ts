@@ -7,7 +7,7 @@ export const login = async (
 ): Promise<User | boolean> => {
   try {
     const resp = await httpClient.post('/login', credentials);
-    return resp.data as User;
+    return resp.data.user as User;
   } catch (e) {
     if (e instanceof AxiosError) {
       throw e;

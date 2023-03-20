@@ -15,21 +15,25 @@ jest.mock('axios', () => {
 });
 
 const userChiefData = {
-  id: 'uuu-bbb',
-  name: 'chief',
-  password: 'private',
-  surname: 'Blick',
-  post: 'Chief developer',
-  roles: 'CHIEF',
+  user: {
+    id: 'uuu-bbb',
+    name: 'chief',
+    password: 'private',
+    surname: 'Blick',
+    post: 'Chief developer',
+    roles: 'CHIEF',
+  },
 };
 
 const userEmployeeData = {
-  id: 'uuu-aaa',
-  name: 'employee',
-  password: 'private',
-  surname: 'Gerlach',
-  post: 'Developer',
-  roles: 'EMPLOYEE',
+  user: {
+    id: 'uuu-aaa',
+    name: 'employee',
+    password: 'private',
+    surname: 'Gerlach',
+    post: 'Developer',
+    roles: 'EMPLOYEE',
+  },
 };
 
 const usersList = [
