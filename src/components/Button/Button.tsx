@@ -21,6 +21,7 @@ export const Button = ({
   ...nativeButtonProps
 }: ButtonProps): JSX.Element => (
   <button
+    data-testid="button"
     {...nativeButtonProps}
     className={classNames(styles.button, styles[variant], className)}
   >

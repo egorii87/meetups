@@ -29,10 +29,18 @@ export const UserPreview = ({
   return (
     <div className={classNames(styles.user, styles[variant])}>
       <div className={styles.avatar}>
-        <Typography className={styles.initials}>{userInitials}</Typography>
+        <Typography
+          className={styles.initials}
+          data-testid="userPreviewInitials"
+        >
+          {userInitials}
+        </Typography>
       </div>
       {variant !== UserPreviewVariant.Image && (
-        <Typography className={styles.name}>{`${name} ${surname}`}</Typography>
+        <Typography
+          className={styles.name}
+          data-testid="userPreviewFullName"
+        >{`${name} ${surname}`}</Typography>
       )}
     </div>
   );

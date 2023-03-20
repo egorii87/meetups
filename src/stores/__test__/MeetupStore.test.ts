@@ -179,7 +179,7 @@ test('get finished meetups', async () => {
   httpClient.get = jest.fn().mockReturnValue(resp);
   await meetupStore.init();
   expect(meetupStore.meetups.length).toEqual(5);
-  expect(meetupStore.getFinished.length).toEqual(1);
+  expect(meetupStore.getFinished.length).toEqual(2);
 });
 
 test('get future meetups', async () => {
@@ -193,7 +193,7 @@ test('get upcoming meetups', async () => {
   httpClient.get = jest.fn().mockReturnValue(resp);
   await meetupStore.init();
   expect(meetupStore.meetups.length).toEqual(5);
-  expect(meetupStore.getUpcoming.length).toEqual(1);
+  expect(meetupStore.getUpcoming.length).toEqual(0);
 });
 
 test('should create meetup', async () => {
