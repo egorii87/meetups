@@ -25,7 +25,7 @@ describe('e2e test', () => {
       .click()
       .type('Online')
       .should('have.value', 'Online');
-    cy.get('.ImageDropbox_dropbox__ZHXzT').selectFile(
+    cy.get(`[data-cy=${dataCyAttribute.dropbox}]`).selectFile(
       './cypress/e2e/test.jpg',
       { action: 'drag-drop' },
     );
@@ -47,7 +47,7 @@ describe('e2e test', () => {
     cy.get('textarea[name=text]')
       .type('Any text')
       .should('have.value', 'Any text');
-    cy.get('.ImageDropbox_dropbox__ZHXzT').selectFile(
+    cy.get(`[data-cy=${dataCyAttribute.dropbox}]`).selectFile(
       './cypress/e2e/test.jpg',
       { action: 'drag-drop' },
     );
@@ -58,26 +58,22 @@ describe('e2e test', () => {
     cy.visit('http://localhost:3000/');
     cy.get(`[data-cy=${dataCyAttribute.login}]`).click();
     cy.get(`[data-cy=${dataCyAttribute.login}]`).click();
-    cy.get('#username').type('Rossana').should('have.value', 'Rossana');
+    cy.get('#username').type('Lili').should('have.value', 'Lili');
     cy.get('[type="password"]').type('private');
     cy.get(`[data-cy=${dataCyAttribute.submitLogin}]`).click();
     cy.get('#username').clear();
-    cy.get('#username').type('Rosanna').should('have.value', 'Rosanna');
+    cy.get('#username').type('Lila').should('have.value', 'Lila');
     cy.get(`[data-cy=${dataCyAttribute.submitLogin}]`).click();
-    cy.get(
-      '[href="/meetups/852a502a-e499-4db6-8b14-b9e4523a8b64"] > .MeetupCard_card__8XcoY > footer > :nth-child(1) > .SupportButton_wrapper__kNIVL > [data-cy="supportBuuton"]',
-    ).click({ force: true });
-    cy.get('.Tooltip_wrapper__vVI40 > .UserPreview_user__E92Dm').trigger(
-      'mouseover',
-    );
-    cy.get('.Tooltip_tooltip__5jxHa > .p').click();
+    cy.wait(1000);
+    cy.get(`[data-cy=${dataCyAttribute.supportButton}]`).eq(0).click();
+    cy.get(`[data-cy=${dataCyAttribute.tooltipWrapper}]`).trigger('mouseover');
+    cy.get(`[data-cy=${dataCyAttribute.logoutTooltip}]`).click();
     cy.get(`[data-cy=${dataCyAttribute.login}]`).click();
     cy.get(`[data-cy=${dataCyAttribute.login}]`).click();
-    cy.get('#username').type('Tessie').should('have.value', 'Tessie');
+    cy.get('#username').type('Roma').should('have.value', 'Roma');
     cy.get('[type="password"]').type('private');
     cy.get(`[data-cy=${dataCyAttribute.submitLogin}]`).click();
-    cy.get(
-      '[href="/meetups/852a502a-e499-4db6-8b14-b9e4523a8b64"] > .MeetupCard_card__8XcoY > footer > :nth-child(1) > .SupportButton_wrapper__kNIVL > [data-cy="supportBuuton"]',
-    ).click({ force: true });
+    cy.wait(1000);
+    cy.get(`[data-cy=${dataCyAttribute.supportButton}]`).eq(0).click();
   });
 });

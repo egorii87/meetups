@@ -9,5 +9,8 @@ export const dataCyAttribute = {
   news: 'news',
   createNews: 'createNews',
   submitNews: 'submitNews',
-  supportBuuton: 'supportBuuton',
+  supportButton: 'supportButton',
+  logoutTooltip: 'logoutTooltip',
+  tooltipWrapper: 'tooltipWrapper',
+  dropbox: 'dropbox',
 };
