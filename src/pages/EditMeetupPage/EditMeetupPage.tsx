@@ -19,7 +19,7 @@ import { useNavigate, useParams } from 'react-router';
 import { useMeetupQuery } from 'hooks';
 import { NotFoundPage } from 'pages';
 import classNames from 'classnames';
-import { meetupStore } from 'stores';
+import { meetupStore, userStore } from 'stores';
 import { MeetupStatus } from 'model';
 import { useState } from 'react';
 import { FormattedMessage } from 'react-intl';
@@ -176,16 +176,30 @@ export const EditMeetupPage = () => {
                   }
                   multiline={false}
                 />
-                <TextField
-                  name="speaker"
-                  labelText={
-                    <FormattedMessage
-                      id="fieldsName.speaker"
-                      defaultMessage="Спикер"
-                    />
-                  }
-                  multiline={false}
-                />
+                {userStore.hasChiefPermission() ? (
+                  <TextField
+                    name="speaker"
+                    labelText={
+                      <FormattedMessage
+                        id="fieldsName.speaker"
+                        defaultMessage="Спикер"
+                      />
+                    }
+                    multiline={false}
+                  />
+                ) : (
+                  <TextField
+                    name="speaker"
+                    labelText={
+                      <FormattedMessage
+                        id="fieldsName.speaker"
+                        defaultMessage="Спикер"
+                      />
+                    }
+                    multiline={false}
+                    readonly={true}
+                  />
+                )}
                 <TextField
                   name="excerpt"
                   labelText={
@@ -257,8 +271,9 @@ export const EditMeetupPage = () => {
             </Typography>
           </div>
         </div>
-
-        <MeetupTimePlace meetup={meetup} />
+        <div className={styles.timePlace}>
+          <MeetupTimePlace meetup={meetup} />
+        </div>
 
         <div className={styles.data}>
           <Typography

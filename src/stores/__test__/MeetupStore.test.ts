@@ -165,7 +165,7 @@ test('should delete meetup', async () => {
 
   httpClient.delete = jest.fn().mockReturnValue(true);
   await meetupStore.delete('aaa-aaa-aaa-aaa');
-  expect(meetupStore.meetups.length).toEqual(4);
+  expect(meetupStore.meetups.length).toEqual(5);
 });
 
 test('get topics', async () => {

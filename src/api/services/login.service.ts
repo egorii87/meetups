@@ -1,28 +1,18 @@
-import { AxiosError } from 'axios';
 import { httpClient } from 'helpers';
 import { Credentials, User } from 'model';
 
 export const login = async (
   credentials: Credentials,
 ): Promise<User | boolean> => {
-  try {
-    const resp = await httpClient.post('/login', credentials);
-    return resp.data.user as User;
-  } catch (e) {
-    if (e instanceof AxiosError) {
-      throw e;
-    }
-    return false;
-  }
+  let resp = await httpClient.post('/login', credentials);
+  if (!resp) return false;
+  return resp.data.user as User;
 };
 
 export const checkLogin = async (): Promise<User | boolean> => {
-  try {
-    const { data: authenticatedUser } = await httpClient.get<User>('/login');
-    return authenticatedUser;
-  } catch {
-    return false;
-  }
+  let resp = await httpClient.get<User>('/login');
+  if (!resp) return false;
+  return resp.data as User;
 };
 
 export const logout = async (): Promise<void> => {

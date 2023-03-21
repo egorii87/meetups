@@ -1,5 +1,6 @@
 import React, { PropsWithChildren, useState } from 'react';
 import classNames from 'classnames';
+import { dataCy } from 'helpers';
 
 import { Typography, TypographyComponent } from 'components';
 
@@ -36,6 +37,7 @@ export const Tooltip = ({
       className={styles.wrapper}
       onMouseEnter={showTooltip}
       onMouseLeave={hideTooltip}
+      {...dataCy('tooltipWrapper')}
     >
       {children}
       <div
@@ -53,6 +55,7 @@ export const Tooltip = ({
           component={TypographyComponent.Paragraph}
           className={styles.description}
           onClick={() => descriptionAction && descriptionAction()}
+          {...dataCy('logoutTooltip')}
         >
           {description}
         </Typography>

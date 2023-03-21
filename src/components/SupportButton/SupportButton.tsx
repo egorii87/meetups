@@ -77,8 +77,8 @@ export const SupportButton = ({ id }: SupportButtonProps): JSX.Element => {
             notification(NotificationVariant.Info, 'Вы поддерживаете митап');
           }
         }}
-        data-testid="supportBuuton"
-        {...dataCy('supportBuuton')}
+        data-testid="supportButton"
+        {...dataCy('supportButton')}
       >
         {variant ? (
           <FormattedMessage

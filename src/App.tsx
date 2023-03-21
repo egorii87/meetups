@@ -29,7 +29,6 @@ import languages_ua from './lang/ua.json';
 function App() {
   (async () => {
     await meetupStore.init();
-    await userStore.initUsersList();
     await userStore.checkLogin();
   })();
 
@@ -124,7 +123,6 @@ function App() {
         newestOnTop={false}
         closeOnClick
         rtl={false}
-        pauseOnFocusLoss
         draggable
         pauseOnHover
         theme="light"

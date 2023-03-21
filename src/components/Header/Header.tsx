@@ -96,7 +96,6 @@ export const Header = ({ LanguageSelector }: HeaderProps): JSX.Element => (
             </Typography>
           </NavLink>
         </nav>
-        {LanguageSelector}
         <User />
       </div>
 
@@ -129,5 +128,6 @@ export const Header = ({ LanguageSelector }: HeaderProps): JSX.Element => (
         </nav>
       </div>
     </div>
+    <div className={styles.languageSelector}>{LanguageSelector}</div>
   </header>
 );

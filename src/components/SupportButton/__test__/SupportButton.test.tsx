@@ -58,7 +58,7 @@ test('support meetup', async () => {
     </IntlProvider>,
   );
 
-  const supported = screen.getByTestId('supportBuuton');
+  const supported = screen.getByTestId('supportButton');
 
   expect(supported).toHaveTextContent('Поддержать');
 
