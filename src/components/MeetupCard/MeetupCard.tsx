@@ -10,6 +10,8 @@ import {
   UserPreview,
   UserPreviewVariant,
   SupportButton,
+  NotificationVariant,
+  notification,
 } from 'components';
 import { parseDateString } from 'helpers';
 import { Meetup, MeetupStatus } from 'model';
@@ -32,6 +34,7 @@ export enum MeetupCardVariant {
 export const removeMeetup = async (id: string) => {
   await meetupStore.delete(id);
   await meetupStore.init();
+  notification(NotificationVariant.Success, 'Митап успешно удален');
 };
 
 export const MeetupCard = ({
@@ -98,7 +101,7 @@ export const MeetupCard = ({
               onClick={(e) => {
                 e.preventDefault();
                 removeMeetup(id);
-                setCount(meetupStore.getAllMeetups.length - 1);
+                setCount(meetupStore.getAllMeetups.length);
               }}
             />
           )}

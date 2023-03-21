@@ -7,6 +7,8 @@ import {
   Button,
   ButtonVariant,
   Loader,
+  NotificationVariant,
+  notification,
 } from 'components';
 import * as yup from 'yup';
 import { Formik, Form } from 'formik';
@@ -34,11 +36,13 @@ export const EditNewsPage = () => {
   let update = async () => {
     !!newsArticle && (await newsStore.update(newsArticle));
     navigate('/news');
+    notification(NotificationVariant.Success, 'Новость успешно изменена');
   };
 
   let remove = async () => {
     !!id && (await newsStore.remove(id));
     navigate('/news');
+    notification(NotificationVariant.Success, 'Новость успешно удалена');
   };
 
   let image = (id && localStorage.getItem(id)) as string;
@@ -138,21 +142,21 @@ export const EditNewsPage = () => {
         <Button
           variant={ButtonVariant.Default}
           onClick={() => navigate(-1)}
-          style={{ width: '152px', marginRight: '60px' }}
+          className={styles.buttonBack}
         >
           <FormattedMessage id="buttons.back" defaultMessage="Назад" />
         </Button>
 
         <Button
-          variant={ButtonVariant.Default}
+          variant={ButtonVariant.Secondary}
           onClick={remove}
-          style={{ width: '152px', marginRight: '10px' }}
+          className={styles.buttonRemove}
         >
           <FormattedMessage id="buttons.delete" defaultMessage="Удалить" />
         </Button>
         <Button
           variant={ButtonVariant.Primary}
-          style={{ width: '152px' }}
+          className={styles.button}
           onClick={update}
         >
           <FormattedMessage id="buttons.save" defaultMessage="Сохранить" />

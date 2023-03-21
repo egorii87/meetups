@@ -1,9 +1,15 @@
 import { HTMLAttributes } from 'react';
 
 type TextInputProps = {
-  // TODO: multiline?
+  readonly?: boolean;
 } & HTMLAttributes<HTMLInputElement>;
 
 export const TextInput = ({
+  readonly,
   ...nativeHtmlProps
-}: TextInputProps): JSX.Element => <input type="text" {...nativeHtmlProps} />;
+}: TextInputProps): JSX.Element =>
+  !readonly ? (
+    <input type="text" {...nativeHtmlProps} />
+  ) : (
+    <input type="text" readOnly {...nativeHtmlProps} />
+  );

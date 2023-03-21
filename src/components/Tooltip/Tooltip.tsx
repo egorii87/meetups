@@ -1,5 +1,6 @@
 import React, { PropsWithChildren, useState } from 'react';
 import classNames from 'classnames';
+import { dataCy } from 'helpers';
 
 import { Typography, TypographyComponent } from 'components';
 
@@ -14,8 +15,9 @@ export enum TooltipVariant {
 
 interface TooltipProps {
   variant?: TooltipVariant;
-  title: string;
-  description: string;
+  title?: string;
+  description: string | JSX.Element;
+  descriptionAction?: () => Promise<void>;
 }
 
 export const Tooltip = ({
@@ -23,6 +25,7 @@ export const Tooltip = ({
   variant = TooltipVariant.Dark,
   title,
   description,
+  descriptionAction,
 }: PropsWithChildren<TooltipProps>) => {
   const [visible, setVisible] = useState(false);
 
@@ -34,6 +37,7 @@ export const Tooltip = ({
       className={styles.wrapper}
       onMouseEnter={showTooltip}
       onMouseLeave={hideTooltip}
+      {...dataCy('tooltipWrapper')}
     >
       {children}
       <div
@@ -50,6 +54,8 @@ export const Tooltip = ({
         <Typography
           component={TypographyComponent.Paragraph}
           className={styles.description}
+          onClick={() => descriptionAction && descriptionAction()}
+          {...dataCy('logoutTooltip')}
         >
           {description}
         </Typography>

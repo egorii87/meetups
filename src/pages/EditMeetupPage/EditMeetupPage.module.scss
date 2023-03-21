@@ -186,3 +186,16 @@
   display: flex;
   column-gap: 10px;
 }
+
+.button {
+  width: 128px;
+
+  &Cancel {
+    width: 128px;
+    margin-right: 60px;
+  }
+}
+
+.timePlace {
+  margin-bottom: 15px;
+}

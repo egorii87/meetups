@@ -51,6 +51,7 @@
     .title,
     .description {
       @extend .font-color-white;
+      cursor: pointer;
     }
   }
 

@@ -17,10 +17,10 @@ type RequiredFieldsValues = {
 };
 
 export const RequiredFields = ({ setConfirmed, index }: StepElementProps) => {
-  const [selectedOption, setSelectedOption] = useState<ShortUser>();
+  const [selectedUser, setSelectedUser] = useState<ShortUser>();
 
-  const handleTypeSelect = (e: any) => {
-    setSelectedOption(e.value);
+  const handleUserSelect = (e: any) => {
+    setSelectedUser(e.value);
   };
 
   return (
@@ -43,15 +43,27 @@ export const RequiredFields = ({ setConfirmed, index }: StepElementProps) => {
             setConfirmed(index, true);
           }}
           validate={(values) => {
-            if (!!values.subject && !!selectedOption && !!values.excerpt) {
+            if (!!values.subject && !!values.excerpt) {
               meetup.subject = values.subject;
               meetup.excerpt = values.excerpt;
-              meetup.author = userStore.currentShortUser as ShortUser;
-              meetup.speakers = [selectedOption];
+              if (!!selectedUser) {
+                meetup.author = userStore.currentShortUser as ShortUser;
+                meetup.speakers = [selectedUser];
+              }
+              if (
+                userStore.currentShortUser &&
+                !userStore.hasChiefPermission()
+              ) {
+                meetup.author = userStore.currentShortUser;
+                meetup.speakers = [userStore.currentShortUser];
+              }
             }
             setConfirmed(
               index,
-              !!values.subject && !!selectedOption && !!values.excerpt,
+              (!!values.subject && !!selectedUser && !!values.excerpt) ||
+                (!!values.subject &&
+                  !!userStore.getCurrentAuthorList &&
+                  !!values.excerpt),
             );
           }}
         >
@@ -68,31 +80,56 @@ export const RequiredFields = ({ setConfirmed, index }: StepElementProps) => {
                   }
                   multiline={false}
                 />
-                <div>
-                  <InputLabel className={styles.selectLabel} name="qwe">
-                    <FormattedMessage
-                      id="fieldsName.speaker"
-                      defaultMessage="Спикер"
+                {userStore.hasChiefPermission() ? (
+                  <div className="">
+                    <InputLabel className={styles.selectLabel} name="speaker">
+                      <FormattedMessage
+                        id="fieldsName.speaker"
+                        defaultMessage="Спикер"
+                      />
+                    </InputLabel>
+                    <AsyncSelect
+                      classNamePrefix="select"
+                      isSearchable={true}
+                      options={userStore.getAuthorList}
+                      onChange={handleUserSelect}
+                      maxMenuHeight={150}
+                      className={styles.select}
+                      placeholder=""
+                      styles={{
+                        control: (base) => ({
+                          ...base,
+                          border: '1px solid #d5dce7',
+                          minHeight: '40px',
+                          width: '100%',
+                        }),
+                      }}
                     />
-                  </InputLabel>
-                  <AsyncSelect
-                    classNamePrefix="select"
-                    isSearchable={true}
-                    options={userStore.getAuthorList}
-                    onChange={handleTypeSelect}
-                    maxMenuHeight={150}
-                    className={styles.select}
-                    placeholder=""
-                    styles={{
-                      control: (base) => ({
-                        ...base,
-                        border: '1px solid #d5dce7',
-                        minHeight: '40px',
-                        width: '100%',
-                      }),
-                    }}
-                  />
-                </div>
+                  </div>
+                ) : (
+                  <div style={{ cursor: 'not-allowed' }}>
+                    <InputLabel className={styles.selectLabel} name="speaker">
+                      <FormattedMessage
+                        id="fieldsName.speaker"
+                        defaultMessage="Спикер"
+                      />
+                    </InputLabel>
+                    <AsyncSelect
+                      classNamePrefix="select"
+                      isDisabled={true}
+                      className={styles.select}
+                      defaultValue={userStore.getCurrentAuthorList}
+                      styles={{
+                        control: (base) => ({
+                          ...base,
+                          border: '2px solid #36b27e',
+                          minHeight: '40px',
+                          width: '100%',
+                        }),
+                      }}
+                    />
+                  </div>
+                )}
                 <TextField
                   name="excerpt"
                   labelText={

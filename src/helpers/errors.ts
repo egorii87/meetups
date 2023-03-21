@@ -1,34 +1,33 @@
-export function errorChecker(code: number): string {
+import { NotificationVariant, notification } from 'components';
+
+export function errorChecker(code: number) {
+  let errorText: string = 'Something wrong';
+
   switch (code) {
     case 400:
-      alert('Bad request');
-      return 'Bad request';
-    case 401:
-      alert('Unauthorized');
-      return 'Unauthorized';
+      errorText = 'Bad request';
+      break;
     case 403:
-      alert('Forbidden');
-      return 'Forbidden';
+      errorText = 'Forbidden';
+      break;
     case 404:
-      alert('Not found');
-      return 'Not found';
+      errorText = 'Not found';
+      break;
     case 407:
-      alert('Proxy Authentication Required');
-      return 'Proxy Authentication Required';
+      errorText = 'Proxy Authentication Required';
+      break;
     case 500:
-      alert('Internal Server Error');
-      return 'Internal Server Error';
+      errorText = 'Internal Server Error';
+      break;
     case 501:
-      alert('Not Implemented');
-      return 'Not Implemented';
+      errorText = 'Not Implemented';
+      break;
     case 502:
-      alert('Bad Gateway');
-      return 'Bad Gateway';
+      errorText = 'Bad Gateway';
+      break;
     case 503:
-      alert('Service Unavailable');
-      return 'Service Unavailable';
-    default:
-      alert('Something wrong');
-      return 'Something wrong';
+      errorText = 'Service Unavailable';
+      break;
   }
+  return notification(NotificationVariant.Error, errorText);
 }

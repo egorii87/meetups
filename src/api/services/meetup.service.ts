@@ -35,6 +35,9 @@ export const updateMeetup = async (
   return updatedMeetup;
 };
 
-export const deleteMeetup = async (id: string): Promise<void> => {
-  await httpClient.delete(`/meetups/${id}`);
+export const deleteMeetup = async (id: string): Promise<number | boolean> => {
+  let resp = await httpClient.delete(`/meetups/${id}`);
+  console.log(resp);
+  if (!resp) return false;
+  return resp.status;
 };

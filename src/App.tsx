@@ -16,9 +16,12 @@ import {
 } from 'pages';
 import { meetupStore, userStore } from 'stores';
 import { IntlProvider } from 'react-intl';
+import { ToastContainer } from 'react-toastify';
 import { LanguageSelector } from 'lang/LanguageSelector';
+import { PrivateRoutes, TypePermission } from 'helpers';
 
 import styles from './App.module.scss';
+import 'react-toastify/dist/ReactToastify.css';
 import languages_ru from './lang/ru.json';
 import languages_en from './lang/en.json';
 import languages_ua from './lang/ua.json';
@@ -26,7 +29,6 @@ import languages_ua from './lang/ua.json';
 function App() {
   (async () => {
     await meetupStore.init();
-    await userStore.initUsersList();
     await userStore.checkLogin();
   })();
 
@@ -36,7 +38,9 @@ function App() {
     ua: languages_ua,
   };
 
-  const [language, setLanguage] = useState<string>('ru');
+  const [language, setLanguage] = useState<string>(
+    localStorage.getItem('lang') || 'ru',
+  );
 
   return (
     <IntlProvider
@@ -51,8 +55,14 @@ function App() {
         />
         <main className={styles.container}>
           <Routes>
-            <Route path="login">
-              <Route index element={<LoginPage />} />
+            <Route
+              element={
+                <PrivateRoutes types={TypePermission.NOTAUTHENTICATED} />
+              }
+            >
+              <Route path="login">
+                <Route index element={<LoginPage />} />
+              </Route>
             </Route>
             <Route path="logout">
               <Route index element={<LogoutPage />} />
@@ -73,25 +83,50 @@ function App() {
                 ))}
               </Route>
               <Route path="create">
-                <Route index element={<CreateMeetup />} />
+                <Route
+                  element={
+                    <PrivateRoutes types={TypePermission.AUTHENTICATED} />
+                  }
+                >
+                  <Route index element={<CreateMeetup />} />
+                </Route>
               </Route>
               <Route path=":id">
                 <Route index element={<ViewMeetupPage />} />
-                <Route path="edit" element={<EditMeetupPage />} />
+                <Route
+                  element={<PrivateRoutes types={TypePermission.EMPLOYEE} />}
+                >
+                  <Route path="edit" element={<EditMeetupPage />} />
+                </Route>
               </Route>
             </Route>
             <Route path="news">
               <Route index element={<NewsPage />} />
-              <Route path="create" element={<CreateNews />} />
+              <Route element={<PrivateRoutes types={TypePermission.CHIEF} />}>
+                <Route path="create" element={<CreateNews />} />
+              </Route>
               <Route path=":id">
                 <Route index element={<ViewNewsPage />} />
-                <Route path="edit" element={<EditNewsPage />} />
+                <Route element={<PrivateRoutes types={TypePermission.CHIEF} />}>
+                  <Route path="edit" element={<EditNewsPage />} />
+                </Route>
               </Route>
             </Route>
             <Route path="*" element={<NotFoundPage />} />
           </Routes>
         </main>
       </BrowserRouter>
+      <ToastContainer
+        position="bottom-right"
+        autoClose={3000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        draggable
+        pauseOnHover
+        theme="light"
+      />
     </IntlProvider>
   );
 }

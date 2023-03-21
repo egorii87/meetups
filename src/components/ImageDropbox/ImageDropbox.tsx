@@ -5,6 +5,7 @@ import { FileError, FileRejection, useDropzone } from 'react-dropzone';
 import { Typography, TypographyComponent } from 'components';
 import { ReactComponent as UploadIcon } from './upload.svg';
 import { getFileSizeString } from 'helpers';
+import { dataCy } from 'helpers';
 import { FileWithUrl } from 'types';
 import styles from './ImageDropbox.module.scss';
 
@@ -89,7 +90,11 @@ export const ImageDropbox = ({
 
   return (
     <div className={styles.container}>
-      <div {...getRootProps()} className={classList}>
+      <div
+        {...getRootProps()}
+        className={classList}
+        {...dataCy('imageSelector')}
+      >
         <input {...getInputProps()} />
         <UploadIcon />
         <Typography

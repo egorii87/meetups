@@ -2,9 +2,16 @@ import React from 'react';
 import { NavLink } from 'react-router-dom';
 import classNames from 'classnames';
 import { FormattedMessage } from 'react-intl';
-import { observer } from 'mobx-react';
+import { observer } from 'mobx-react-lite';
+import { dataCy } from 'helpers';
 
-import { Typography, UserPreview, UserPreviewVariant } from 'components';
+import {
+  Typography,
+  UserPreview,
+  UserPreviewVariant,
+  Tooltip,
+  TooltipVariant,
+} from 'components';
 import { userStore } from 'stores';
 
 import styles from './Header.module.scss';
@@ -14,15 +21,26 @@ interface HeaderProps {
   LanguageSelector?: JSX.Element;
 }
 
-const RenderUser = observer(() => {
+const handleLogout = async () => {
+  await userStore.logout();
+  window.location.reload();
+};
+
+const User = observer(() => {
   if (userStore.currentUser) {
     return (
-      <NavLink to="/logout" style={{ cursor: 'pointer' }}>
+      <Tooltip
+        description={
+          <FormattedMessage id="logout.button" defaultMessage="Выйти" />
+        }
+        variant={TooltipVariant.Dark}
+        descriptionAction={handleLogout}
+      >
         <UserPreview
           variant={UserPreviewVariant.Header}
           user={userStore.currentUser}
         />
-      </NavLink>
+      </Tooltip>
     );
   }
 
@@ -34,6 +52,7 @@ const RenderUser = observer(() => {
           [styles.active]: isActive,
         })
       }
+      {...dataCy('login')}
     >
       <Typography>
         <FormattedMessage
@@ -70,14 +89,14 @@ export const Header = ({ LanguageSelector }: HeaderProps): JSX.Element => (
                 [styles.active]: isActive,
               })
             }
+            {...dataCy('news')}
           >
             <Typography>
               <FormattedMessage id="mainTabs.news" defaultMessage="Новости" />
             </Typography>
           </NavLink>
         </nav>
-        {LanguageSelector}
-        <RenderUser />
+        <User />
       </div>
 
       <div className={styles.navAdaptiveWrapper}>
@@ -109,5 +128,6 @@ export const Header = ({ LanguageSelector }: HeaderProps): JSX.Element => (
         </nav>
       </div>
     </div>
+    <div className={styles.languageSelector}>{LanguageSelector}</div>
   </header>
 );

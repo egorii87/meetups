@@ -5,3 +5,6 @@ export * from '../api/httpClient';
 export * from './errors';
 export * from './convertImageFromBase64toFile';
 export * from './convertImageFromFiletoBase64';
+export * from './dataCy';
+export * from './dataCyAttribute';
+export * from './PrivateRoutes';

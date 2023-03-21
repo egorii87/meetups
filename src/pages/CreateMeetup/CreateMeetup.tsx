@@ -1,13 +1,21 @@
 import { FormattedMessage } from 'react-intl';
-import { Stepper, StepInfo } from 'components';
-import { RequiredFields, AdditionalFields } from 'pages';
+import {
+  Stepper,
+  StepInfo,
+  NotificationVariant,
+  notification,
+} from 'components';
+import { RequiredFields, AdditionalFields, image64 } from 'pages';
 import { NewMeetup, ShortUser } from 'model';
-import { meetupStore } from 'stores';
-import { image64 } from 'pages';
+import { meetupStore, userStore } from 'stores';
 
 import styles from './CreateMeetup.module.scss';
 
 const dateModified = new Date();
+
+(async () => {
+  await userStore.initUsersList();
+})();
 
 const authorMeetup: ShortUser = {
   id: 'uuu-aaa',
@@ -52,6 +60,9 @@ export const CreateMeetup = () => {
   let onFinishCheck = async () => {
     const newMeetup = await meetupStore.create(meetup);
     localStorage.setItem(newMeetup.id, image64);
+    if (newMeetup) {
+      notification(NotificationVariant.Success, 'Митап успешно создан');
+    }
   };
 
   return (

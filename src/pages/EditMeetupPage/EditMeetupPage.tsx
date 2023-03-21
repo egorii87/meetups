@@ -10,6 +10,8 @@ import {
   UserPreview,
   Loader,
   MeetupTimePlace,
+  NotificationVariant,
+  notification,
 } from 'components';
 import * as yup from 'yup';
 import { Formik, Form } from 'formik';
@@ -17,7 +19,7 @@ import { useNavigate, useParams } from 'react-router';
 import { useMeetupQuery } from 'hooks';
 import { NotFoundPage } from 'pages';
 import classNames from 'classnames';
-import { meetupStore } from 'stores';
+import { meetupStore, userStore } from 'stores';
 import { MeetupStatus } from 'model';
 import { useState } from 'react';
 import { FormattedMessage } from 'react-intl';
@@ -44,6 +46,7 @@ export const EditMeetupPage = () => {
   let update = async () => {
     !!meetup && (await meetupStore.edit(meetup));
     navigate('/meetups');
+    notification(NotificationVariant.Success, 'Митап успешно изменён');
   };
 
   let image = (id && localStorage.getItem(id)) as string;
@@ -173,16 +176,30 @@ export const EditMeetupPage = () => {
                   }
                   multiline={false}
                 />
-                <TextField
-                  name="speaker"
-                  labelText={
-                    <FormattedMessage
-                      id="fieldsName.speaker"
-                      defaultMessage="Спикер"
-                    />
-                  }
-                  multiline={false}
-                />
+                {userStore.hasChiefPermission() ? (
+                  <TextField
+                    name="speaker"
+                    labelText={
+                      <FormattedMessage
+                        id="fieldsName.speaker"
+                        defaultMessage="Спикер"
+                      />
+                    }
+                    multiline={false}
+                  />
+                ) : (
+                  <TextField
+                    name="speaker"
+                    labelText={
+                      <FormattedMessage
+                        id="fieldsName.speaker"
+                        defaultMessage="Спикер"
+                      />
+                    }
+                    multiline={false}
+                    readonly={true}
+                  />
+                )}
                 <TextField
                   name="excerpt"
                   labelText={
@@ -201,7 +218,7 @@ export const EditMeetupPage = () => {
           <Button
             variant={ButtonVariant.Default}
             onClick={() => navigate(-1)}
-            style={{ width: '128px', marginRight: '60px' }}
+            className={styles.buttonCancel}
           >
             <FormattedMessage id="buttons.cancel" defaultMessage="Отмена" />
           </Button>
@@ -209,7 +226,7 @@ export const EditMeetupPage = () => {
             <Button
               variant={ButtonVariant.Secondary}
               onClick={() => setHiddenPreview(false)}
-              style={{ width: '128px' }}
+              className={styles.button}
             >
               <FormattedMessage
                 id="buttons.preview"
@@ -220,7 +237,7 @@ export const EditMeetupPage = () => {
           <div className={styles.actionsWrapper}>
             <Button
               variant={ButtonVariant.Primary}
-              style={{ width: '128px' }}
+              className={styles.button}
               onClick={update}
             >
               <FormattedMessage id="buttons.save" defaultMessage="Сохранить" />
@@ -254,8 +271,9 @@ export const EditMeetupPage = () => {
             </Typography>
           </div>
         </div>
-
-        <MeetupTimePlace meetup={meetup} />
+        <div className={styles.timePlace}>
+          <MeetupTimePlace meetup={meetup} />
+        </div>
 
         <div className={styles.data}>
           <Typography
@@ -308,14 +326,14 @@ export const EditMeetupPage = () => {
           <Button
             variant={ButtonVariant.Default}
             onClick={() => setHiddenPreview(true)}
-            style={{ width: '128px' }}
+            className={styles.button}
           >
             <FormattedMessage id="buttons.cancel" defaultMessage="Отмена" />
           </Button>
           <div className={styles.actionsWrapper}>
             <Button
               variant={ButtonVariant.Primary}
-              style={{ width: '128px' }}
+              className={styles.button}
               onClick={update}
             >
               <FormattedMessage id="buttons.save" defaultMessage="Сохранить" />

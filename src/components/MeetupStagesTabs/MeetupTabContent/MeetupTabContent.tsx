@@ -1,8 +1,7 @@
 import { useEffect, useState } from 'react';
-import { useNavigate } from 'react-router';
-import { NavLink } from 'react-router-dom';
+import { NavLink, useNavigate } from 'react-router-dom';
 import { FormattedMessage } from 'react-intl';
-
+import { dataCy } from 'helpers';
 import {
   Button,
   ButtonVariant,
@@ -131,6 +130,8 @@ export const getCounterEnding = (num: number, variant: MeetupCardVariant) => {
 };
 
 export const MeetupTabContent = ({ variant }: MeetupTabContentProps) => {
+  (async () => await userStore.checkLogin())();
+
   const [meetups, setMeetups] = useState<Meetup[]>([]);
   const [meetupsCount, setMeetupsCount] = useState(
     meetupStore.getAllMeetups.length,
@@ -141,20 +142,23 @@ export const MeetupTabContent = ({ variant }: MeetupTabContentProps) => {
   const openCreateMeetupPage = () => navigate('/meetups/create');
 
   useEffect(() => {
-    switch (variant) {
-      case MeetupCardVariant.Topic:
-        setMeetups(meetupStore.getTopics);
-        break;
-      case MeetupCardVariant.OnModeration:
-        setMeetups(meetupStore.getOnModeration);
-        break;
-      case MeetupCardVariant.Upcoming:
-        setMeetups(meetupStore.getUpcoming);
-        break;
-      case MeetupCardVariant.Finished:
-        setMeetups(meetupStore.getFinished);
-        break;
-    }
+    (async () => {
+      await meetupStore.init();
+      switch (variant) {
+        case MeetupCardVariant.Topic:
+          setMeetups(meetupStore.getTopics);
+          break;
+        case MeetupCardVariant.OnModeration:
+          setMeetups(meetupStore.getOnModeration);
+          break;
+        case MeetupCardVariant.Upcoming:
+          setMeetups(meetupStore.getUpcoming);
+          break;
+        case MeetupCardVariant.Finished:
+          setMeetups(meetupStore.getFinished);
+          break;
+      }
+    })();
   }, [variant, meetupsCount]);
 
   return (
@@ -168,6 +172,7 @@ export const MeetupTabContent = ({ variant }: MeetupTabContentProps) => {
             <Button
               variant={ButtonVariant.Secondary}
               onClick={openCreateMeetupPage}
+              {...dataCy('createMeetup')}
             >
               <FormattedMessage
                 id="buttons.createMeetup"
