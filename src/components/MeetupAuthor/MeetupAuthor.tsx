@@ -16,6 +16,7 @@ export const MeetupAuthor = ({
     <Typography
       component={TypographyComponent.Span}
       className={styles.dataName}
+      data-testid="meetupAuthorLabel"
     >
       {meetup.status === MeetupStatus.DRAFT ? (
         <FormattedMessage id="fieldsName.author" defaultMessage="Автор" />
@@ -23,7 +24,7 @@ export const MeetupAuthor = ({
         <FormattedMessage id="fieldsName.speaker" defaultMessage="Спикер" />
       )}
     </Typography>
-    <div className={styles.dataContent}>
+    <div className={styles.dataContent} data-testid="meetupAuthorText">
       {meetup.status === MeetupStatus.DRAFT ? (
         <UserPreview user={meetup.author} />
       ) : (

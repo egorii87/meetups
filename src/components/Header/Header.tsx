@@ -110,7 +110,7 @@ export const Header = ({ LanguageSelector }: HeaderProps): JSX.Element => (
               })
             }
           >
-            <Typography>
+            <Typography data-testid="meetups">
               <FormattedMessage id="mainTabs.meetups" defaultMessage="Митапы" />
             </Typography>
           </NavLink>

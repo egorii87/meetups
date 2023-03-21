@@ -29,6 +29,11 @@ export const updateNewsArticle = async (
   return updatedArticle;
 };
 
-export const deleteNewsArticle = async (id: string): Promise<void> => {
-  await httpClient.delete(`/news/${id}`);
+export const deleteNewsArticle = async (id: string): Promise<boolean> => {
+  try {
+    await httpClient.delete(`/news/${id}`);
+    return true;
+  } catch {
+    return false;
+  }
 };
