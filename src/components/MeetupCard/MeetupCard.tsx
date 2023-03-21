@@ -101,7 +101,7 @@ export const MeetupCard = ({
               onClick={(e) => {
                 e.preventDefault();
                 removeMeetup(id);
-                setCount(meetupStore.getAllMeetups.length - 1);
+                setCount(meetupStore.getAllMeetups.length);
               }}
             />
           )}
