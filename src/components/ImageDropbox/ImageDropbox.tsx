@@ -90,7 +90,11 @@ export const ImageDropbox = ({
 
   return (
     <div className={styles.container}>
-      <div {...getRootProps()} className={classList} {...dataCy('dropbox')}>
+      <div
+        {...getRootProps()}
+        className={classList}
+        {...dataCy('imageSelector')}
+      >
         <input {...getInputProps()} />
         <UploadIcon />
         <Typography

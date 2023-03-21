@@ -4,7 +4,6 @@ export const dataCyAttribute = {
   submitLogin: 'submitLogin',
   meetupTitle: 'meetupTitle',
   buttonNext: 'buttonNext',
-  inputDropBox: 'inputDropBox',
   buttonFinish: 'buttonFinish',
   news: 'news',
   createNews: 'createNews',
@@ -12,5 +11,5 @@ export const dataCyAttribute = {
   supportButton: 'supportButton',
   logoutTooltip: 'logoutTooltip',
   tooltipWrapper: 'tooltipWrapper',
-  dropbox: 'dropbox',
+  imageSelector: 'imageSelector',
 };

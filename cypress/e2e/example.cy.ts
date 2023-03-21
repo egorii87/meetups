@@ -25,7 +25,7 @@ describe('e2e test', () => {
       .click()
       .type('Online')
       .should('have.value', 'Online');
-    cy.get(`[data-cy=${dataCyAttribute.dropbox}]`).selectFile(
+    cy.get(`[data-cy=${dataCyAttribute.imageSelector}]`).selectFile(
       './cypress/e2e/test.jpg',
       { action: 'drag-drop' },
     );
@@ -47,7 +47,7 @@ describe('e2e test', () => {
     cy.get('textarea[name=text]')
       .type('Any text')
       .should('have.value', 'Any text');
-    cy.get(`[data-cy=${dataCyAttribute.dropbox}]`).selectFile(
+    cy.get(`[data-cy=${dataCyAttribute.imageSelector}]`).selectFile(
       './cypress/e2e/test.jpg',
       { action: 'drag-drop' },
     );
