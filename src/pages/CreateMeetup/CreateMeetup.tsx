@@ -7,11 +7,15 @@ import {
 } from 'components';
 import { RequiredFields, AdditionalFields, image64 } from 'pages';
 import { NewMeetup, ShortUser } from 'model';
-import { meetupStore } from 'stores';
+import { meetupStore, userStore } from 'stores';
 
 import styles from './CreateMeetup.module.scss';
 
 const dateModified = new Date();
+
+(async () => {
+  await userStore.initUsersList();
+})();
 
 const authorMeetup: ShortUser = {
   id: 'uuu-aaa',
