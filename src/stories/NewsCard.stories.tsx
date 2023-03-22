@@ -27,7 +27,6 @@ const newsArticle: News = {
   text:
     '🙌 The SaM Solutions office in #Vilnius celebrates a one-year anniversary.' +
     ' 🎉 Congratulations to our colleagues! Keep it up! More new victories and achievements ahead. 💪 #SaMSolutions',
-  image: testImage,
 };
 
 export const Default = Template.bind({});

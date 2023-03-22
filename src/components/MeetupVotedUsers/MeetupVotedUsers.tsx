@@ -31,13 +31,17 @@ export const MeetupVotedUsers = ({
       <Typography
         component={TypographyComponent.Span}
         className={styles.dataName}
+        data-testid="meetupVotedLabel"
       >
         <FormattedMessage
           id="fieldsName.support"
           defaultMessage="Поддерживают"
         />
       </Typography>
-      <div className={classNames(styles.dataContent, styles.votedUsers)}>
+      <div
+        className={classNames(styles.dataContent, styles.votedUsers)}
+        data-testid="meetupVotedUsers"
+      >
         {previewVotedUsers.map((user: ShortUser) => (
           <UserPreview
             key={user.id}

@@ -65,7 +65,11 @@ export class MeetupStore {
 
   @action.bound
   async create(meetup: NewMeetup) {
-    return await createOneMeetup(meetup);
+    const createdMeetup = await createOneMeetup(meetup);
+    if (!!createdMeetup) {
+      this.meetups.push(createdMeetup);
+      return createdMeetup;
+    } else return false;
   }
 
   @action.bound
@@ -76,11 +80,10 @@ export class MeetupStore {
   @action.bound
   async delete(id: string) {
     const respStatus = await deleteMeetup(id);
-    console.log(respStatus);
     if (respStatus === 200) {
-      console.log('work');
       localStorage.removeItem(id);
       this.meetups = this.meetups.filter((meetup) => meetup.id !== id);
+      return true;
     }
   }
 
@@ -93,7 +96,7 @@ export class MeetupStore {
   async approve(id: string) {
     let approvingMeetup = await getMeetup(id);
     approvingMeetup.status = MeetupStatus.CONFIRMED;
-    await meetupStore.edit(approvingMeetup);
+    return await meetupStore.edit(approvingMeetup);
   }
 
   @action.bound

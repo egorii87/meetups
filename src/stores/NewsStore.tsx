@@ -22,7 +22,9 @@ export class NewsStore {
 
   @action.bound
   async create(news: NewNews) {
-    return await createNewsArticle(news);
+    const result = await createNewsArticle(news);
+    this.news.push(result);
+    return result;
   }
 
   @action.bound
@@ -32,8 +34,12 @@ export class NewsStore {
 
   @action.bound
   async remove(id: string) {
-    localStorage.removeItem(id);
-    return await deleteNewsArticle(id);
+    const result = await deleteNewsArticle(id);
+    if (result) {
+      localStorage.removeItem(id);
+      this.news = this.news.filter((news) => news.id !== id);
+    }
+    return result;
   }
 
   constructor() {}
