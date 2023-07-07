@@ -1,11 +1,12 @@
-# Getting Started with Create React App
+# Meetup Web App
 
-[![pipeline status](https://gitlab.com/samfeinternship2022/kireynko-kalinin-malashonak/badges/master/pipeline.svg)](https://gitlab.com/samfeinternship2022/kireynko-kalinin-malashonak/-/commits/master)
-[![coverage report](https://gitlab.com/samfeinternship2022/kireynko-kalinin-malashonak/badges/master/coverage.svg)](https://gitlab.com/samfeinternship2022/kireynko-kalinin-malashonak/-/commits/master)
+<a href='https://hostingkartinok.com/show-image.php?id=23893d5a8c7bd49ec227ad8145ab1854' title='хостинг фотографий'><img style="width:100%" src='https://s1.hostingkartinok.com/uploads/images/2023/07/23893d5a8c7bd49ec227ad8145ab1854.jpg' alt='imgonline-com-.jpg'  /></a>
+
 
 ## Built With
 
 - [React](https://reactjs.org/)
+- [MobX](https://mobx.js.org/) - state management
 - [Jest](https://jestjs.io) - unit testing framework
 - [ESLint](https://eslint.org/) - JavaScript linting utility
 - [Cypress](https://www.cypress.io/) - tools for e2e and integration tests
@@ -14,51 +15,25 @@
 
 ## Resources
 
-- [Requirements](https://gitlab.com/samfeinternship2022/docs)
-- [Api Server](https://gitlab.com/samfeinternship2022/api-server)
+- [Api Server](https://github.com/egorii87/meetups/tree/master/backend)
 - [Design](https://www.figma.com/file/xu4vtVzCyKp9Thzpp7DkVj/Internship-Meetups-App?node-id=129%3A0&t=B6e10yduGP4ACePq-0)
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+## Functionality
 
-## Available Scripts
+The web application has three user roles: unauthorized user, employee, chief. Below is a use-case diagram with permissions for users depending on their role.  
+To log in, enter the following data:
+- **employee**: login: *employee*, password: *private*
+- **chief**: login: *chief*, password: *private*
 
-In the project directory, you can run:
+<a href='https://hostingkartinok.com/show-image.php?id=25ce48061a957f679e0a52d1603780b0' title='photohost'><img style="width:100%" src='https://s1.hostingkartinok.com/uploads/images/2023/07/25ce48061a957f679e0a52d1603780b0.png' alt='use-case.png'  /></a>
 
-### `npm start`
+The application is multilingual. has three languages: English, Russian and Ukrainian. When you select a language, the application changes the language without reloading the page.
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+<a href='https://hostingkartinok.com/show-image.php?id=f14c7dffd0ea739d3710dcce5698cd23' title='поделиться фото'><img style="width:100%" src='https://s1.hostingkartinok.com/uploads/images/2023/07/f14c7dffd0ea739d3710dcce5698cd23.png' alt='lang.png'  /></a>
 
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
+To create a meetup, use the form below.  
+Each field is processed by Formik. You cannot go to the second page if the first one is not filled in. You can add a picture from your computer.
 
-### `npm test`
+<a href='https://hostingkartinok.com/show-image.php?id=3e9b7185cd6fc52ecbce36cafb7aa191' title='загрузить фото'><img style="width:100%" src='https://s1.hostingkartinok.com/uploads/images/2023/07/3e9b7185cd6fc52ecbce36cafb7aa191.png' alt='create-meetup.png'  /></a>
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
-
-### `npm run build`
-
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
-
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
-
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
-
-### `npm run eject`
-
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
-
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
-
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
+<a href='https://hostingkartinok.com/show-image.php?id=1fda7c132c0cffe2204d0c5645f70a7e' title='photo share'><img style="width:100%" src='https://s1.hostingkartinok.com/uploads/images/2023/07/1fda7c132c0cffe2204d0c5645f70a7e.png' alt='Yes'  /></a>
